@@ -48,8 +48,13 @@ Each template maps to a React component in `site/components/sections/` and a sch
 ### timeline
 - title, subtitle, events[] (date, title, description)
 
+### contact
+- label, title, sub, locations[] (name, query), addressLines[], addressNote, directionsLabel, directionsHref, hours[] (day, time), email, phones[]
+- Corner brackets, pin, vignette, and grayscale filter are presets in code — not CMS-editable.
+
 ### gallery
-- title, images[] (selected from media library, caption per image)
+- label, title, sub, reelTag, moreLabel, moreHref, rowA[] (image URLs), rowB[] (image URLs)
+- Frame indexes (`01–07`, `08–13`) are auto-generated from row position (presentation, not CMS data).
 - Layout variants: `grid`, `masonry`
 
 ### testimonials
