@@ -147,6 +147,7 @@ admin/
 - Error codes: `VALIDATION_ERROR`, `UNAUTHORIZED`, `FORBIDDEN`, `NOT_FOUND`, `CONFLICT`, `RATE_LIMITED`, `OTP_EXPIRED`, `OTP_INVALID`, `INTERNAL`.
 - HTTP status: 200 / 201 / 204 / 400 / 401 / 403 / 404 / 409 / 422 / 429 / 500.
 - All request bodies validated with Zod before reaching a service.
+- **Every endpoint MUST have a Swagger `@openapi` JSDoc block directly above its route definition** (interactive docs served at `/api-docs`). The block declares the full path, verb, tags, `operationId`, parameters, request body (referencing the Zod-derived component schema) and responses using the envelopes above. See `.agents/skills/api-format/SKILL.md`. No endpoint is complete without its doc.
 
 ## 6. CMS Architecture
 

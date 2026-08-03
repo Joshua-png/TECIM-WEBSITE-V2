@@ -10,6 +10,35 @@ import { settingsRoutes } from "./settings.routes.js";
 export function createRoutes(): Router {
   const router = Router();
 
+  /**
+   * @openapi
+   * /api/v1/health:
+   *   get:
+   *     tags:
+   *       - System
+   *     operationId: healthCheck
+   *     summary: Health check
+   *     description: Returns the service health status. No authentication required.
+   *     security: []
+   *     responses:
+   *       200:
+   *         description: Service is healthy
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               required: [success, data]
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                   example: true
+   *                 data:
+   *                   type: object
+   *                   properties:
+   *                     status:
+   *                       type: string
+   *                       example: ok
+   */
   router.get("/health", (_req, res) => {
     res.status(200).json({ success: true, data: { status: "ok" } });
   });
