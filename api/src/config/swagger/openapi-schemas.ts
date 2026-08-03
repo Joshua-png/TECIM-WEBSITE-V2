@@ -1,10 +1,14 @@
 import type { ZodType } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
+import * as announcementsSchemas from "../../validators/announcements.schema.js";
 import * as authSchemas from "../../validators/auth.schema.js";
+import * as eventsSchemas from "../../validators/events.schema.js";
+import * as gallerySchemas from "../../validators/gallery.schema.js";
 import * as navigationSchemas from "../../validators/navigation.schema.js";
 import * as pagesSchemas from "../../validators/pages.schema.js";
 import * as sectionsSchemas from "../../validators/sections.schema.js";
 import * as seoSchemas from "../../validators/seo.schema.js";
+import * as sermonsSchemas from "../../validators/sermons.schema.js";
 import * as settingsSchemas from "../../validators/settings.schema.js";
 
 function isZodSchema(value: unknown): value is ZodType {
@@ -32,10 +36,14 @@ function convertAll(
 }
 
 export const openApiSchemas: Record<string, unknown> = {
+  ...convertAll("announcements", announcementsSchemas),
   ...convertAll("auth", authSchemas),
+  ...convertAll("events", eventsSchemas),
+  ...convertAll("gallery", gallerySchemas),
   ...convertAll("navigation", navigationSchemas),
   ...convertAll("pages", pagesSchemas),
   ...convertAll("sections", sectionsSchemas),
   ...convertAll("seo", seoSchemas),
+  ...convertAll("sermons", sermonsSchemas),
   ...convertAll("settings", settingsSchemas),
 };

@@ -1,6 +1,11 @@
 import { Router } from "express";
 import { listActivityHandler } from "../controllers/activity.controller.js";
 import {
+  deleteMediaHandler,
+  listMediaHandler,
+  uploadMediaHandler,
+} from "../controllers/media.controller.js";
+import {
   createPageHandler,
   deletePageHandler,
   getPageAdminHandler,
@@ -31,6 +36,7 @@ import {
   updateGlobalSeoHandler,
   updatePageSeoHandler,
 } from "../controllers/seo.controller.js";
+import { uploadSingle } from "../middlewares/upload.js";
 import { validate } from "../middlewares/validate.js";
 import {
   createPageSchema,
@@ -55,6 +61,10 @@ import {
   updateGlobalSeoSchema,
   updatePageSeoSchema,
 } from "../validators/seo.schema.js";
+import { adminAnnouncementsRoutes } from "./announcements.routes.js";
+import { adminEventsRoutes } from "./events.routes.js";
+import { adminGalleryRoutes } from "./gallery.routes.js";
+import { adminSermonsRoutes } from "./sermons.routes.js";
 
 export const adminRoutes = Router();
 
@@ -1213,3 +1223,158 @@ adminRoutes.put(
   validate(updatePageSeoSchema),
   updatePageSeoHandler
 );
+
+/**
+ * @openapi
+ * /api/v1/admin/media:
+ *   get:
+ *     tags:
+ *       - Admin / Media
+ *     operationId: listMedia
+ *     summary: List the media library
+ *     description: Returns paginated media records (newest first).
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number (1-based)
+ *       - in: query
+ *         name: perPage
+ *         schema:
+ *           type: integer
+ *           default: 20
+ *         description: Items per page (max 100)
+ *     responses:
+ *       200:
+ *         description: Paginated media list
+ *         content:
+ *           application/json:
+ *             schema:
+ *               allOf:
+ *                 - $ref: '#/components/schemas/PaginatedEnvelope'
+ *                 - type: object
+ *                   properties:
+ *                     data:
+ *                       type: array
+ *                       items:
+ *                         $ref: '#/components/schemas/Media'
+ *       401:
+ *         description: Invalid or missing access token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorEnvelope'
+ */
+adminRoutes.get("/media", listMediaHandler);
+
+/**
+ * @openapi
+ * /api/v1/admin/media/upload:
+ *   post:
+ *     tags:
+ *       - Admin / Media
+ *     operationId: uploadMedia
+ *     summary: Upload a media asset
+ *     description: Uploads an image or video to Cloudinary and stores its metadata. Multipart form with a "file" field (max 10MB). Derives all metadata from the Cloudinary response — client-supplied URLs are never trusted.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required: [file]
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: Image or video file (jpeg, png, webp, gif, svg, mp4, webm, mov)
+ *               alt:
+ *                 type: string
+ *                 description: Optional accessibility alt text
+ *     responses:
+ *       201:
+ *         description: Media uploaded
+ *         content:
+ *           application/json:
+ *             schema:
+ *               allOf:
+ *                 - $ref: '#/components/schemas/SuccessEnvelope'
+ *                 - type: object
+ *                   properties:
+ *                     data:
+ *                       type: object
+ *                       properties:
+ *                         media:
+ *                           $ref: '#/components/schemas/Media'
+ *       401:
+ *         description: Invalid or missing access token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorEnvelope'
+ *       422:
+ *         description: Unsupported file type or file too large
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorEnvelope'
+ *       500:
+ *         description: Cloudinary is not configured or the upload failed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorEnvelope'
+ */
+adminRoutes.post("/media/upload", uploadSingle("file"), uploadMediaHandler);
+
+/**
+ * @openapi
+ * /api/v1/admin/media/{id}:
+ *   delete:
+ *     tags:
+ *       - Admin / Media
+ *     operationId: deleteMedia
+ *     summary: Delete a media asset
+ *     description: Removes the asset from Cloudinary (when configured) and deletes the media record.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         description: Media UUID
+ *     responses:
+ *       204:
+ *         description: Media deleted
+ *       401:
+ *         description: Invalid or missing access token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorEnvelope'
+ *       404:
+ *         description: Media not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorEnvelope'
+ *       422:
+ *         description: Invalid media id
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorEnvelope'
+ */
+adminRoutes.delete(
+  "/media/:id",
+  validate(idParamsSchema, "params"),
+  deleteMediaHandler
+);
+
+adminRoutes.use("/events", adminEventsRoutes);
+adminRoutes.use("/gallery", adminGalleryRoutes);
+adminRoutes.use("/sermons", adminSermonsRoutes);
+adminRoutes.use("/announcements", adminAnnouncementsRoutes);

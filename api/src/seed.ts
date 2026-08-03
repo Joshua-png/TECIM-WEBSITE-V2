@@ -1,9 +1,17 @@
 import bcrypt from "bcryptjs";
 import { env } from "./config/env.js";
-import { homePageSeed } from "./config/seedContent.js";
+import {
+  defaultGlobalSeo,
+  defaultNavigation,
+  defaultSettings,
+  homePageSeed,
+} from "./config/seedContent.js";
 import { sectionTemplates } from "./config/templates.js";
+import * as navigationRepo from "./repositories/navigation.repo.js";
 import * as pageRepo from "./repositories/page.repo.js";
 import * as sectionRepo from "./repositories/section.repo.js";
+import * as seoRepo from "./repositories/seo.repo.js";
+import * as settingsRepo from "./repositories/settings.repo.js";
 import * as templateRepo from "./repositories/template.repo.js";
 import * as userRepo from "./repositories/user.repo.js";
 import * as versionRepo from "./repositories/version.repo.js";
@@ -85,10 +93,59 @@ async function seedHomePage(admin: userRepo.UserRow): Promise<void> {
   );
 }
 
+async function seedSettings(): Promise<void> {
+  for (const setting of defaultSettings) {
+    const existing = await settingsRepo.findByKey(setting.key);
+    if (existing) {
+      continue;
+    }
+    await settingsRepo.upsert(setting.key, setting.value, setting.group);
+  }
+  logger.info(`Seeded ${defaultSettings.length} default settings`);
+}
+
+async function seedNavigation(): Promise<void> {
+  const existing = await navigationRepo.listActive();
+  if (existing.length > 0) {
+    logger.info("Navigation already seeded; skipping");
+    return;
+  }
+  const items: navigationRepo.NavItemInput[] = [];
+  for (const item of defaultNavigation) {
+    const pageId = item.pageSlug
+      ? (await pageRepo.findBySlug(item.pageSlug))?.id ?? null
+      : null;
+    items.push({
+      label: item.label,
+      url: item.url,
+      pageId,
+      target: item.target,
+      parentId: null,
+      displayOrder: items.length,
+      isActive: true,
+    });
+  }
+  await navigationRepo.replaceAll(items);
+  logger.info(`Seeded ${items.length} navigation items`);
+}
+
+async function seedGlobalSeo(): Promise<void> {
+  const existing = await seoRepo.getGlobal();
+  if (existing) {
+    logger.info("Global SEO already seeded; skipping");
+    return;
+  }
+  await seoRepo.upsertGlobal(defaultGlobalSeo);
+  logger.info("Seeded global SEO defaults");
+}
+
 async function run(): Promise<void> {
   const admin = await seedAdmin();
   await seedTemplates();
   await seedHomePage(admin);
+  await seedSettings();
+  await seedNavigation();
+  await seedGlobalSeo();
   logger.info("Seed complete");
 }
 

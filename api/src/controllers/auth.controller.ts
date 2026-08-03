@@ -4,14 +4,19 @@ import * as authService from "../services/auth.service.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { sendCreated, sendNoContent, sendSuccess } from "../utils/ApiResponse.js";
 import {
+  forgotPasswordSchema,
   loginSchema,
   logoutSchema,
   refreshSchema,
+  resetPasswordSchema,
+  verifyOtpSchema,
 } from "../validators/auth.schema.js";
 import type { z } from "zod";
 
 type LoginBody = z.infer<typeof loginSchema>;
 type TokenBody = z.infer<typeof refreshSchema> & z.infer<typeof logoutSchema>;
+type OtpBody = z.infer<typeof verifyOtpSchema>;
+type ResetBody = z.infer<typeof resetPasswordSchema>;
 
 export const loginHandler = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
@@ -41,5 +46,29 @@ export const meHandler = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     const user = await authService.getMe(requireUser(req).id);
     sendSuccess(res, { user });
+  }
+);
+
+export const forgotPasswordHandler = asyncHandler(
+  async (req: Request, res: Response): Promise<void> => {
+    const { email } = req.body as z.infer<typeof forgotPasswordSchema>;
+    await authService.forgotPassword(email, req.ip ?? null);
+    sendSuccess(res, { message: "If that email exists, a reset code has been sent." });
+  }
+);
+
+export const verifyOtpHandler = asyncHandler(
+  async (req: Request, res: Response): Promise<void> => {
+    const { email, otp } = req.body as OtpBody;
+    await authService.verifyOtp(email, otp);
+    sendSuccess(res, { message: "OTP verified" });
+  }
+);
+
+export const resetPasswordHandler = asyncHandler(
+  async (req: Request, res: Response): Promise<void> => {
+    const { email, otp, newPassword } = req.body as ResetBody;
+    await authService.resetPassword(email, otp, newPassword, req.ip ?? null);
+    sendSuccess(res, { message: "Password has been reset. You can now log in." });
   }
 );

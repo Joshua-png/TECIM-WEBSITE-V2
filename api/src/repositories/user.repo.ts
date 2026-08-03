@@ -41,3 +41,10 @@ export async function createUser(data: {
 export async function updateLastLogin(id: string): Promise<void> {
   await query("UPDATE users SET last_login_at = now() WHERE id = $1", [id]);
 }
+
+export async function updatePassword(id: string, passwordHash: string): Promise<void> {
+  await query("UPDATE users SET password_hash = $2, updated_at = now() WHERE id = $1", [
+    id,
+    passwordHash,
+  ]);
+}

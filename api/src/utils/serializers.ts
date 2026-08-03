@@ -1,9 +1,14 @@
 import type { ActivityLogRow } from "../repositories/activity.repo.js";
+import type { AnnouncementRow } from "../repositories/announcements.repo.js";
+import type { EventRow } from "../repositories/events.repo.js";
+import type { GalleryRow } from "../repositories/gallery.repo.js";
+import type { MediaRow } from "../repositories/media.repo.js";
 import type { NavItemRow } from "../repositories/navigation.repo.js";
 import type { PageRow } from "../repositories/page.repo.js";
 import type { SectionRow } from "../repositories/section.repo.js";
 import type { SeoRow } from "../repositories/seo.repo.js";
 import type { SettingRow } from "../repositories/settings.repo.js";
+import type { SermonRow } from "../repositories/sermons.repo.js";
 import type { TemplateRow } from "../repositories/template.repo.js";
 import type { UserRow } from "../repositories/user.repo.js";
 import type { VersionRow } from "../repositories/version.repo.js";
@@ -88,6 +93,83 @@ export function serializeSetting(row: SettingRow): Record<string, unknown> {
     key: row.key,
     value: row.value,
     group: row.group,
+    updatedAt: row.updated_at,
+  };
+}
+
+export function serializeMedia(row: MediaRow): Record<string, unknown> {
+  return {
+    id: row.id,
+    publicId: row.public_id,
+    secureUrl: row.secure_url,
+    width: row.width,
+    height: row.height,
+    format: row.format,
+    resourceType: row.resource_type,
+    sizeBytes: row.size_bytes !== null ? Number(row.size_bytes) : null,
+    folder: row.folder,
+    altText: row.alt_text,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
+}
+
+export function serializeEvent(row: EventRow): Record<string, unknown> {
+  return {
+    id: row.id,
+    title: row.title,
+    slug: row.slug,
+    description: row.description,
+    startAt: row.start_at,
+    endAt: row.end_at,
+    location: row.location,
+    imageMediaId: row.image_media_id,
+    status: row.status,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
+}
+
+export function serializeGalleryItem(row: GalleryRow): Record<string, unknown> {
+  return {
+    id: row.id,
+    mediaId: row.media_id,
+    caption: row.caption,
+    altText: row.alt_text,
+    displayOrder: row.display_order,
+    isFeatured: row.is_featured,
+    status: row.status,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
+}
+
+export function serializeSermon(row: SermonRow): Record<string, unknown> {
+  return {
+    id: row.id,
+    title: row.title,
+    speaker: row.speaker,
+    description: row.description,
+    mediaUrl: row.media_url,
+    imageMediaId: row.image_media_id,
+    datePreached: row.date_preached,
+    status: row.status,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
+}
+
+export function serializeAnnouncement(row: AnnouncementRow): Record<string, unknown> {
+  return {
+    id: row.id,
+    title: row.title,
+    body: row.body,
+    linkUrl: row.link_url,
+    linkLabel: row.link_label,
+    activeFrom: row.active_from,
+    activeUntil: row.active_until,
+    status: row.status,
+    createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
 }

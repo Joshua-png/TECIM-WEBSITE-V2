@@ -23,6 +23,7 @@ Conventions: every table has `id uuid PK default gen_random_uuid()`, `created_at
 | requested_at | timestamptz | |
 | resolved_at | timestamptz | null until reset |
 | ip | text | audit |
+| created_at | timestamptz | |
 
 OTP itself lives in Redis (5-min TTL); this table is an audit trail.
 
@@ -105,7 +106,10 @@ Index: `(page_id, display_order)`, `status`, `template`.
 | alt_text | text | |
 | display_order | int default 0 | |
 | is_featured | boolean default false | |
+| status | text default 'draft' | draft / published (added in migration 002) |
 | created_at / updated_at | timestamptz | |
+
+Index: `display_order`, `status`. |
 
 ## sermons
 | column | type | notes |
@@ -188,7 +192,21 @@ Index: `(page_id, number desc)`. Never mutate a published version row.
 | ip | text | |
 | created_at | timestamptz | |
 
+## announcements
+| column | type | notes |
+|---|---|---|
+| id | uuid PK | |
+| title | text not null | |
+| body | text | |
+| link_url | text | optional CTA link |
+| link_label | text | |
+| active_from | timestamptz | null = always active |
+| active_until | timestamptz | null = always active |
+| status | text default 'draft' | draft / published |
+| created_at / updated_at | timestamptz | |
+
+Index: `status`. Public list filters `status = 'published'` AND within the active window (added in migration 002).
+
 ## Future tables (add via migration when needed)
-- `announcements` — CRUD (title, body, link, active dates).
 - `blog_posts` — future blog (title, slug, body, cover, status).
 - `testimonials` — if surfaced as a template-backed collection.
