@@ -35,7 +35,7 @@ describe("public settings / navigation / seo", () => {
   it("returns global seo", async () => {
     const res = await request(app).get("/api/v1/seo");
     expect(res.status).toBe(200);
-    expect(res.body.data.seo.meta_title).toBe("TECIM");
+    expect(res.body.data.seo.metaTitle).toBe("TECIM");
   });
 });
 
@@ -78,9 +78,9 @@ describe("admin settings / navigation / seo mutations", () => {
       .set("Authorization", `Bearer ${token}`)
       .send({ metaTitle: "TECIM — Home", metaDescription: "A cinematic church site" });
     expect(put.status).toBe(200);
-    expect(put.body.data.seo.meta_title).toBe("TECIM — Home");
+    expect(put.body.data.seo.metaTitle).toBe("TECIM — Home");
     const res = await request(app).get("/api/v1/seo");
-    expect(res.body.data.seo.meta_title).toBe("TECIM — Home");
+    expect(res.body.data.seo.metaTitle).toBe("TECIM — Home");
   });
 });
 

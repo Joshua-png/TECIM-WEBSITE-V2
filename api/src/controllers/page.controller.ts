@@ -4,6 +4,12 @@ import * as pageService from "../services/page.service.js";
 import * as publishService from "../services/publish.service.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { sendCreated, sendNoContent, sendSuccess } from "../utils/ApiResponse.js";
+import {
+  serializePage,
+  serializePageWithSections,
+  serializeSection,
+  serializeVersion,
+} from "../utils/serializers.js";
 import { createPageSchema, type updatePageSchema } from "../validators/pages.schema.js";
 import type { z } from "zod";
 
@@ -17,28 +23,28 @@ function actorFrom(req: Request) {
 export const listPublishedPagesHandler = asyncHandler(
   async (_req: Request, res: Response): Promise<void> => {
     const pages = await pageService.listPublishedPages();
-    sendSuccess(res, { pages });
+    sendSuccess(res, { pages: pages.map(serializePage) });
   }
 );
 
 export const getPublishedPageHandler = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     const page = await pageService.getPublishedPageBySlug(req.params.slug);
-    sendSuccess(res, page);
+    sendSuccess(res, serializePageWithSections(page));
   }
 );
 
 export const listPagesAdminHandler = asyncHandler(
   async (_req: Request, res: Response): Promise<void> => {
     const pages = await pageService.listPages();
-    sendSuccess(res, { pages });
+    sendSuccess(res, { pages: pages.map(serializePage) });
   }
 );
 
 export const getPageAdminHandler = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     const page = await pageService.getPageWithSections(req.params.id);
-    sendSuccess(res, page);
+    sendSuccess(res, serializePageWithSections(page));
   }
 );
 
@@ -46,7 +52,7 @@ export const createPageHandler = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     const { slug, title } = req.body as CreatePageBody;
     const page = await pageService.createPage({ slug, title }, actorFrom(req));
-    sendCreated(res, { page });
+    sendCreated(res, { page: serializePage(page) });
   }
 );
 
@@ -54,7 +60,7 @@ export const updatePageHandler = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     const body = req.body as UpdatePageBody;
     const page = await pageService.updatePage(req.params.id, body, actorFrom(req));
-    sendSuccess(res, { page });
+    sendSuccess(res, { page: serializePage(page) });
   }
 );
 
@@ -68,14 +74,18 @@ export const deletePageHandler = asyncHandler(
 export const previewPageHandler = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     const result = await publishService.preview(req.params.id);
-    sendSuccess(res, result);
+    sendSuccess(res, serializePageWithSections(result));
   }
 );
 
 export const publishPageHandler = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     const result = await publishService.publish(req.params.id, actorFrom(req));
-    sendSuccess(res, result);
+    sendSuccess(res, {
+      page: serializePage(result.page),
+      sections: result.sections.map(serializeSection),
+      version: result.version,
+    });
   }
 );
 
@@ -86,20 +96,24 @@ export const rollbackPageHandler = asyncHandler(
       req.params.versionId,
       actorFrom(req)
     );
-    sendSuccess(res, result);
+    sendSuccess(res, {
+      page: serializePage(result.page),
+      sections: result.sections.map(serializeSection),
+      version: result.version,
+    });
   }
 );
 
 export const listVersionsHandler = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     const versions = await publishService.listVersions(req.params.id);
-    sendSuccess(res, { versions });
+    sendSuccess(res, { versions: versions.map(serializeVersion) });
   }
 );
 
 export const getVersionHandler = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     const version = await publishService.getVersion(req.params.versionId);
-    sendSuccess(res, { version });
+    sendSuccess(res, { version: serializeVersion(version) });
   }
 );
