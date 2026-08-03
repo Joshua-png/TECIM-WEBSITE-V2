@@ -1,10 +1,15 @@
 import { Router } from "express";
 import { requireAuth } from "../middlewares/auth.js";
 import { adminRoutes } from "./admin.routes.js";
+import { announcementsPublicRoutes } from "./announcements.routes.js";
 import { authRoutes } from "./auth.routes.js";
+import { eventsPublicRoutes } from "./events.routes.js";
+import { galleryPublicRoutes } from "./gallery.routes.js";
+import { mediaRoutes } from "./media.routes.js";
 import { navigationRoutes } from "./navigation.routes.js";
 import { pageRoutes } from "./pages.routes.js";
 import { seoRoutes } from "./seo.routes.js";
+import { sermonsPublicRoutes } from "./sermons.routes.js";
 import { settingsRoutes } from "./settings.routes.js";
 
 export function createRoutes(): Router {
@@ -48,6 +53,11 @@ export function createRoutes(): Router {
   router.use("/settings", settingsRoutes);
   router.use("/navigation", navigationRoutes);
   router.use("/seo", seoRoutes);
+  router.use("/media", mediaRoutes);
+  router.use("/events", eventsPublicRoutes);
+  router.use("/gallery", galleryPublicRoutes);
+  router.use("/sermons", sermonsPublicRoutes);
+  router.use("/announcements", announcementsPublicRoutes);
   router.use("/admin", requireAuth, adminRoutes);
 
   return router;

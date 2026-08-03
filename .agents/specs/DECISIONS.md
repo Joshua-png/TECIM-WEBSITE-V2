@@ -76,3 +76,13 @@ Admin edits text, media, collections, section composition, preset layouts, navig
 **Status:** accepted · **Date:** 2026-08-03
 
 API responses expose camelCase keys (`pageId`, `displayOrder`, `metaTitle`, `createdAt`), matching AGENTS.md §5 and the Zod validators, even though DB columns are `snake_case`. Controllers convert rows to DTOs via `api/src/utils/serializers.ts`; repositories stay snake_case. Swagger `sharedSchemas` document the camelCase shape. Site/admin consume camelCase directly.
+
+## ADR-016 — Content collections are plain CRUD with a status flag
+**Status:** accepted · **Date:** 2026-08-03
+
+Events, gallery, sermons, and announcements are standalone tables with a `status` (`draft`/`published`) column and **no** version/rollback machinery. Publishing a collection item = `PATCH` its `status` to `published`; public list endpoints return published items only. Gallery additionally filters published items by `is_featured`/`display_order`, and announcements by their active window (`active_from` ≤ now ≤ `active_until`). Public reads expose the same camelCase DTO shape (via `serializers.ts`) as other resources. Version history remains page/section-scoped per ADR-007 — collection rows are content, not design, and do not need immutable snapshots.
+
+## ADR-017 — Graceful degradation when optional services are unconfigured
+**Status:** accepted · **Date:** 2026-08-03
+
+SendGrid and Cloudinary are optional at runtime. If `SENDGRID_API_KEY` is unset, OTP emails are logged and skipped (the forgot-password endpoint still returns 200). If `CLOUDINARY_*` is unset, media upload returns 500 `INTERNAL` ("Cloudinary is not configured") and media delete skips the remote destroy with a warning. This keeps the API fully testable and runnable in development without third-party accounts (see `tests/media-unconfigured.test.ts`).

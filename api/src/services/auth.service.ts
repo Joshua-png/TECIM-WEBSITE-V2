@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import crypto from "node:crypto";
 import { env } from "../config/env.js";
 import * as activityRepo from "../repositories/activity.repo.js";
+import * as passwordResetRepo from "../repositories/passwordReset.repo.js";
 import * as userRepo from "../repositories/user.repo.js";
 import { UnauthorizedError } from "../utils/ApiError.js";
 import {
@@ -9,6 +10,8 @@ import {
   signRefreshToken,
   verifyRefreshToken,
 } from "../utils/jwt.js";
+import { sendOtpEmail } from "../utils/mailer.js";
+import { generateOtp, storeOtp, verifyStoredOtp } from "../utils/otp.js";
 import { getStore } from "../utils/store.js";
 
 const REFRESH_BLACKLIST_PREFIX = "refresh:blacklist:";
@@ -112,4 +115,43 @@ export async function getMe(userId: string): Promise<AuthUser> {
     throw new UnauthorizedError("User not found");
   }
   return toAuthUser(user);
+}
+
+export async function forgotPassword(email: string, ip: string | null): Promise<void> {
+  const normalized = email.toLowerCase().trim();
+  const user = await userRepo.findByEmail(normalized);
+  if (!user) {
+    return;
+  }
+  const otp = generateOtp();
+  await storeOtp(normalized, otp);
+  await passwordResetRepo.recordRequest(user.id, ip);
+  await sendOtpEmail(user.email, otp);
+}
+
+export async function verifyOtp(email: string, otp: string): Promise<void> {
+  await verifyStoredOtp(email.toLowerCase().trim(), otp);
+}
+
+export async function resetPassword(
+  email: string,
+  otp: string,
+  newPassword: string,
+  ip: string | null
+): Promise<void> {
+  const normalized = email.toLowerCase().trim();
+  await verifyStoredOtp(normalized, otp);
+  const user = await userRepo.findByEmail(normalized);
+  if (!user) {
+    throw new UnauthorizedError("Invalid credentials");
+  }
+  const passwordHash = await bcrypt.hash(newPassword, 12);
+  await userRepo.updatePassword(user.id, passwordHash);
+  await passwordResetRepo.markResolved(user.id);
+  await activityRepo.create({
+    userId: user.id,
+    action: "password_reset",
+    entityType: "auth",
+    ip,
+  });
 }

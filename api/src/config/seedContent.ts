@@ -5,6 +5,67 @@ export interface SeedSection {
   content: Record<string, unknown>;
 }
 
+export const defaultSettings: Array<{ key: string; value: Record<string, unknown>; group: string }> = [
+  {
+    key: "site",
+    value: {
+      name: "The Eagle Centre for International Ministries",
+      shortName: "TECIM",
+      tagline: "Light. Trumpets. Swords.",
+      logo: null,
+      announcement: null,
+    },
+    group: "site",
+  },
+  {
+    key: "contact",
+    value: {
+      email: "theeaglecenter1@gmail.com",
+      phones: ["+233 271 503 760", "+233 265 508 760"],
+      address: "123 Main St, San Francisco, CA 94105",
+      serviceTimes: [
+        { day: "Thursday", time: "6:00 – 8:00pm", label: "Teaching Service" },
+        { day: "Friday", time: "7:00 – 9:00pm", label: "Prayer Meeting" },
+        { day: "Sunday", time: "7:00 – 11:30am", label: "Worship Service" },
+      ],
+    },
+    group: "contact",
+  },
+  {
+    key: "social",
+    value: {
+      facebook: null,
+      instagram: null,
+      youtube: null,
+      x: null,
+    },
+    group: "social",
+  },
+];
+
+export const defaultNavigation: Array<{
+  label: string;
+  url: string | null;
+  pageSlug: string | null;
+  target: string;
+}> = [
+  { label: "Home", url: null, pageSlug: "home", target: "_self" },
+  { label: "About", url: "#about", pageSlug: null, target: "_self" },
+  { label: "Values", url: "#values", pageSlug: null, target: "_self" },
+  { label: "Services", url: "#services", pageSlug: null, target: "_self" },
+  { label: "Events", url: "#events", pageSlug: null, target: "_self" },
+  { label: "Gallery", url: "#gallery", pageSlug: null, target: "_self" },
+  { label: "Contact", url: "#contact", pageSlug: null, target: "_self" },
+];
+
+export const defaultGlobalSeo = {
+  metaTitle: "The Eagle Centre for International Ministries",
+  metaDescription:
+    "A non-profit organization raising a generation of kingdom-minded people of integrity and the Word — as Light, Trumpets and Swords.",
+  canonicalUrl: null,
+};
+
+
 export const homePageSeed: { slug: string; title: string; sections: SeedSection[] } = {
   slug: "home",
   title: "Home",
