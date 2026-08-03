@@ -30,10 +30,12 @@ Each template maps to a React component in `site/components/sections/` and a sch
 - Layout variants: `image_left`, `image_right`, `full_width`, `split`
 
 ### vision
-- title, text, image (optional)
+- label, title, slides[] (heading, items[] **or** text)
+- Slide accent bars are presets in code (Vision → turquoise-bright, Mission → gold-bright) — not CMS-editable.
 
 ### values
-- title, cards[] (title, text, icon name from a fixed allowed set)
+- label, title, cards[] (title, text)
+- Card number markers are auto-generated from index (presentation, not CMS data).
 
 ### timeline
 - title, subtitle, events[] (date, title, description)

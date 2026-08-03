@@ -57,7 +57,15 @@ Additional fixed colors used in CSS: html/body frame `#0a0a0c`, `#fbbf24` (amber
 - **Section shells**: `.section` + `.section-inner`; eyebrow via `.section-label`.
 - **Nav**: fixed, transparent over hero → glass pill on scroll; serif logo `TECIM.` (gold dot), uppercase links with turquoise underline on active.
 - **Footer**: `#0a0c10`, 4-col grid, uppercase Inter column headings (`0.7rem`, `0.12em`), hover turquoise-bright links.
-- **Not yet built** (see `site/reference/tecim-home.html` for exact values when implementing): values divided columns, vision/mission carousel + dots, services "What's Happening" rows, events cards, gallery marquee frames (grayscale→color on hover), contact map card (corner brackets, pin, tabs).
+- **Not yet built** (see `site/reference/tecim-home.html` for exact values when implementing): services "What's Happening" rows, events cards, gallery marquee frames (grayscale→color on hover), contact map card (corner brackets, pin, tabs).
+
+## Values section (built — `site/components/sections/Values.tsx`)
+
+- **Shell**: default `--bg`, standard section padding, `.section-inner`.
+- **Grid** (`.values-grid`): `repeat(3, 1fr)`, `margin-top 3rem`, `border-top` hairline. ≤850px: single column.
+- **Cards** (`.value-card`): vertical dividers via `border-left` hairline (first card none), padding `2.5rem 2.25rem 2.5rem 0` with `padding-left 2.25rem`. ≤850px: `border-top` dividers, padding `2.25rem 0`.
+- **Number marker** (`.value-num`): auto-generated `01`, `02`, … from index — presentation, not CMS data. Inter `0.72rem`, uppercase `0.16em`, turquoise, `margin-bottom 1.1rem`.
+- **Copy**: `h3` serif `1.5rem` (`margin-bottom .85rem`), body `0.98rem`/`1.65` muted.
 
 ## About section (built — `site/components/sections/About.tsx`)
 
@@ -80,6 +88,17 @@ Additional fixed colors used in CSS: html/body frame `#0a0a0c`, `#fbbf24` (amber
 - **Finish line** (`.finish-line`): glass pill revealed after each strip; `strong` accent — light `--turquoise-bright`, trumpets `#fbbf24`, swords `#fb7185`.
 - **Auto-rotate**: identities cycle every 9s until user interacts (pill click or card click).
 - **Insight drawer**: backdrop `rgba(5,5,7,.6)` + `blur(6px)`; panel `rgba(10,10,13,.98)` + `blur(20px)`. ≤900px: bottom sheet (radius `20 20 0 0`, `max-height 78vh`, drag handle, `translateY(100%)→0`); ≥901px: right panel `440px` (centered content, `translateX(100%)→0`); both `.45s` cinematic ease. Content: `.si-step` uppercase `0.14em`, serif `.si-title` `1.7rem`, `.si-body` `rgba(255,255,255,.92)`, `.si-verse` italic serif `#fbbf24` with `2px #fbbf24` left rule.
+
+## Vision section (built — `site/components/sections/Vision.tsx`)
+
+- **Shell**: `section.vision-band` — `--dark` background, `--text-on-dark`, `overflow: hidden`, teal radial glow `::before` (`rgba(20,184,166,.08)`, top-right, `50%×160%`, pointer-events none). Mobile: 4rem vertical padding.
+- **Carousel** (`.vm-carousel`): `max-width 620px`, `margin-top 2.5rem`.
+- **Viewport/track**: glass card (`rgba(255,255,255,.04)` + `1px rgba(255,255,255,.08)` border, radius `--radius`, overflow hidden); track `width 200%`, `translateX(-index*50%)`, `0.9s cubic-bezier(.65,0,.35,1)`.
+- **Slides** (`.vm-slide`): `flex 0 0 50%`, padding `2.25rem 2rem` (mobile `1.75rem 1.5rem`); 3px top accent bar preset — `.v` turquoise-bright, `.m` gold-bright.
+- **Slide heading**: Inter `0.7rem` uppercase `0.16em` `rgba(255,255,255,.4)` weight 600, `margin-bottom 1.1rem` (overrides global serif h3).
+- **List items**: `0.6rem` row padding, `rgba(255,255,255,.9)` `1.02rem`, hairline `rgba(255,255,255,.06)` bottom borders. Paragraph: `rgba(255,255,255,.8)` `1.02rem`.
+- **Dots** (`.vm-dot`): 8px circle `rgba(255,255,255,.22)`; active → `width 24px`, turquoise-bright, `.35s` ease. Auto-advance 5s (skipped under `prefers-reduced-motion`).
+- **Carousel interactivity**: slide accent colors and auto-advance are code behavior, not CMS data.
 
 ## Hard rule
 
