@@ -57,7 +57,7 @@ Additional fixed colors used in CSS: html/body frame `#0a0a0c`, `#fbbf24` (amber
 - **Section shells**: `.section` + `.section-inner`; eyebrow via `.section-label`.
 - **Nav**: fixed, transparent over hero → glass pill on scroll; serif logo `TECIM.` (gold dot), uppercase links with turquoise underline on active.
 - **Footer**: `#0a0c10`, 4-col grid, uppercase Inter column headings (`0.7rem`, `0.12em`), hover turquoise-bright links.
-- **Not yet built** (see `site/reference/tecim-home.html` for exact values when implementing): services "What's Happening" rows, events cards, gallery marquee frames (grayscale→color on hover), contact map card (corner brackets, pin, tabs).
+- **Not yet built** (see `site/reference/tecim-home.html` for exact values when implementing): gallery marquee frames (grayscale→color on hover), contact map card (corner brackets, pin, tabs).
 
 ## Values section (built — `site/components/sections/Values.tsx`)
 
@@ -99,6 +99,23 @@ Additional fixed colors used in CSS: html/body frame `#0a0a0c`, `#fbbf24` (amber
 - **List items**: `0.6rem` row padding, `rgba(255,255,255,.9)` `1.02rem`, hairline `rgba(255,255,255,.06)` bottom borders. Paragraph: `rgba(255,255,255,.8)` `1.02rem`.
 - **Dots** (`.vm-dot`): 8px circle `rgba(255,255,255,.22)`; active → `width 24px`, turquoise-bright, `.35s` ease. Auto-advance 5s (skipped under `prefers-reduced-motion`).
 - **Carousel interactivity**: slide accent colors and auto-advance are code behavior, not CMS data.
+
+## Services section (built — `site/components/sections/Services.tsx`)
+
+- **Header** (`.wh-head`): flex `space-between` end-aligned, wrap, gap `1.5rem`, `margin-bottom 3rem`. `.wh-sub` `max-width 460px` `margin-top .85rem`.
+- **CTA** (`.wh-cta`): dark pill (`--dark`, white, radius 999, uppercase `0.8rem` `0.04em`, gap `0.5rem`, `white-space nowrap`); hover → `--turquoise` bg + `translateY(-2px)`.
+- **List** (`.wh-list`): `border-top` hairline. Rows (`.wh-row`): grid `130px 130px 1fr 28px` gap `1.75rem`, padding `1.85rem .5rem`, `border-bottom` hairline; hover → `--bg-alt` + `padding-left 1rem` (0.3s ease).
+- **Row content**: `.wh-day` Cormorant `1.7rem/600`; `.wh-time` `0.8rem` muted; `.wh-tag` gold outline pill (`0.68rem` uppercase `0.08em`, radius 999); `.wh-copy h3` serif `1.3rem`; arrow `1.3rem` muted `justify-self end` → hover `translateX(6px)` + turquoise.
+- **≤720px**: grid `1fr auto` areas `date arrow / tag tag / copy copy`; date row-direction baseline gap `0.5rem`.
+
+## Events section (built — `site/components/sections/Events.tsx`)
+
+- **Shell**: `section events` — `--bg-alt` background, standard section padding.
+- **Grid** (`.evt-grid`): `repeat(2, 1fr)` gap `1.5rem` `margin-top 2.5rem`; ≤750px → 1 column.
+- **Card** (`.evt-card`): grid `180px 1fr`, `#fff` bg, radius `--radius`, `overflow hidden`, `1px var(--border)`; hover → `translateY(-4px)` + `0 16px 36px rgba(0,0,0,.08)` (0.35s); ≤550px → 1 column (image stacks above body).
+- **Image** (`.evt-img`): `min-height 160px`, `overflow hidden`, `next/image` fill cover.
+- **Body** (`.evt-body`): padding `1.6rem`, flex column, `justify-content center`.
+- **Copy**: `.evt-date` `0.75rem` weight 600 `0.06em` uppercase gold `margin-bottom .4rem`; `h3` serif `1.2rem`; `.evt-loc` `0.9rem` muted.
 
 ## Hard rule
 

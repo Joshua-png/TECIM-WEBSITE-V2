@@ -37,6 +37,14 @@ Each template maps to a React component in `site/components/sections/` and a sch
 - label, title, cards[] (title, text)
 - Card number markers are auto-generated from index (presentation, not CMS data).
 
+### services
+- label, title, sub, ctaLabel, ctaHref, rows[] (day, time, tag, title, description)
+- Rows render as full-width anchor rows (date + tag pill + copy + arrow). No numbering, no tabs.
+
+### events
+- label, title, events[] (date, title, location, image, imageAlt)
+- Cards render as image-left conference cards on `--bg-alt`. Layout variants: `grid`.
+
 ### timeline
 - title, subtitle, events[] (date, title, description)
 

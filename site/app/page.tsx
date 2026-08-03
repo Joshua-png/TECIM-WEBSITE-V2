@@ -4,6 +4,8 @@ import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Values from "@/components/sections/Values";
 import Vision from "@/components/sections/Vision";
+import Services from "@/components/sections/Services";
+import Events from "@/components/sections/Events";
 
 export default function Home() {
   return (
@@ -14,6 +16,8 @@ export default function Home() {
         <About />
         <Values />
         <Vision />
+        <Services />
+        <Events />
       </main>
       <Footer />
     </>
