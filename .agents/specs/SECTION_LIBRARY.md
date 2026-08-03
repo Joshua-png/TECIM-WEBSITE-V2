@@ -17,9 +17,10 @@ Each template maps to a React component in `site/components/sections/` and a sch
 ## Template Catalog
 
 ### hero
-- title, subtitle, buttonText, buttonLink, secondaryButtonText, secondaryButtonLink
-- backgroundImage, backgroundVideo
-- Layout variants: `full_height`, `split`
+- label, title, subtitle
+- identities[] (slug: light | trumpets | swords, label, backgroundImage, steps[] { num, title, body, verse, image })
+- Accent color per identity is **preset in code** (light → turquoise-bright, trumpets → gold-bright, swords → rose) — never CMS-editable.
+- Layout variants: `full_height`
 
 ### about_image_left / about_image_right
 - title, description, image, buttonText, buttonLink
@@ -68,7 +69,7 @@ Preset-only, defined in code. Never free-form.
 |---|---|
 | `image_left` / `image_right` | about, team, video |
 | `full_width` | about, cta, scripture |
-| `split` | hero, about |
+| `split` | about |
 | `grid` / `masonry` | gallery |
 | `full_height` | hero |
 
