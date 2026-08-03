@@ -2,18 +2,30 @@
 
 Written by the `remember` skill at the end of each session; read at the start of the next. Never store secrets.
 
-## Latest session (not yet recorded)
-
 ## Project state
 
-- Status: planning/docs (AGENTS.md + skills library). No application code yet.
-- Repos/apps: `site/` (Next.js → Vercel), `admin/` (Next.js → Vercel), `api/` (Express → Railway) — not yet scaffolded.
+- **Site (`site/`)**: DONE. All 8 sections + footer + nav (scroll-spy) + Connect CTA, reference-faithful, committed (`406b8d5`). Reads hardcoded `content.ts` — not yet wired to API.
+- **API (`api/`)**: Phase 1 core content engine built and verified locally.
+  - Scaffold: Express 4 + TS (ESM/NodeNext, strict), pg, node-pg-migrate, zod 3, ajv, bcryptjs 3, jsonwebtoken, helmet, cors, ioredis (in-memory fallback when `REDIS_URL` unset), vitest 2 + supertest.
+  - Migration `001_init.sql`: 15 tables. Dev DBs `tecim_api` + `tecim_api_test` (Postgres 14 local). `npm run migrate:up`/`down` work.
+  - `npm run seed`: admin (`admin@tecim.org` / from env `ADMIN_PASSWORD`, default `changeme123`), 10 section templates, home page with 8 published sections (version 1). Settings/navigation/global SEO NOT seeded (empty in dev).
+  - Endpoints: `/api/v1/{health,auth,pages,settings,navigation,seo}` public; `/api/v1/admin/*` JWT-protected (pages CRUD, sections, templates, preview/publish/rollback/versions, settings, navigation, seo, activity).
+  - **All checks green**: `typecheck`, `lint`, `build`, `test` (31 tests) — run from `api/`.
+  - Tests hit `tecim_api_test` via `tests/setup.ts`; ensure test data via `ensureTestData()` (admin + templates + global seo).
 
 ## Decisions
 
-See `.agents/specs/DECISIONS.md` (ADR-001 … ADR-014).
+- Phase 2 deferred: Cloudinary media, SendGrid OTP forgot-password, collections CRUD (events/gallery/sermons).
+- JSON API currently returns **snake_case** field names (repo rows passed through); AGENTS.md §5 says camelCase — **open decision**, revisit before wiring `site/`/`admin/`.
+- `resetRateLimits()` exported from `middlewares/rateLimit.ts` for test isolation.
+- tsconfig split: `tsconfig.json` (src, build) + `tsconfig.eslint.json` (src+tests, used by lint + typecheck).
+- See `.agents/specs/DECISIONS.md` for architecture ADRs.
 
 ## Next steps
 
-- Scaffold `api/` (Express + TS, layering), then `site/` and `admin/`.
-- Seed single admin user; implement auth (login, JWT, OTP forgot-password).
+- User decision on camelCase vs snake_case API responses.
+- Phase 2: Cloudinary media library + upload, SendGrid OTP forgot-password, events/gallery/sermons CRUD.
+- Build `admin/` portal (login, pages, sections, publish/rollback, media, settings, nav, seo).
+- Wire `site/` to API (lib/api.ts + revalidation route with `REVALIDATE_SECRET`).
+- Optionally extend `api/src/seed.ts` to seed default settings, navigation tree, and global SEO.
+- Commit `api/` + `.agents/prompts/backend-phase1.md` (uncommitted).
