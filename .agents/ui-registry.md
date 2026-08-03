@@ -57,7 +57,7 @@ Additional fixed colors used in CSS: html/body frame `#0a0a0c`, `#fbbf24` (amber
 - **Section shells**: `.section` + `.section-inner`; eyebrow via `.section-label`.
 - **Nav**: fixed, transparent over hero → glass pill on scroll; serif logo `TECIM.` (gold dot), uppercase links with turquoise underline on active.
 - **Footer**: `#0a0c10`, 4-col grid, uppercase Inter column headings (`0.7rem`, `0.12em`), hover turquoise-bright links.
-- **Not yet built** (see `site/reference/tecim-home.html` for exact values when implementing): gallery marquee frames (grayscale→color on hover), contact map card (corner brackets, pin, tabs).
+- **All home-page sections + footer are built** (hero, about, values, vision, services, events, gallery, contact, footer).
 
 ## Values section (built — `site/components/sections/Values.tsx`)
 
@@ -116,6 +116,40 @@ Additional fixed colors used in CSS: html/body frame `#0a0a0c`, `#fbbf24` (amber
 - **Image** (`.evt-img`): `min-height 160px`, `overflow hidden`, `next/image` fill cover.
 - **Body** (`.evt-body`): padding `1.6rem`, flex column, `justify-content center`.
 - **Copy**: `.evt-date` `0.75rem` weight 600 `0.06em` uppercase gold `margin-bottom .4rem`; `h3` serif `1.2rem`; `.evt-loc` `0.9rem` muted.
+
+## Gallery section (built — `site/components/sections/Gallery.tsx`)
+
+- **Shell**: `section gallery` — `--dark` bg, `padding: 5.5rem 0` (no horizontal), `position: relative`, `overflow: hidden`. `.gallery .section-inner` `padding: 0 2.5rem`, `z-index: 2`. Mobile ≤640px: `padding: 4rem 0`, inner `padding: 0 1.25rem`.
+- **Grain** (`.gallery-grain`): absolute inset 0 z-index 1, SVG turbulence noise, `opacity .05`, `mix-blend overlay`, pointer-events none.
+- **Header copy**: `.gallery .section-label` gold-bright; `h2` text-on-dark; `.gal-sub` `rgba(245,242,237,.6)` `max-width 460`; `.gal-reel-tag` uppercase `0.72rem` `0.2em` `rgba(245,242,237,.45)` with 22×1px line `::before`.
+- **Marquee** (`.gal-marquee`): `margin-top 3rem`, relative, z-index 2; `.gal-edge` left/right 8vw vertical dark fades z-index 3 (12vw ≤700, 14vw ≤480).
+- **Rows**: `.gal-row` flex `width max-content` gap `1rem` `will-change transform`; row-a → `galScrollLeft 52s` (0→-50%), row-b → `galScrollRight 60s` (-50%→0), `+margin-top 1rem`; pause on `.gal-marquee:hover`; `animation: none` under reduced motion. ≤480px: gap/row-gap `0.6rem`, durations 32s/38s. Seamless loop = set rendered twice.
+- **Frames** (`.gal-frame`): `flex: 0 0 auto`, `300×210` (`.row-b` `240×320`), radius 6, overflow hidden, `1px rgba(245,242,237,.08)`, `position: relative` (fill parent). ≤700px `210×150` / row-b `160×220`; ≤480px `150×108` / row-b `115×160`, radius 4.
+- **Frame image**: `next/image fill`; `.gal-frame img` `object-fit cover`, `filter: grayscale(.85) contrast(1.08) brightness(.82)`, `transform: scale(1.03)`; transitions `filter .6s ease`, `transform .9s` cinematic; hover → `grayscale(0) contrast(1.02) brightness(.98)` + `scale(1.1)`. `::after` bottom gradient `transparent 55% → rgba(0,0,0,.55)`.
+- **Index** (`.gal-index`): Cormorant `0.85rem` `0.06em` `rgba(255,255,255,.75)`, absolute bottom-left, hidden (`opacity 0`, `translateY(6px)`) until frame hover. Auto-numbered per row (01–07 / 08–13). ≤480px `0.7rem` `bottom .5rem left .6rem`.
+- **More link** (`.gal-more`): turquoise-bright uppercase `0.85rem` `0.06em`, gap `0.4rem→0.7rem` hover, `margin-top 2.5rem`, z-index 2.
+
+## Contact section (built — `site/components/sections/Contact.tsx`)
+
+- **Shell**: `section contact` — `--dark` bg, `--text-on-dark`, `min-height 100vh`, flex column centered, `padding 5rem` vertical, `position relative`, `overflow hidden`. `.contact-grain` (`opacity .045`). `.contact .section-inner` relative z-index 1. Mobile ≤640px: `min-height auto`, 4rem vertical.
+- **Header copy**: `.contact .section-label` gold-bright; `h2` `#fff`; `.contact-sub` `rgba(245,242,237,.55)` `max-width 480`.
+- **Grid** (`.stay-grid`): `1.35fr 1fr`, gap `3rem`, `margin-top 3rem`, `align-items start`; ≤900px → 1 column gap `2.5rem`.
+- **Map card** (`.map-card`): radius `--radius`, overflow hidden, `1px rgba(245,242,237,.12)`, bg `#05070a`, shadow `0 30px 70px rgba(0,0,0,.45)`. Frame `aspect-ratio 4/3.1`.
+- **Iframe treatment**: `filter grayscale(1) contrast(1.15) brightness(.75) sepia(.08)` → `.map-card:hover` `grayscale(.25) contrast(1.05) brightness(.92) sepia(.02)`, `transition filter 1s` cinematic; `::after` vertical gradient `rgba(5,7,10,.55)→transparent 22%→transparent 78%→rgba(5,7,10,.65)`; `.map-vignette` `inset 0 0 120px rgba(0,0,0,.65)` `mix-blend multiply`.
+- **Corner brackets** (`.map-corner`): 22×22, 2px gold-bright `rgba(217,119,6,.85)`, 14px inset, tl/tr/bl/br, z-index 3.
+- **Pin**: `.map-pin` center `translate(-50%,-100%)`; `.map-pin-dot` 12px gold-bright + `mapPulse 2.2s ease-out infinite` (spreading box-shadow); `.map-pin-stem` 1×16 `rgba(217,119,6,.6)`.
+- **Tag** (`.map-tag`): bottom-left glass pill (`rgba(5,7,10,.55)` + `blur(6px)` + `1px rgba(255,255,255,.15)`), `0.7rem` uppercase `0.12em`.
+- **Tabs** (`.map-tabs`): flex gap `0.6rem`, padding `1.1rem 1.1rem 1.3rem`, `border-top rgba(245,242,237,.08)`; `.map-tab` flex 1, `0.8rem`, radius 8, transparent + `rgba(255,255,255,.1)` border, `rgba(255,255,255,.55)`; hover white + border `.3`; active gold-bright bg/border + `#0a0a0a`. Tab click swaps iframe src + tag text. ≤640px: gap `0.4rem`, padding `0.9rem`, tab `0.72rem`/`0.6rem 0.3rem`.
+- **Info column** (`.info-stack`): flex column gap `2rem`. `.c-block h4` Inter `0.7rem` `0.14em` uppercase `rgba(255,255,255,.4)`; `li` `rgba(255,255,255,.8)` `1rem`; `a` hover turquoise-bright; `.address-note` `opacity .5` `font-size .85rem`; `.hours li` flex space-between gap `1.5rem` `max-width 260`.
+- **Directions** (`.directions-btn`): pill `rgba(255,255,255,.06)` bg + `.18` border, `0.8rem` uppercase; hover gold-bright bg/border + `#0a0a0a` + `translateY(-2px)`. ≤640px: `width 100%` centered.
+
+## Footer (built — `site/components/layouts/Footer.tsx`)
+
+- **Shell**: `footer` — bg `#0a0c10`, `padding 3.5rem 2.5rem 2rem`, `rgba(255,255,255,.55)`.
+- **Grid** (`.footer-grid`): `max-width 1200`, `1.8fr 1fr 1fr 1fr`, gap `2.5rem`; ≤850px → 2 columns; ≤500px → 1 column; ≤640px gap `2rem`.
+- **Brand**: `.logo` (TECIM.) `#fff` inline-block `margin-bottom .85rem`; blurb `0.9rem` `max-width 300` `rgba(255,255,255,.45)`.
+- **Columns** (`.f-col`): `h4` Inter `0.7rem` `0.12em` uppercase `rgba(255,255,255,.35)`; links `rgba(255,255,255,.6)` `0.9rem` → hover turquoise-bright.
+- **Bottom bar** (`.footer-bottom`): `max-width 1200`, `margin-top 2.5rem`, `padding-top 1.5rem`, `border-top rgba(255,255,255,.06)`, flex space-between wrap, `0.8rem` `rgba(255,255,255,.3)`; ≤640px column. Copyright hardcoded `© 2026`.
 
 ## Hard rule
 

@@ -6,6 +6,8 @@ import Values from "@/components/sections/Values";
 import Vision from "@/components/sections/Vision";
 import Services from "@/components/sections/Services";
 import Events from "@/components/sections/Events";
+import Gallery from "@/components/sections/Gallery";
+import Contact from "@/components/sections/Contact";
 
 export default function Home() {
   return (
@@ -18,6 +20,8 @@ export default function Home() {
         <Vision />
         <Services />
         <Events />
+        <Gallery />
+        <Contact />
       </main>
       <Footer />
     </>

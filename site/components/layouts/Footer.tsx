@@ -57,7 +57,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© {new Date().getFullYear()} The Eagle Centre for International Ministries</span>
+        <span>© 2026 The Eagle Centre for International Ministries</span>
         <span>Light · Trumpets · Swords</span>
       </div>
     </footer>
