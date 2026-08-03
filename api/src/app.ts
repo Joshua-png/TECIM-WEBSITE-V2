@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 import helmet from "helmet";
 import { env } from "./config/env.js";
+import swaggerRouter from "./config/swagger/index.js";
 import { errorHandler, notFoundHandler } from "./middlewares/error.js";
 import { createRoutes } from "./routes/index.js";
 
@@ -13,6 +14,7 @@ export function createApp(): express.Express {
   app.use(express.json({ limit: "2mb" }));
 
   app.use("/api/v1", createRoutes());
+  app.use(swaggerRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
