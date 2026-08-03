@@ -45,7 +45,8 @@ Additional fixed colors used in CSS: html/body frame `#0a0a0c`, `#fbbf24` (amber
 
 - **Easing (cinematic default)**: `cubic-bezier(0.22, 1, 0.36, 1)` — use everywhere for scroll/enter transitions.
 - **Reveal-on-scroll** (`.reveal`): start `opacity 0, translateY(32px)` → `.visible` `opacity 1, translateY(0)` over `0.85s`. Reduced-motion: disable.
-- **Nav**: full-width → floating pill on scroll (`>50px`): `rgba(250,248,245,0.85)` + `blur(18px)` + `border-radius 999px`, `0.4s` springy ease.
+- **Nav**: full-width → floating pill on scroll (`>50px`): `rgba(250,248,245,0.85)` + `blur(18px)` + `border-radius 999px`, `0.4s` springy ease. Mobile (≤640px): padding shrinks to `1.1rem 1.25rem`; scrolled pill `left/right 0.75rem`, `padding 0.6rem 0.6rem 0.6rem 1.1rem`; mobile-menu links `1.6rem`.
+- **Scroll-spy**: IntersectionObserver over `section[id]` with `rootMargin "-45% 0px -50% 0px"` sets `active-link` on the matching nav + mobile-menu link. Nav active: `#fff` + 2px turquoise-bright underline `::after` (scrolled: `--text` + `--turquoise` underline); mobile active: turquoise-bright. Guarded with `:not(.nav-cta)` / `:not(.mm-cta)`.
 - **Hero**: `heroRise` (opacity 0→1, translateY 26px, staggered delays), Ken Burns bg zoom `16s` alternate, grain overlay `opacity 0.05 mix-blend-overlay`, cinematic vignette + duotone grade `linear-gradient(135deg, #0d3b3a 0%, #0f1115 45%, #4a2a10 100%)` at `opacity 0.55 mix-blend color`.
 - **Marquee** (gallery): two rows scroll opposite directions, `52s`/`60s` linear, pause on hover, `prefers-reduced-motion` disables.
 - **Hover**: cards lift `translateY(-4..-8px)`, arrows shift `translateX(6px)`, images scale 1.1; all ~`0.3–0.4s` with the default ease.
@@ -55,7 +56,7 @@ Additional fixed colors used in CSS: html/body frame `#0a0a0c`, `#fbbf24` (amber
 
 - **Buttons** (`.btn` base + variants): pill `999px`, `0.8rem` uppercase `0.04em`, `padding 0.85rem 1.6rem`, hover `translateY(-2px)`. Variants: `btn--dark`, `btn--ghost-light`, `btn--gold`. Nav CTA reuses ghost pill.
 - **Section shells**: `.section` + `.section-inner`; eyebrow via `.section-label`.
-- **Nav**: fixed, transparent over hero → glass pill on scroll; serif logo `TECIM.` (gold dot), uppercase links with turquoise underline on active.
+- **Nav**: fixed, transparent over hero → glass pill on scroll; serif logo `TECIM.` (gold dot), uppercase links with turquoise underline on active (scroll-spy); hamburger ≤920px → full-screen menu with serif `1.9rem` links (`1.6rem` ≤640px) + turquoise `mm-cta` pill.
 - **Footer**: `#0a0c10`, 4-col grid, uppercase Inter column headings (`0.7rem`, `0.12em`), hover turquoise-bright links.
 - **All home-page sections + footer are built** (hero, about, values, vision, services, events, gallery, contact, footer).
 
