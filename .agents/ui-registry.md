@@ -57,7 +57,16 @@ Additional fixed colors used in CSS: html/body frame `#0a0a0c`, `#fbbf24` (amber
 - **Section shells**: `.section` + `.section-inner`; eyebrow via `.section-label`.
 - **Nav**: fixed, transparent over hero → glass pill on scroll; serif logo `TECIM.` (gold dot), uppercase links with turquoise underline on active.
 - **Footer**: `#0a0c10`, 4-col grid, uppercase Inter column headings (`0.7rem`, `0.12em`), hover turquoise-bright links.
-- **Not yet built** (see `site/reference/tecim-home.html` for exact values when implementing): about visual badge, values divided columns, vision/mission carousel + dots, services "What's Happening" rows, events cards, gallery marquee frames (grayscale→color on hover), contact map card (corner brackets, pin, tabs).
+- **Not yet built** (see `site/reference/tecim-home.html` for exact values when implementing): values divided columns, vision/mission carousel + dots, services "What's Happening" rows, events cards, gallery marquee frames (grayscale→color on hover), contact map card (corner brackets, pin, tabs).
+
+## About section (built — `site/components/sections/About.tsx`)
+
+- **Shell**: `section.about` — `100vh`/`100dvh`, vertically centered (`justify-content: center`), `--bg-alt` background, `overflow: hidden`; inner scrolls (`max-height: 100%`, hidden scrollbar). Mobile: `height: auto; min-height: 100dvh; padding-top: 6.5rem`.
+- **Grid**: `1.05fr 1fr` gap `4rem` (`1fr` gap `2.5rem` ≤900px).
+- **Visual** (`.about-visual`): `aspect-ratio 4/3.4`, `max-height 60vh` (46vh ≤640px), radius `--radius`, `overflow: hidden`, shadow `0 30px 60px rgba(0,0,0,.12)`.
+- **Badge** (`.about-badge`): absolute bottom-left `1.5rem`, glass `rgba(15,17,21,.85)` + `blur(12px)`, radius 10, serif title `0.9rem/600` + Inter subtitle `0.7rem` at `rgba(255,255,255,.6)`.
+- **Check-list** (`.check-list`): `✓` in 22px circle `rgba(15,118,110,.12)` bg, turquoise glyph, muted text `0.98rem`, `gap .75rem`, rows `padding .4rem 0`.
+- **Copy**: `h2` margin-bottom `1rem`; `p` margin-bottom `0.85rem`; strong partner names colored `--text` weight 600 (`.about-content strong`).
 
 ## Hero section (built — `site/components/sections/Hero.tsx`)
 

@@ -23,7 +23,10 @@ Each template maps to a React component in `site/components/sections/` and a sch
 - Layout variants: `full_height`
 
 ### about_image_left / about_image_right
-- title, description, image, buttonText, buttonLink
+- label, title, description
+- checklist[] (bullet items)
+- tailIntro, partners[] (rendered as strong names), tailSuffix
+- image, imageAlt, badgeTitle, badgeSubtitle (floating glass badge on the visual)
 - Layout variants: `image_left`, `image_right`, `full_width`, `split`
 
 ### vision
