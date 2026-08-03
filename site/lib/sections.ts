@@ -2,12 +2,16 @@ import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Values from "@/components/sections/Values";
 import Vision from "@/components/sections/Vision";
+import Services from "@/components/sections/Services";
+import Events from "@/components/sections/Events";
 
 const sections = {
   hero: Hero,
   about: About,
   values: Values,
   vision: Vision,
+  services: Services,
+  events: Events,
 } as const;
 
 export type SectionSlug = keyof typeof sections;
