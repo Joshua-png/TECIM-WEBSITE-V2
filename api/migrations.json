@@ -1,0 +1,6 @@
+{
+  "databaseUrl": "DATABASE_URL",
+  "migrationsDir": "migrations",
+  "migration-file-language": "sql",
+  "createMigrationsSchema": true
+}
