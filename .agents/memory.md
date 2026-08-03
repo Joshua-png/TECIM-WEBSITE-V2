@@ -13,20 +13,21 @@ Written by the `remember` skill at the end of each session; read at the start of
   - **Swagger docs**: interactive UI at `/api-docs` (Swagger UI, spec embedded). Implemented like Capis-Backend: `swagger-jsdoc` + `swagger-ui-express`, `@openapi` JSDoc above every route, component schemas auto-derived from Zod validators via `zod-to-json-schema` (`src/config/swagger/openapi-schemas.ts`, names `<module>_<name>` e.g. `auth_loginSchema`), plus hand-written envelope/resource schemas in `src/config/swagger/index.ts` (`SuccessEnvelope`, `ErrorEnvelope`, `PaginatedEnvelope`, `Page`, `Section`, `Version`, `Setting`, `NavItem`, `Seo`, `User`, `TokenPair`, `ActivityEntry`, `SectionTemplate`). Global `bearerAuth` security. 28 endpoints documented. `AGENTS.md` §5 + `.agents/skills/api-format/SKILL.md` now mandate a doc block per endpoint.
   - **All checks green**: `typecheck`, `lint`, `build`, `test` (31 tests) — run from `api/`.
   - Tests hit `tecim_api_test` via `tests/setup.ts`; ensure test data via `ensureTestData()` (admin + templates + global seo).
+  - **camelCase responses**: `src/utils/serializers.ts` maps repo rows → camelCase DTOs (`pageId`, `displayOrder`, `metaTitle`, `createdAt`…); controllers serialize before responding; Swagger `sharedSchemas` in `src/config/swagger/index.ts` document the camelCase shape (ADR-015).
 
 ## Decisions
 
+- **camelCase JSON API responses** — accepted (ADR-015). Repositories stay snake_case; serializers live in `src/utils/serializers.ts`; controllers do the mapping. Site/admin consume camelCase directly.
+- Swagger docs work was committed and pushed by the user (spec + `@openapi` blocks + AGENTS.md §5 + api-format skill).
 - Phase 2 deferred: Cloudinary media, SendGrid OTP forgot-password, collections CRUD (events/gallery/sermons).
-- JSON API currently returns **snake_case** field names (repo rows passed through); AGENTS.md §5 says camelCase — **open decision**, revisit before wiring `site/`/`admin/`.
 - `resetRateLimits()` exported from `middlewares/rateLimit.ts` for test isolation.
 - tsconfig split: `tsconfig.json` (src, build) + `tsconfig.eslint.json` (src+tests, used by lint + typecheck).
 - See `.agents/specs/DECISIONS.md` for architecture ADRs.
 
 ## Next steps
 
-- User decision on camelCase vs snake_case API responses (docs currently document the snake_case responses).
-- Phase 2: Cloudinary media library + upload, SendGrid OTP forgot-password, events/gallery/sermons CRUD.
 - Build `admin/` portal (login, pages, sections, publish/rollback, media, settings, nav, seo).
 - Wire `site/` to API (lib/api.ts + revalidation route with `REVALIDATE_SECRET`).
+- Phase 2: Cloudinary media library + upload, SendGrid OTP forgot-password, events/gallery/sermons CRUD.
 - Optionally extend `api/src/seed.ts` to seed default settings, navigation tree, and global SEO.
-- Commit swagger work (`api/` src/config/swagger, route docs, AGENTS.md, skills, memory.md) — uncommitted.
+- camelCase conversion is implemented but **uncommitted** (`src/utils/serializers.ts`, controller edits, swagger schemas, test updates, ADR-015).

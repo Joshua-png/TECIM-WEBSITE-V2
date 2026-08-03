@@ -3,6 +3,7 @@ import { requireUser } from "../middlewares/auth.js";
 import * as settingsService from "../services/settings.service.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { sendSuccess } from "../utils/ApiResponse.js";
+import { serializeSetting } from "../utils/serializers.js";
 import { updateSettingSchema } from "../validators/settings.schema.js";
 import type { z } from "zod";
 
@@ -11,14 +12,14 @@ type SettingBody = z.infer<typeof updateSettingSchema>;
 export const listPublicSettingsHandler = asyncHandler(
   async (_req: Request, res: Response): Promise<void> => {
     const settings = await settingsService.listPublic();
-    sendSuccess(res, { settings });
+    sendSuccess(res, { settings: settings.map(serializeSetting) });
   }
 );
 
 export const listAllSettingsHandler = asyncHandler(
   async (_req: Request, res: Response): Promise<void> => {
     const settings = await settingsService.listAll();
-    sendSuccess(res, { settings });
+    sendSuccess(res, { settings: settings.map(serializeSetting) });
   }
 );
 
@@ -29,6 +30,6 @@ export const updateSettingHandler = asyncHandler(
       id: requireUser(req).id,
       ip: req.ip ?? null,
     });
-    sendSuccess(res, { setting });
+    sendSuccess(res, { setting: serializeSetting(setting) });
   }
 );

@@ -71,3 +71,8 @@ Consistent with existing systems. Controllers have no business logic; services n
 **Status:** accepted · **Date:** 2026-08-03
 
 Admin edits text, media, collections, section composition, preset layouts, navigation, SEO, and global settings. Everything visual (spacing, typography, animation, grids, responsive behavior) is code. See AGENTS.md §7.
+
+## ADR-015 — camelCase JSON API responses
+**Status:** accepted · **Date:** 2026-08-03
+
+API responses expose camelCase keys (`pageId`, `displayOrder`, `metaTitle`, `createdAt`), matching AGENTS.md §5 and the Zod validators, even though DB columns are `snake_case`. Controllers convert rows to DTOs via `api/src/utils/serializers.ts`; repositories stay snake_case. Swagger `sharedSchemas` document the camelCase shape. Site/admin consume camelCase directly.

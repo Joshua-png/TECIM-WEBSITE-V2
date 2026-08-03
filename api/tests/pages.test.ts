@@ -83,7 +83,7 @@ describe("section CRUD on a page", () => {
       .set("Authorization", `Bearer ${token}`)
       .send({ template: "hero", layout: "default", label: "Hero", content: heroContent });
     expect(add1.status).toBe(201);
-    const section1 = add1.body.data.section as { id: string; display_order: number };
+    const section1 = add1.body.data.section as { id: string; displayOrder: number };
 
     const add2 = await request(app)
       .post(`/api/v1/admin/pages/${id}/sections`)
@@ -100,7 +100,7 @@ describe("section CRUD on a page", () => {
         },
       });
     expect(add2.status).toBe(201);
-    expect(add2.body.data.section.display_order).toBe(1);
+    expect(add2.body.data.section.displayOrder).toBe(1);
 
     const list = await request(app)
       .get(`/api/v1/admin/pages/${id}/sections`)
@@ -127,7 +127,7 @@ describe("section CRUD on a page", () => {
       .set("Authorization", `Bearer ${token}`)
       .send({ sectionIds: [add2.body.data.section.id as string, section1.id] });
     expect(reorder.status).toBe(200);
-    expect(reorder.body.data.sections[0].display_order).toBe(0);
+    expect(reorder.body.data.sections[0].displayOrder).toBe(0);
     expect(reorder.body.data.sections[0].template).toBe("contact");
 
     const del = await request(app)

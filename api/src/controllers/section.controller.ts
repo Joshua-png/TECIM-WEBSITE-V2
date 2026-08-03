@@ -5,6 +5,10 @@ import * as sectionService from "../services/section.service.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { sendCreated, sendNoContent, sendSuccess } from "../utils/ApiResponse.js";
 import {
+  serializeSection,
+  serializeTemplate,
+} from "../utils/serializers.js";
+import {
   createSectionSchema,
   reorderSectionsSchema,
   updateSectionSchema,
@@ -22,14 +26,14 @@ function actorFrom(req: Request) {
 export const listTemplatesHandler = asyncHandler(
   async (_req: Request, res: Response): Promise<void> => {
     const templates = await templateRepo.listActive();
-    sendSuccess(res, { templates });
+    sendSuccess(res, { templates: templates.map(serializeTemplate) });
   }
 );
 
 export const listSectionsHandler = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     const sections = await sectionService.listSections(req.params.pageId);
-    sendSuccess(res, { sections });
+    sendSuccess(res, { sections: sections.map(serializeSection) });
   }
 );
 
@@ -46,7 +50,7 @@ export const addSectionHandler = asyncHandler(
       },
       actorFrom(req)
     );
-    sendCreated(res, { section });
+    sendCreated(res, { section: serializeSection(section) });
   }
 );
 
@@ -58,7 +62,7 @@ export const updateSectionHandler = asyncHandler(
       { content, layout, label },
       actorFrom(req)
     );
-    sendSuccess(res, { section });
+    sendSuccess(res, { section: serializeSection(section) });
   }
 );
 
@@ -77,6 +81,6 @@ export const reorderSectionsHandler = asyncHandler(
       sectionIds,
       actorFrom(req)
     );
-    sendSuccess(res, { sections });
+    sendSuccess(res, { sections: sections.map(serializeSection) });
   }
 );
