@@ -1217,6 +1217,235 @@
   z-index: 2;
 }
 
+.gal-empty {
+  position: relative;
+  z-index: 2;
+  max-width: 1000px;
+  margin: 3rem auto 0;
+  padding: 0 2.5rem;
+}
+
+.gal-empty-frame {
+  position: relative;
+  aspect-ratio: 21 / 9;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background:
+    radial-gradient(130% 130% at 50% 42%, rgba(15, 17, 21, 0) 0%, rgba(8, 8, 10, 0.92) 100%),
+    var(--dark);
+}
+
+.gal-empty-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.gal-empty-perf {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 22px, rgba(245, 242, 237, 0.1) 22px 34px, transparent 34px 56px),
+    repeating-linear-gradient(90deg, transparent 0 22px, rgba(245, 242, 237, 0.1) 22px 34px, transparent 34px 56px);
+  background-size: 100% 26px, 100% 26px;
+  background-position: top 12px, bottom 12px;
+  background-repeat: no-repeat;
+}
+
+.gal-empty-reel {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid rgba(245, 242, 237, 0.18);
+  background: repeating-conic-gradient(from 0deg, rgba(245, 242, 237, 0.18) 0 10deg, transparent 10deg 30deg);
+  animation: galEmptyPulse 4s ease-in-out infinite;
+}
+
+.gal-empty-reel::before {
+  content: "";
+  position: absolute;
+  inset: 19px;
+  border-radius: 50%;
+  background: var(--gold-bright);
+}
+
+.gal-empty-title {
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 1.5rem;
+  color: var(--text-on-dark);
+  text-align: center;
+}
+
+.gal-empty-sub {
+  font-size: 0.9rem;
+  color: rgba(245, 242, 237, 0.6);
+  text-align: center;
+}
+
+@keyframes galEmptyPulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Spotlight layout — used when the collection has few images */
+.gal-spotlight {
+  margin: 3rem auto 0;
+  position: relative;
+  z-index: 2;
+  max-width: 1000px;
+  padding: 0 2.5rem;
+}
+
+.gal-spot {
+  position: relative;
+}
+
+.gal-spot-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.gal-spot-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.06) saturate(1.06);
+  animation: galKenBurns 26s ease-in-out infinite alternate;
+}
+
+.gal-spot-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.32) 0%, transparent 38%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.55) 0%, transparent 42%);
+  pointer-events: none;
+}
+
+@keyframes galKenBurns {
+  from {
+    transform: scale(1.02) translateZ(0);
+  }
+  to {
+    transform: scale(1.12) translateZ(0);
+  }
+}
+
+.gal-spot-index {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 2;
+  padding: 0.45rem 0.9rem;
+  font-family: var(--font-cormorant), serif;
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+}
+
+.gal-spot-caption {
+  position: absolute;
+  bottom: 1.75rem;
+  left: 2rem;
+  z-index: 2;
+  max-width: min(70%, 560px);
+  margin: 0;
+  font-family: var(--font-cormorant), serif;
+  font-size: clamp(1.2rem, 2.4vw, 1.7rem);
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.6);
+}
+
+.gal-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.gal-strip-frame {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: 6px;
+  border: 1px solid rgba(245, 242, 237, 0.08);
+}
+
+.gal-strip-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.85) contrast(1.08) brightness(0.82);
+  transform: scale(1.03);
+  transition:
+    filter 0.6s ease,
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gal-strip-frame:hover img {
+  filter: grayscale(0) contrast(1.02) brightness(0.98);
+  transform: scale(1.1);
+}
+
+.gal-strip-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+  pointer-events: none;
+}
+
+.gal-strip-index {
+  position: absolute;
+  bottom: 0.7rem;
+  left: 0.9rem;
+  z-index: 2;
+  font-family: var(--font-cormorant), serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+@media (max-width: 750px) {
+  .gal-spotlight {
+    padding: 0 1rem;
+  }
+  .gal-spot-index {
+    top: 1rem;
+    left: 1rem;
+  }
+  .gal-spot-caption {
+    bottom: 1.25rem;
+    left: 1.25rem;
+  }
+}
+
 .gal-row {
   display: flex;
   width: max-content;
@@ -1260,7 +1489,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .gal-row.row-a,
-  .gal-row.row-b {
+  .gal-row.row-b,
+  .gal-spot-frame img {
     animation: none;
   }
 }
@@ -1775,6 +2005,20 @@
     padding: 0 1.25rem;
   }
 
+  .gal-empty {
+    padding: 0 1.25rem;
+  }
+
+  .gal-empty-frame {
+    aspect-ratio: auto;
+    min-height: 0;
+    padding: 4.5rem 1.5rem;
+  }
+
+  .gal-empty-title {
+    font-size: 1.3rem;
+  }
+
   .section.contact {
     padding-top: 4rem;
     padding-bottom: 4rem;
@@ -1839,6 +2083,10 @@
   .filmstrip-wrap {
     animation: none;
     opacity: 1;
+  }
+
+  .gal-empty-reel {
+    animation: none;
   }
 }
 

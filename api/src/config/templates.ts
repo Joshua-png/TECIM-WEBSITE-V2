@@ -286,11 +286,11 @@ export const sectionTemplates: SectionTemplateDefinition[] = [
   {
     slug: "gallery",
     name: "Gallery",
-    description: "Dual-row auto-scrolling marquee of images with auto-index badges.",
+    description: "Dual-row auto-scrolling marquee of images from the Gallery collection.",
     componentName: "Gallery",
     schema: {
       type: "object",
-      required: ["label", "title", "rowA", "rowB"],
+      required: ["label", "title"],
       properties: {
         label: { type: "string" },
         title: { type: "string" },
@@ -298,8 +298,6 @@ export const sectionTemplates: SectionTemplateDefinition[] = [
         reelTag: { type: "string" },
         moreLabel: { type: "string" },
         moreHref: { type: "string" },
-        rowA: { type: "array", items: { type: "string" } },
-        rowB: { type: "array", items: { type: "string" } },
       },
     },
   },

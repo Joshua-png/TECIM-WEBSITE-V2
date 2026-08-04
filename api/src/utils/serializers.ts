@@ -140,7 +140,9 @@ export function serializeEvent(
   };
 }
 
-export function serializeGalleryItem(row: GalleryRow): Record<string, unknown> {
+export function serializeGalleryItem(
+  row: GalleryRow & { image?: SerializedMediaImage | null }
+): Record<string, unknown> {
   return {
     id: row.id,
     mediaId: row.media_id,
@@ -148,6 +150,7 @@ export function serializeGalleryItem(row: GalleryRow): Record<string, unknown> {
     altText: row.alt_text,
     displayOrder: row.display_order,
     isFeatured: row.is_featured,
+    image: row.image ?? null,
     status: row.status,
     createdAt: row.created_at,
     updatedAt: row.updated_at,

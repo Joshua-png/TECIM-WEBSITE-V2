@@ -29,6 +29,7 @@ export type CollectionField = {
   hint?: string;
   rows?: number;
   full?: boolean;
+  disabled?: boolean;
 };
 
 type Row = {
@@ -288,7 +289,8 @@ export function CollectionManager({
                     type="checkbox"
                     checked={Boolean(value)}
                     onChange={(e) => setValues({ ...values, [field.key]: e.target.checked })}
-                    className="size-4 accent-turquoise"
+                    disabled={field.disabled}
+                    className="size-4 accent-turquoise disabled:opacity-50"
                   />
                   <span className="text-sm text-ink">{field.label}</span>
                 </label>
@@ -308,12 +310,14 @@ export function CollectionManager({
                       value={typeof value === "string" ? value : ""}
                       onChange={(e) => setValues({ ...values, [field.key]: e.target.value })}
                       placeholder="Media UUID"
+                      disabled={field.disabled}
                     />
                     <Button
                       type="button"
                       variant="ghost"
                       size="sm"
                       onClick={() => setMediaPickerFor(field.key)}
+                      disabled={field.disabled}
                     >
                       Pick
                     </Button>
@@ -334,6 +338,7 @@ export function CollectionManager({
                     onChange={(e) => setValues({ ...values, [field.key]: e.target.value })}
                     rows={field.rows ?? 3}
                     placeholder={field.placeholder}
+                    disabled={field.disabled}
                   />
                 </Field>
               );
@@ -361,6 +366,7 @@ export function CollectionManager({
                   value={typeof value === "string" ? value : ""}
                   onChange={(e) => setValues({ ...values, [field.key]: e.target.value })}
                   placeholder={field.placeholder}
+                  disabled={field.disabled}
                 />
               </Field>
             );

@@ -18,7 +18,7 @@ export { heroContent, type HeroContent, type HeroStep, type IdentitySlug } from 
 export { aboutContent, type AboutContent } from "./sections/about/content";
 export { contactContent, type ContactContent, type Location } from "./sections/contact/content";
 export { eventsContent, type EventsContent, type EventCard } from "./sections/events/content";
-export { galleryContent, type GalleryContent } from "./sections/gallery/content";
+export { galleryContent, type GalleryContent, type GalleryImage } from "./sections/gallery/content";
 export { servicesContent, type ServicesContent } from "./sections/services/content";
 export { valuesContent, type ValuesContent } from "./sections/values/content";
 export { visionContent, type VisionContent } from "./sections/vision/content";

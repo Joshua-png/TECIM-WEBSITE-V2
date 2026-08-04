@@ -2,6 +2,8 @@ import * as activityRepo from "../repositories/activity.repo.js";
 import * as galleryRepo from "../repositories/gallery.repo.js";
 import * as mediaRepo from "../repositories/media.repo.js";
 import { NotFoundError } from "../utils/ApiError.js";
+import type { SerializedMediaImage } from "../utils/serializers.js";
+import { triggerRevalidation } from "./publish.service.js";
 
 interface Actor {
   id: string;
@@ -17,12 +19,34 @@ export interface GalleryItemInput {
   status?: "draft" | "published" | null;
 }
 
-export async function listPublished(): Promise<galleryRepo.GalleryRow[]> {
-  return galleryRepo.findPublished();
+export type GalleryWithImage = galleryRepo.GalleryRow & { image: SerializedMediaImage | null };
+
+async function withImages(rows: galleryRepo.GalleryRow[]): Promise<GalleryWithImage[]> {
+  const ids = [...new Set(rows.map((row) => row.media_id))];
+  const media = await mediaRepo.findByIds(ids);
+  const byId = new Map(media.map((item) => [item.id, item]));
+  return rows.map((row) => {
+    const item = byId.get(row.media_id);
+    return {
+      ...row,
+      image: item
+        ? {
+            public_id: item.public_id,
+            secure_url: item.secure_url,
+            width: item.width,
+            height: item.height,
+          }
+        : null,
+    };
+  });
 }
 
-export async function listAll(): Promise<galleryRepo.GalleryRow[]> {
-  return galleryRepo.findAll();
+export async function listPublished(): Promise<GalleryWithImage[]> {
+  return withImages(await galleryRepo.findPublished());
+}
+
+export async function listAll(): Promise<GalleryWithImage[]> {
+  return withImages(await galleryRepo.findAll());
 }
 
 export async function getById(id: string): Promise<galleryRepo.GalleryRow> {
@@ -47,7 +71,7 @@ export async function create(
     altText: input.altText ?? null,
     displayOrder: input.displayOrder ?? (await galleryRepo.nextDisplayOrder()),
     isFeatured: input.isFeatured ?? false,
-    status: input.status ?? "draft",
+    status: "draft",
   });
   await activityRepo.create({
     userId: actor.id,
@@ -65,14 +89,20 @@ export async function update(
   input: Partial<GalleryItemInput>,
   actor: Actor
 ): Promise<galleryRepo.GalleryRow> {
-  await getById(id);
+  const existing = await getById(id);
   if (input.mediaId) {
     const media = await mediaRepo.findById(input.mediaId);
     if (!media) {
       throw new NotFoundError("Media not found");
     }
   }
-  const item = await galleryRepo.update(id, { ...input, status: input.status ?? undefined });
+  const status: galleryRepo.GalleryRow["status"] =
+    input.status !== undefined && input.status !== null
+      ? input.status
+      : existing.status === "published"
+        ? "draft"
+        : existing.status;
+  const item = await galleryRepo.update(id, { ...input, status });
   if (!item) {
     throw new NotFoundError("Gallery item not found");
   }
@@ -83,6 +113,9 @@ export async function update(
     entityId: id,
     ip: actor.ip ?? null,
   });
+  if (item.status !== existing.status) {
+    void triggerRevalidation("/");
+  }
   return item;
 }
 
@@ -96,4 +129,5 @@ export async function remove(id: string, actor: Actor): Promise<void> {
     entityId: id,
     ip: actor.ip ?? null,
   });
+  void triggerRevalidation("/");
 }

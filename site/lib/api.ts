@@ -110,7 +110,7 @@ export function getPublishedPage(slug: string): Promise<PageWithSections> {
   return fetchJson<PageWithSections>(`/pages/${encodeURIComponent(slug)}`);
 }
 
-export interface PublicEventImage {
+export interface PublicImage {
   public_id: string;
   secure_url: string;
   width: number | null;
@@ -126,7 +126,7 @@ export interface PublicEvent {
   endAt: string | null;
   location: string | null;
   imageMediaId: string | null;
-  image: PublicEventImage | null;
+  image: PublicImage | null;
   status: string;
   createdAt: string;
   updatedAt: string;
@@ -134,6 +134,23 @@ export interface PublicEvent {
 
 export function getPublishedEvents(): Promise<{ events: PublicEvent[] }> {
   return fetchJson<{ events: PublicEvent[] }>("/events");
+}
+
+export interface PublicGalleryItem {
+  id: string;
+  mediaId: string;
+  caption: string | null;
+  altText: string | null;
+  displayOrder: number;
+  isFeatured: boolean;
+  image: PublicImage | null;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export function getPublishedGallery(): Promise<{ gallery: PublicGalleryItem[] }> {
+  return fetchJson<{ gallery: PublicGalleryItem[] }>("/gallery");
 }
 
 export function getPages(): Promise<{ pages: PageMeta[] }> {
