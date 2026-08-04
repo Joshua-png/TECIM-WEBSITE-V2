@@ -129,3 +129,32 @@ export function getGlobalSeo(): Promise<{ seo: SeoMeta | null }> {
 export function getPageSeo(slug: string): Promise<{ seo: SeoMeta }> {
   return fetchJson<{ seo: SeoMeta }>(`/seo/pages/${encodeURIComponent(slug)}`);
 }
+
+export function getDraftPreview(
+  pageId: string,
+  token: string
+): Promise<PageWithSections> {
+  return fetch(`${BASE}/admin/pages/${encodeURIComponent(pageId)}/preview`, {
+    headers: { Accept: "application/json", Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  })
+    .then(async (res) => {
+      if (!res.ok) {
+        let message = `API responded with ${res.status}`;
+        try {
+          const body = (await res.json()) as { error?: { message?: string } };
+          message = body.error?.message ?? message;
+        } catch {
+          // Non-JSON error body; keep the generic message.
+        }
+        throw new ApiError(message, res.status);
+      }
+      return (await res.json()) as SuccessEnvelope<PageWithSections>;
+    })
+    .then((body) => {
+      if (!body.success) {
+        throw new ApiError("Unexpected API response", 500);
+      }
+      return body.data;
+    });
+}
