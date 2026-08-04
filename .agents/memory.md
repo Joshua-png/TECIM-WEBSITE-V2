@@ -2,10 +2,19 @@
 
 Written by the `remember` skill at the end of each session; read at the start of the next. Never store secrets.
 
+## Operating rule (user directive, 2026-08-04)
+
+- **NEVER `git commit` (or amend/push) unless the user explicitly asks.** The user commits manually. Even if a plan/next-step lists a commit, stop and ask first.
+
 ## Project state
 
-- **Site (`site/`)**: DONE. All 8 sections + footer + nav (scroll-spy) + Connect CTA, reference-faithful, committed (`406b8d5`). Reads hardcoded `content.ts` — not yet wired to API.
-- **Admin (`admin/`)**: BUILT (Next.js 15 + Tailwind v4, runs `-p 3001`, consumes live API). All pages implemented, **uncommitted**, checks green (`typecheck`, `lint`, `build` from `admin/`).
+- **Site (`site/`)**: DONE, **wired to the API and committed** (`56ad560` feat: render published CMS content with ISR + on-demand revalidation; `4da1715` fix: accept POST on revalidate route — branch `site-wired`). Hardcoded `content.ts` is only the fallback when the API is unreachable.
+  - `lib/api.ts` BASE = `${API_URL}/api/v1`, fetch tag `tecim-content`, ISR `revalidate: 300`, silent fallback on error. `lib/chrome.ts` (nav+footer from navigation/settings/publisher pages), `lib/sections.ts` (template slug → component via `createElement`), `lib/image.ts` (`imageUrl` resolves string or `{secure_url}`).
+  - 8 section components take a typed `content` prop (Hero, About, Values, Vision, Services, Events, Gallery, Contact). `app/page.tsx` (server, renders published "home"), `app/[slug]/page.tsx` (`notFound()` on failure), `app/layout.tsx` (async chrome fetch → Nav links / Footer data).
+  - Revalidate route `app/api/revalidate/route.ts`: GET+POST, `REVALIDATE_SECRET` guard, `revalidateTag` + `revalidatePath`. API `publish.service.ts` POSTs `{SITE_URL}/api/revalidate?secret=…` with body `{slug:["/","/"+slug]}`.
+  - **`.next` corruption pitfall (recurring!)**: running `npm run build` / `rm -rf .next` while a dev/start server is live destroys routes → ENOENT on `[slug]/page.js`, `favicon.ico/route.js`, and `/api/revalidate` returns 404. Fix: kill server → `rm -rf .next` → restart dev. Always stop the server first.
+  - Local env: `NEXT_PUBLIC_API_URL=http://localhost:4000`, `REVALIDATE_SECRET=dev-secret` (`site/.env` + `site/.env.example` committed, `.gitignore` keeps env out).
+- **Admin (`admin/`)**: BUILT (Next.js 15 + Tailwind v4, runs `-p 3001`, consumes live API). All pages implemented, **committed** (`8c9cac6` build + `6a8aba0` fix: toast provider + paginated meta shape), checks green (`typecheck`, `lint`, `build` from `admin/`).
   - Auth: login page + JWT via `lib/api.ts` (localStorage `tecim.access`/`tecim.refresh`, cookie `tecim_admin` for middleware), single-flight 401 refresh, logout.
   - Structure: `app/(dashboard)/layout.tsx` (Shell: sidebar nav groups Workspace/Content/Structure/System, topbar user menu, "View site" link, live API pill) + `app/login`.
   - Pages: overview dashboard, pages list + create/delete, page editor (`pages/[id]`: section list, reorder via `PUT /admin/pages/:pageId/sections/order`, edit/delete section, add-section template grid, meta edit, Publish, Versions, PreviewOverlay draft preview, meta modal).
@@ -21,7 +30,7 @@ Written by the `remember` skill at the end of each session; read at the start of
 - **API (`api/`)**: Phase 1 core content engine + all Phase 2 integrations built and verified locally.
   - Scaffold: Express 4 + TS (ESM/NodeNext, strict), pg, node-pg-migrate, zod 3, ajv, bcryptjs 3, jsonwebtoken, helmet, cors, ioredis (in-memory fallback when `REDIS_URL` unset), nodemon 3.1.14 (`dev` = `nodemon --watch src -e ts --exec "tsx src/server.ts"`), vitest 2 + supertest. Deps added: `@sendgrid/mail`, `cloudinary`, `multer` (+ dev `@types/multer`).
   - Migrations: `001_init.sql` (15 tables) + `002_collections.sql` (new `announcements` table + `gallery.status` column + indexes). Applied to dev `tecim_api` AND test `tecim_api_test` (`DATABASE_URL=postgres://localhost:5432/tecim_api_test npm run migrate:up`).
-  - `npm run seed`: admin (`admin@tecim.org` / from env `ADMIN_PASSWORD`, default `changeme123`), 10 section templates, home page with 8 published sections (version 1), plus **3 default settings (site/contact/social), 7 navigation items, global SEO** (all idempotent).
+  - `npm run seed`: admin, 10 section templates, home page with 8 published sections (version 1), plus **3 default settings (site/contact/social), 7 navigation items, global SEO** (all idempotent). **NOTE**: the seeded admin email in the dev DB is `joshuaaryee07@gmail.com` (password `changeme123`) — this DIFFERS from `ADMIN_EMAIL=admin@tecim.org` in `api/.env`; login only works with the DB email.
   - Endpoints: `/api/v1/{health,auth,pages,settings,navigation,seo,media,events,gallery,sermons,announcements}` public; `/api/v1/admin/*` JWT-protected (pages CRUD, sections, templates, preview/publish/rollback/versions, settings, navigation, seo, activity, **media upload/list/delete, events/gallery/sermons/announcements CRUD**).
   - **Auth**: login/refresh/logout/me + **forgot-password → verify-otp → reset-password** (SendGrid OTP, Redis 5-min TTL, sha256-hashed, max 5 attempts, single-use; `password_resets` audit table; forgot always 200).
   - **Media**: multer memory upload (10MB, MIME whitelist) → Cloudinary `upload_stream` → `media` row (public_id/secure_url/width/height/format/resource_type/size_bytes/folder/alt_text). Delete destroys remote then row.
@@ -45,6 +54,7 @@ Written by the `remember` skill at the end of each session; read at the start of
 
 ## Next steps
 
-- Wire `site/` to API (lib/api.ts + revalidation route with `REVALIDATE_SECRET`).
-- Manual browser verification of `admin/` against a running API (login, CRUD, publish/preview, uploads) — see `.agents/prompts/admin-portal.md` if drafted.
-- Phase 2 integrations (media, OTP, collections) + the whole `admin/` app are **uncommitted** — commit when approved.
+- Manual browser verification of `admin/` against a running API (login `joshuaaryee07@gmail.com` / `changeme123`, CRUD, publish/preview, uploads) — see `.agents/prompts/admin-portal.md` if drafted.
+- Deployment (Railway API → Vercel site+admin) — only on user request.
+- Fix unsplash image 404s in seeded/hardcoded content (several `images.unsplash.com` URLs in `content.ts` now return 404 upstream).
+- Admin/API/anything uncommitted: **do NOT commit automatically — ask the user first** (user commits manually).
