@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import SectionImage from "./SectionImage";
 import { imageUrl } from "../lib/image";
 import { EditableText } from "../editor/EditableText";
 import { EditableImage } from "../editor/EditableImage";
@@ -89,7 +89,7 @@ export default function Hero({
           className={`hero-bg ${identity.bgFilter}${active === identity.slug ? " active" : ""}`}
         >
           <EditableImage path={`identities.${i}.backgroundImage`} editable={editable}>
-            <Image
+            <SectionImage
               src={imageUrl(identity.backgroundImage)}
               alt=""
               fill
@@ -158,7 +158,12 @@ export default function Hero({
                       path={`identities.${i}.steps.${j}.image`}
                       editable={editable}
                     >
-                      <Image src={imageUrl(step.image)} alt={step.title} fill sizes="150px" />
+                      <SectionImage
+                        src={imageUrl(step.image)}
+                        alt={step.title}
+                        fill
+                        sizes="150px"
+                      />
                     </EditableImage>
                     <span className="film-card-cap">
                       <span className="num">

@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Reveal from "./Reveal";
+import SectionImage from "./SectionImage";
 import { imageUrl } from "../lib/image";
 import { EditableText } from "../editor/EditableText";
 import { EditableImage } from "../editor/EditableImage";
@@ -18,12 +18,13 @@ export default function About({
         <div className="about-grid">
           <Reveal className="about-visual">
             <EditableImage path="image" editable={editable}>
-              <Image
+              <SectionImage
                 src={imageUrl(content.image)}
                 alt={content.imageAlt}
                 fill
                 sizes="(max-width: 900px) 100vw, 600px"
                 style={{ objectFit: "cover" }}
+                fallback="Add an image"
               />
             </EditableImage>
             <div className="about-badge">

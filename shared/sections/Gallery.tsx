@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Reveal from "./Reveal";
+import SectionImage from "./SectionImage";
 import { EditableText } from "../editor/EditableText";
 import { EditableImage } from "../editor/EditableImage";
 import { galleryContent, type GalleryContent } from "./gallery/content";
@@ -26,7 +26,7 @@ function Frame({
         {String(index).padStart(2, "0")}
       </span>
       <EditableImage path={path} editable={editable}>
-        <Image src={src} alt="" fill sizes={sizes} style={{ objectFit: "cover" }} />
+        <SectionImage src={src} alt="" fill sizes={sizes} style={{ objectFit: "cover" }} />
       </EditableImage>
     </div>
   );
