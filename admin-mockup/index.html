@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TECIM — Admin (Design Mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f1115;
+  --bg-2:#12151a;
+  --panel:#171b22;
+  --panel-2:#1c212a;
+  --line:rgba(245,242,237,.08);
+  --line-2:rgba(245,242,237,.14);
+  --text:#f5f2ed;
+  --muted:rgba(245,242,237,.55);
+  --faint:rgba(245,242,237,.35);
+  --turq:#14b8a6;
+  --turq-dim:rgba(20,184,166,.12);
+  --gold:#d97706;
+  --gold-dim:rgba(217,119,6,.12);
+  --rose:#fb7185;
+  --burg:#9f1239;
+  --burg-dim:rgba(159,18,57,.16);
+  --serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"Inter",system-ui,sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --r:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:var(--sans);
+  background:var(--bg);
+  color:var(--text);
+  font-size:14px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(245,242,237,.14);border-radius:99px;border:2px solid var(--bg)}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select,textarea{font-family:inherit;color:inherit}
+
+/* ---------- Login ---------- */
+.login{
+  position:fixed;inset:0;z-index:100;
+  display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(120% 90% at 50% 0%, #12302c 0%, transparent 55%),
+    radial-gradient(110% 80% at 100% 100%, #3a2410 0%, transparent 55%),
+    var(--bg);
+  overflow:hidden;
+}
+.login::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
+}
+.login-vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 120% at 50% 50%,transparent 55%,rgba(0,0,0,.7) 100%)}
+.login-card{
+  position:relative;z-index:2;width:min(400px,92vw);
+  background:rgba(255,255,255,.035);
+  border:1px solid var(--line-2);
+  border-radius:var(--r);
+  padding:2.6rem 2.4rem 2.2rem;
+  backdrop-filter:blur(20px);
+  animation:rise .8s var(--ease) both;
+}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+.logo{
+  font-family:var(--serif);font-weight:600;font-size:2rem;letter-spacing:-.02em;color:#fff;
+}
+.logo b{color:var(--gold);font-weight:600}
+.login-eyebrow{
+  font-size:.68rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);
+  display:flex;align-items:center;gap:.6rem;margin-bottom:1.6rem;
+}
+.login-eyebrow::before{content:"";width:26px;height:1px;background:var(--gold)}
+.login-card h1{font-family:var(--serif);font-weight:500;font-size:1.9rem;line-height:1.1;letter-spacing:-.02em;color:#fff;margin-bottom:.5rem}
+.login-card .sub{color:var(--muted);font-size:.9rem;margin-bottom:1.9rem}
+.field{display:flex;flex-direction:column;gap:.45rem;margin-bottom:1.05rem}
+.field label{font-size:.66rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.input{
+  width:100%;background:rgba(255,255,255,.04);border:1px solid var(--line-2);
+  border-radius:10px;padding:.75rem .9rem;font-size:.92rem;color:var(--text);
+  transition:border-color .25s, background .25s, box-shadow .25s;
+}
+.input:focus{outline:none;border-color:var(--turq);background:rgba(255,255,255,.06);box-shadow:0 0 0 3px rgba(20,184,166,.14)}
+.input::placeholder{color:rgba(245,242,237,.28)}
+.login-row{display:flex;justify-content:space-between;align-items:center;margin:1.1rem 0 1.4rem}
+.link{color:var(--turq);font-size:.82rem;text-decoration:none}
+.link:hover{text-decoration:underline}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  padding:.82rem 1.6rem;border-radius:999px;transition:transform .3s var(--ease), box-shadow .3s, background .3s, border-color .3s;
+  white-space:nowrap;text-decoration:none;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn--gold{background:var(--gold);color:#0a0a0a;box-shadow:0 8px 26px rgba(217,119,6,.28)}
+.btn--gold:hover{background:#e08a1a;box-shadow:0 12px 32px rgba(217,119,6,.38)}
+.btn--turq{background:var(--turq);color:#06201d;box-shadow:0 8px 26px rgba(20,184,166,.24)}
+.btn--turq:hover{box-shadow:0 12px 32px rgba(20,184,166,.34)}
+.btn--ghost{background:rgba(255,255,255,.05);border:1px solid var(--line-2);color:var(--text)}
+.btn--ghost:hover{background:rgba(255,255,255,.09)}
+.btn--ghost-light{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);color:#fff}
+.btn--danger{background:var(--burg-dim);border:1px solid rgba(159,18,57,.5);color:#fda4af}
+.btn--danger:hover{background:rgba(159,18,57,.3)}
+.btn--sm{padding:.55rem 1.05rem;font-size:.7rem}
+.btn--icon{padding:.55rem .7rem}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.login-foot{position:absolute;bottom:2.2rem;left:0;right:0;text-align:center;color:var(--faint);font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;z-index:2}
+.login-film{
+  position:absolute;left:0;right:0;bottom:0;height:74px;z-index:1;opacity:.5;
+  display:flex;gap:6px;padding:10px 12px;overflow:hidden;
+}
+.login-film span{flex:1;border-radius:6px;background:linear-gradient(160deg,#12302c,#0f1115 60%,#3a2410);border:1px solid var(--line);min-width:90px}
+
+/* ---------- App shell ---------- */
+.app{display:none;height:100vh;overflow:hidden}
+.app.on{display:flex}
+.sidebar{
+  width:256px;flex:0 0 256px;background:#0c0e12;border-right:1px solid var(--line);
+  display:flex;flex-direction:column;position:relative;z-index:10;
+}
+.sidebar::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.4;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+}
+.sidebar-brand{display:flex;align-items:center;gap:.7rem;padding:1.3rem 1.4rem;border-bottom:1px solid var(--line)}
+.sidebar-brand .logo{font-size:1.5rem}
+.sidebar-tag{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint)}
+.side-nav{flex:1;overflow-y:auto;padding:1.1rem .8rem 1rem}
+.nav-group{margin-bottom:1.35rem}
+.nav-group-title{
+  font-size:.6rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);
+  padding:0 .7rem;margin-bottom:.45rem;
+}
+.nav-item{
+  display:flex;align-items:center;gap:.7rem;width:100%;
+  padding:.5rem .7rem;border-radius:9px;color:var(--muted);font-size:.88rem;font-weight:500;
+  transition:background .25s,color .25s;text-align:left;
+}
+.nav-item svg{flex:0 0 17px;width:17px;height:17px;opacity:.85}
+.nav-item:hover{background:rgba(255,255,255,.05);color:var(--text)}
+.nav-item.active{background:linear-gradient(90deg,rgba(20,184,166,.16),rgba(20,184,166,.04));color:#fff;box-shadow:inset 2px 0 0 var(--turq)}
+.nav-item .badge{margin-left:auto}
+.sidebar-foot{padding:1rem 1.2rem;border-top:1px solid var(--line)}
+.user-card{display:flex;align-items:center;gap:.75rem}
+.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(150deg,var(--turq),#0f766e);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1.05rem;color:#06201d;font-weight:600}
+.user-card .nm{font-size:.86rem;font-weight:600;color:var(--text)}
+.user-card .em{font-size:.72rem;color:var(--faint)}
+.user-out{margin-left:auto;color:var(--faint);padding:.35rem}
+
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+.topbar{
+  height:64px;flex:0 0 64px;display:flex;align-items:center;gap:1rem;
+  padding:0 2rem;border-bottom:1px solid var(--line);background:rgba(15,17,21,.72);backdrop-filter:blur(14px);z-index:5;
+}
+.crumb{font-size:.8rem;color:var(--faint);display:flex;align-items:center;gap:.5rem}
+.crumb b{color:var(--muted);font-weight:500}
+.crumb .cur{color:var(--text)}
+.spacer{flex:1}
+.status-pill{display:flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:.4rem .9rem;border:1px solid var(--line-2);border-radius:999px}
+.status-pill i{width:7px;height:7px;border-radius:50%;background:var(--turq);box-shadow:0 0 10px var(--turq)}
+.status-pill.draft i{background:var(--gold);box-shadow:0 0 10px var(--gold)}
+.topbar .btn{margin-left:.35rem}
+
+.content{flex:1;overflow-y:auto;padding:2rem;scroll-behavior:smooth}
+.screen{display:none;max-width:1280px;margin:0 auto;animation:fadeIn .45s var(--ease) both}
+.screen.on{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.screen-head{display:flex;align-items:flex-end;gap:1.5rem;margin-bottom:1.8rem;flex-wrap:wrap}
+.screen-head h2{font-family:var(--serif);font-weight:500;font-size:clamp(1.9rem,3vw,2.6rem);letter-spacing:-.02em;line-height:1.05;color:#fff}
+.screen-head .desc{color:var(--muted);font-size:.9rem;max-width:520px;margin-top:.35rem}
+.screen-actions{margin-left:auto;display:flex;gap:.6rem;flex-wrap:wrap}
+.eyebrow{font-size:.66rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:.55rem;margin-bottom:.8rem}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--gold)}
+
+/* ---------- Cards / stats ---------- */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:1.4rem}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem}
+.card-head h3{font-family:var(--serif);font-weight:600;font-size:1.15rem;letter-spacing:-.01em;color:#fff}
+.card-head .more{color:var(--faint);font-size:.78rem;text-decoration:none}
+.card-head .more:hover{color:var(--turq)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.4rem}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:1.25rem 1.35rem;position:relative;overflow:hidden;transition:transform .35s var(--ease),border-color .35s}
+.stat:hover{transform:translateY(-3px);border-color:var(--line-2)}
+.stat .ic{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:.9rem}
+.stat .ic svg{width:19px;height:19px}
+.stat .num{font-family:var(--serif);font-weight:600;font-size:2.1rem;line-height:1;letter-spacing:-.02em;color:#fff}
+.stat .lbl{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-top:.35rem}
+.stat .delta{position:absolute;top:1.15rem;right:1.2rem;font-size:.7rem;font-weight:600;color:var(--turq)}
+.turq-bg{background:var(--turq-dim)} .turq-bg svg{color:var(--turq)}
+.gold-bg{background:var(--gold-dim)} .gold-bg svg{color:var(--gold)}
+.rose-bg{background:var(--burg-dim)} .rose-bg svg{color:var(--rose)}
+.wht-bg{background:rgba(255,255,255,.06)} .wht-bg svg{color:var(--text)}
+.dash-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:1rem}
+.dash-grid .span-2{grid-column:1 / -1}
+.half{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+
+/* ---------- Lists / rows ---------- */
+.list{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.list-row{display:flex;align-items:center;gap:1rem;padding:.95rem 1.2rem;border-bottom:1px solid var(--line);transition:background .25s}
+.list-row:last-child{border-bottom:none}
+.list-row:hover{background:rgba(255,255,255,.025)}
+.list-row .main{flex:1;min-width:0}
+.list-row .t{font-weight:600;color:var(--text);font-size:.94rem}
+.list-row .s{font-size:.78rem;color:var(--faint);margin-top:.1rem}
+.badge{font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.28rem .65rem;border-radius:999px;white-space:nowrap}
+.badge--pub{background:rgba(20,184,166,.15);color:#5eead4;border:1px solid rgba(20,184,166,.35)}
+.badge--draft{background:rgba(217,119,6,.15);color:#fbbf24;border:1px solid rgba(217,119,6,.35)}
+.badge--ghost{background:rgba(255,255,255,.06);color:var(--faint);border:1px solid var(--line-2)}
+.drag{color:rgba(245,242,237,.22);cursor:grab;display:flex;align-items:center;padding:.3rem}
+.drag:hover{color:var(--faint)}
+.thumb{width:52px;height:52px;border-radius:10px;overflow:hidden;flex:0 0 52px;background:var(--panel-2)}
+.thumb.med{width:72px;height:72px;flex-basis:72px;border-radius:12px}
+.thumb svg,.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.row-act{display:flex;align-items:center;gap:.35rem;opacity:0;transition:opacity .25s}
+.list-row:hover .row-act{opacity:1}
+.icon-btn{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--faint);transition:background .2s,color .2s}
+.icon-btn:hover{background:rgba(255,255,255,.08);color:var(--text)}
+.icon-btn.danger:hover{background:var(--burg-dim);color:#fda4af}
+.icon-btn svg{width:15px;height:15px}
+
+/* ---------- Tables ---------- */
+.table-wrap{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:.86rem}
+thead th{
+  font-size:.62rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);
+  text-align:left;padding:.85rem 1.2rem;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02);
+}
+tbody td{padding:.8rem 1.2rem;border-bottom:1px solid var(--line);color:var(--muted);vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr{transition:background .25s}
+tbody tr:hover{background:rgba(255,255,255,.025)}
+tbody td b{color:var(--text);font-weight:600}
+table .sub{font-size:.75rem;color:var(--faint);margin-top:.05rem}
+
+/* ---------- Page builder ---------- */
+.builder-grid{display:grid;grid-template-columns:1fr 380px;gap:1.2rem;align-items:start}
+.builder-left{display:flex;flex-direction:column;gap:1rem;min-width:0}
+.builder-right{position:sticky;top:1rem}
+.section-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;transition:border-color .3s,box-shadow .3s}
+.section-card:hover{border-color:var(--line-2)}
+.section-card.open{border-color:rgba(20,184,166,.4);box-shadow:0 0 0 1px rgba(20,184,166,.2),0 18px 40px rgba(0,0,0,.25)}
+.sc-head{display:flex;align-items:center;gap:.9rem;padding:.85rem 1.1rem;cursor:pointer;user-select:none}
+.sc-head .num{font-family:var(--serif);color:var(--gold);font-size:.95rem;font-weight:600;width:26px;flex:0 0 26px}
+.sc-head .ttl{flex:1;min-width:0}
+.sc-head .ttl .nm{font-weight:600;color:var(--text);font-size:.92rem}
+.sc-head .ttl .tpl{font-size:.72rem;color:var(--faint);letter-spacing:.04em;margin-top:.05rem}
+.sc-head .chev{color:var(--faint);transition:transform .3s var(--ease)}
+.section-card.open .chev{transform:rotate(180deg)}
+.sc-body{display:none;padding:0 1.1rem 1.2rem;border-top:1px solid var(--line)}
+.section-card.open .sc-body{display:block;animation:fadeIn .3s var(--ease) both}
+.seg{display:inline-flex;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:9px;padding:3px;gap:2px}
+.seg button{font-size:.72rem;font-weight:600;padding:.4rem .75rem;border-radius:7px;color:var(--faint);transition:background .2s,color .2s}
+.seg button:hover{color:var(--text)}
+.seg button.active{background:rgba(20,184,166,.18);color:#5eead4}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.05rem}
+.form-grid .full{grid-column:1/-1}
+.pick{display:flex;align-items:center;gap:.8rem;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:10px;padding:.6rem .7rem;cursor:pointer;transition:border-color .25s,background .25s}
+.pick:hover{border-color:var(--line-2);background:rgba(255,255,255,.05)}
+.pick .thumb{width:44px;height:44px;flex-basis:44px;border-radius:8px}
+.pick .meta{flex:1;min-width:0}
+.pick .meta .nm{font-size:.8rem;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pick .meta .dt{font-size:.7rem;color:var(--faint)}
+.add-btn{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;padding:1rem;border:1px dashed var(--line-2);border-radius:var(--r);color:var(--faint);font-size:.85rem;font-weight:600;letter-spacing:.06em;transition:border-color .3s,color .3s,background .3s}
+.add-btn:hover{border-color:var(--turq);color:var(--turq);background:rgba(20,184,166,.05)}
+.preview-frame{background:#0a0c10;border:1px solid var(--line-2);border-radius:var(--r);overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.4)}
+.preview-toolbar{display:flex;align-items:center;gap:.5rem;padding:.6rem .9rem;border-bottom:1px solid var(--line)}
+.preview-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.12)}
+.preview-dot:first-child{background:#fb7185}.preview-dot:nth-child(2){background:#fbbf24}.preview-dot:nth-child(3){background:#34d399}
+.preview-toolbar .url{margin-left:.6rem;font-size:.7rem;color:var(--faint);background:rgba(255,255,255,.05);padding:.25rem .6rem;border-radius:6px}
+.preview-body{position:relative;height:430px;overflow:hidden}
+.preview-device{position:absolute;top:.6rem;right:.6rem;z-index:3;font-size:.6rem;letter-spacing:.14em;color:rgba(245,242,237,.4);border:1px solid var(--line-2);padding:.25rem .55rem;border-radius:6px;background:rgba(0,0,0,.4);backdrop-filter:blur(6px)}
+.mini-hero{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:1.8rem;background:
+  radial-gradient(90% 70% at 50% 0%, rgba(20,184,166,.16), transparent 55%),
+  linear-gradient(135deg,#0d3b3a 0%,#0f1115 48%,#4a2a10 100%)}
+.mini-hero .mh-label{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:#fbbf24;margin-bottom:.45rem}
+.mini-hero h4{font-family:var(--serif);font-weight:500;font-size:1.5rem;line-height:1.05;color:#fff;letter-spacing:-.02em;max-width:16ch}
+.mini-hero p{font-size:.68rem;color:rgba(245,242,237,.65);margin-top:.4rem;max-width:30ch}
+.mini-hero .mh-pills{display:flex;gap:.4rem;margin-top:.9rem}
+.mini-hero .mh-pill{font-size:.5rem;letter-spacing:.08em;text-transform:uppercase;padding:.3rem .6rem;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:rgba(245,242,237,.85)}
+.mini-hero .mh-pill.on{background:#14b8a6;border-color:#14b8a6;color:#06201d}
+.mini-film{position:absolute;bottom:0;left:0;right:0;display:flex;gap:5px;padding:.7rem .8rem;background:linear-gradient(to top,rgba(0,0,0,.9),transparent)}
+.mini-film i{flex:0 0 44px;height:52px;border-radius:5px;background:linear-gradient(160deg,#12302c,#0f1115 60%,#3a2410);border:1px solid rgba(255,255,255,.1)}
+.preview-label{font-size:.6rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem}
+.preview-label span b{color:var(--turq);font-weight:600}
+
+/* ---------- Media ---------- */
+.media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem}
+.media-tile{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:transform .35s var(--ease),border-color .3s;position:relative}
+.media-tile:hover{transform:translateY(-4px);border-color:var(--line-2)}
+.media-tile .mimg{aspect-ratio:1/1;position:relative;overflow:hidden}
+.media-tile .mimg svg{width:100%;height:100%;display:block}
+.media-tile .hover-act{position:absolute;top:.55rem;right:.55rem;display:flex;gap:.3rem;opacity:0;transition:opacity .25s}
+.media-tile:hover .hover-act{opacity:1}
+.media-tile .hover-act .icon-btn{background:rgba(10,12,16,.7);backdrop-filter:blur(6px)}
+.media-tile .mmeta{padding:.7rem .8rem .75rem}
+.media-tile .mmeta .nm{font-size:.78rem;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.media-tile .mmeta .dt{font-size:.68rem;color:var(--faint);margin-top:.1rem;display:flex;justify-content:space-between}
+.dropzone{
+  border:1.5px dashed var(--line-2);border-radius:var(--r);padding:2.4rem 1.5rem;text-align:center;
+  color:var(--muted);transition:border-color .3s,background .3s;cursor:pointer;
+}
+.dropzone:hover{border-color:var(--turq);background:rgba(20,184,166,.04)}
+.dropzone svg{width:34px;height:34px;color:var(--faint);margin-bottom:.7rem}
+.dropzone b{color:var(--text);font-weight:600}
+.dropzone .formats{font-size:.72rem;color:var(--faint);margin-top:.35rem;letter-spacing:.04em}
+
+/* ---------- Forms ---------- */
+.panel-form{max-width:760px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+.toggle{display:inline-flex;align-items:center;gap:.55rem;cursor:pointer;font-size:.85rem;color:var(--muted)}
+.toggle input{display:none}
+.toggle .sw{width:36px;height:20px;border-radius:99px;background:rgba(255,255,255,.12);position:relative;transition:background .25s;flex:0 0 36px}
+.toggle .sw::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .25s var(--ease)}
+.toggle input:checked+.sw{background:var(--turq)}
+.toggle input:checked+.sw::after{transform:translateX(16px)}
+.helper{font-size:.72rem;color:var(--faint);margin-top:.3rem}
+.group-label{font-family:var(--serif);font-weight:600;font-size:1.05rem;color:#fff;margin:1.8rem 0 .9rem;letter-spacing:-.01em}
+.group-label:first-child{margin-top:0}
+
+/* ---------- Versions ---------- */
+.timeline{position:relative;padding-left:2.2rem}
+.timeline::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:1px;background:var(--line-2)}
+.tl-item{position:relative;padding-bottom:1.6rem}
+.tl-item:last-child{padding-bottom:0}
+.tl-item::before{content:"";position:absolute;left:-2.2rem;top:.35rem;width:15px;height:15px;border-radius:50%;background:var(--bg);border:2px solid var(--faint)}
+.tl-item.current::before{border-color:var(--turq);background:var(--turq);box-shadow:0 0 0 5px rgba(20,184,166,.15)}
+.tl-item.restore::before{border-color:var(--gold);background:var(--gold);box-shadow:0 0 0 5px rgba(217,119,6,.15)}
+.tl-body{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem}
+.tl-body .tl-top{display:flex;align-items:center;gap:.8rem;margin-bottom:.3rem}
+.tl-body .vnum{font-family:var(--serif);font-weight:600;font-size:1.1rem;color:#fff}
+.tl-body .when{font-size:.74rem;color:var(--faint)}
+.tl-body .note{font-size:.8rem;color:var(--muted)}
+.immutable{display:inline-flex;align-items:center;gap:.35rem;font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#5eead4;background:rgba(20,184,166,.12);border:1px solid rgba(20,184,166,.3);padding:.2rem .55rem;border-radius:999px}
+
+/* ---------- Activity / misc ---------- */
+.activity-row{display:flex;gap:1rem;padding:1rem 1.2rem;border-bottom:1px solid var(--line);align-items:flex-start}
+.activity-row:last-child{border-bottom:none}
+.activity-dot{width:30px;height:30px;flex:0 0 30px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.05)}
+.activity-dot svg{width:15px;height:15px;color:var(--faint)}
+.activity-dot.pub{background:var(--turq-dim)} .activity-dot.pub svg{color:var(--turq)}
+.activity-dot.edit{background:var(--gold-dim)} .activity-dot.edit svg{color:var(--gold)}
+.activity-dot.trash{background:var(--burg-dim)} .activity-dot.trash svg{color:var(--rose)}
+.activity-dot.auth{background:rgba(255,255,255,.07)} .activity-dot.auth svg{color:#e2e8f0}
+.activity-body{flex:1;font-size:.85rem}
+.activity-body .act{color:var(--text)}
+.activity-body .ctx{color:var(--faint)}
+.activity-body .when{font-size:.72rem;color:var(--faint);margin-top:.15rem}
+.meter{height:6px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:.5rem}
+.meter i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--turq),#34d399)}
+.bar-row{display:flex;align-items:center;justify-content:space-between;font-size:.8rem;color:var(--muted);margin-top:.8rem}
+.bar-row b{color:var(--text);font-weight:600}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+.mt{margin-top:1rem}
+.mt-lg{margin-top:1.6rem}
+.mb{margin-bottom:1rem}
+.row-gap{display:flex;gap:.6rem;align-items:center}
+
+/* ---------- Toast ---------- */
+.toast{
+  position:fixed;bottom:1.6rem;right:1.6rem;z-index:200;
+  background:#1c212a;border:1px solid rgba(20,184,166,.4);border-radius:12px;
+  padding:.9rem 1.2rem;display:flex;align-items:center;gap:.8rem;
+  box-shadow:0 20px 50px rgba(0,0,0,.5);transform:translateY(120%);transition:transform .45s var(--ease);
+}
+.toast.on{transform:translateY(0)}
+.toast .tk{width:26px;height:26px;border-radius:50%;background:var(--turq-dim);display:flex;align-items:center;justify-content:center;flex:0 0 26px}
+.toast .tk svg{width:14px;height:14px;color:var(--turq)}
+.toast b{font-size:.85rem;display:block;color:var(--text)}
+.toast span{font-size:.74rem;color:var(--faint)}
+
+/* ---------- Empty / loading ---------- */
+.pulse{position:relative;overflow:hidden}
+.pulse::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);animation:shimmer 1.6s infinite}
+@keyframes shimmer{100%{transform:translateX(100%)}}
+@media(max-width:1200px){
+  .stat-grid{grid-template-columns:repeat(2,1fr)}
+  .builder-grid{grid-template-columns:1fr}
+  .builder-right{position:static}
+  .dash-grid,.grid-2,.grid-3{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .sidebar{display:none}
+  .content{padding:1.25rem}
+  .topbar{padding:0 1.25rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div class="login" id="loginScreen">
+  <div class="login-vignette"></div>
+  <div class="login-film">
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="login-card">
+    <div class="login-eyebrow">Admin Portal</div>
+    <div class="logo">TECIM<b>.</b></div>
+    <h1>Step into the studio.</h1>
+    <p class="sub">Sign in to shape the public site — draft, preview, and publish in one cinematic flow.</p>
+    <div class="field">
+      <label>Email</label>
+      <input class="input" type="email" placeholder="admin@tecim.org" value="admin@tecim.org">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input class="input" type="password" placeholder="••••••••••" value="changeme123">
+    </div>
+    <div class="login-row">
+      <a class="link" href="#" onclick="return false">Forgot password?</a>
+      <span style="font-size:.72rem;color:var(--faint)">OTP reset via email</span>
+    </div>
+    <button class="btn btn--gold" style="width:100%" onclick="enterApp()">Enter Studio</button>
+  </div>
+  <div class="login-foot">Design mockup · not connected to the API</div>
+</div>
+
+<!-- ============ APP ============ -->
+<div class="app" id="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo">TECIM<b>.</b></div>
+      <div class="sidebar-tag">Studio</div>
+    </div>
+    <nav class="side-nav">
+      <div class="nav-group">
+        <div class="nav-group-title">Content</div>
+        <button class="nav-item" data-screen="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Dashboard</button>
+        <button class="nav-item" data-screen="pages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v7H6.5A2.5 2.5 0 0 1 4 7.5z"/><path d="M12 3h5.5A2.5 2.5 0 0 1 20 5.5v13a2.5 2.5 0 0 1-2.5 2.5H6.5A2.5 2.5 0 0 1 4 18.5V15"/><path d="M12 12h4"/><path d="M12 16h6"/></svg>Pages</button>
+        <button class="nav-item" data-screen="builder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>Page Builder <span class="badge badge--ghost">Home</span></button>
+        <button class="nav-item" data-screen="media"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="m21 15-4.5-4.5L8 19"/></svg>Media Library</button>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-title">Collections</div>
+        <button class="nav-item" data-screen="events"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M12 14h.01M16 14h.01M12 18h.01"/></svg>Events <span class="badge badge--draft">4</span></button>
+        <button class="nav-item" data-screen="gallery"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Gallery</button>
+        <button class="nav-item" data-screen="sermons"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V9.5A2.5 2.5 0 0 1 6.5 7H10v13H4z"/><path d="M10 7h6.5A2.5 2.5 0 0 1 19 9.5V20h-9z"/><path d="M15 12h2M15 16h2"/></svg>Sermons</button>
+        <button class="nav-item" data-screen="announcements"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11v2a2 2 0 0 0 2 2h2l4 4V5L8 9H6a2 2 0 0 0-2 2z"/><path d="M15 9.5a4 4 0 0 1 0 5M17.5 7a7.5 7.5 0 0 1 0 10"/></svg>Announcements</button>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-title">System</div>
+        <button class="nav-item" data-screen="navigation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/><path d="M9 6h2M15 12h2M11 18h2"/></svg>Navigation</button>
+        <button class="nav-item" data-screen="seo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/><path d="M8 11h6M11 8v6"/></svg>SEO</button>
+        <button class="nav-item" data-screen="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</button>
+        <button class="nav-item" data-screen="versions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/><path d="M3 4v4h4"/></svg>Versions</button>
+        <button class="nav-item" data-screen="activity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Activity</button>
+      </div>
+    </nav>
+    <div class="sidebar-foot">
+      <div class="user-card">
+        <div class="avatar">A</div>
+        <div>
+          <div class="nm">Site Admin</div>
+          <div class="em">admin@tecim.org</div>
+        </div>
+        <button class="user-out" title="Sign out" onclick="showLogin()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></svg></button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <header class="topbar">
+      <div class="crumb"><b>TECIM</b> <span>/</span> <span class="cur" id="crumbCur">Dashboard</span></div>
+      <div class="spacer"></div>
+      <div class="status-pill draft" id="topStatus"><i></i>Draft</div>
+      <button class="btn btn--ghost btn--sm" onclick="toast('Preview','Opened the draft in a new tab (mockup)')">Preview</button>
+      <button class="btn btn--turq btn--sm" onclick="toast('Published','Changes are live on the public site')">Publish</button>
+    </header>
+
+    <div class="content">
+
+      <!-- ============ DASHBOARD ============ -->
+      <section class="screen" id="screen-dashboard">
+        <div class="screen-head">
+          <div>
+            <div class="eyebrow">Studio overview</div>
+            <h2>Good evening, Admin.</h2>
+            <p class="desc">Your site is live. Here is what needs attention tonight — and what the congregation will see tomorrow morning.</p>
+          </div>
+          <div class="screen-actions">
+            <button class="btn btn--ghost btn--sm" onclick="goto('pages')">Manage pages</button>
+            <button class="btn btn--gold btn--sm" onclick="goto('builder')">Edit home page</button>
+          </div>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat"><div class="ic turq-bg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v7H6.5A2.5 2.5 0 0 1 4 7.5z"/><path d="M12 3h5.5A2.5 2.5 0 0 1 20 5.5v13a2.5 2.5 0 0 1-2.5 2.5H6.5A2.5 2.5 0 0 1 4 18.5V15"/><path d="M12 12h4M12 16h6"/></svg></div><div class="num">5</div><div class="lbl">Pages</div><div class="delta">4 live</div></div>
+          <div class="stat"><div class="ic gold-bg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg></div><div class="num">14</div><div class="lbl">Sections</div><div class="delta">3 drafts</div></div>
+          <div class="stat"><div class="ic rose-bg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="m21 15-4.5-4.5L8 19"/></svg></div><div class="num">28</div><div class="lbl">Media assets</div><div class="delta">Cloudinary</div></div>
+          <div class="stat"><div class="ic wht-bg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><div class="num">12</div><div class="lbl">Events</div><div class="delta">2 upcoming</div></div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="card">
+            <div class="card-head"><h3>Quick actions</h3></div>
+            <div class="grid-3">
+              <button class="dropzone" style="padding:1.4rem 1rem;text-align:left" onclick="toast('Upload','Media upload opened (mockup)')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4m0 0 4 4m-4-4L8 8"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+                <b>Upload media</b><div class="formats">JPG · PNG · WebP · MP4</div>
+              </button>
+              <button class="dropzone" style="padding:1.4rem 1rem;text-align:left" onclick="toast('Event','Event composer opened (mockup)')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14m-7-7h14"/></svg>
+                <b>New event</b><div class="formats">Draft → publish later</div>
+              </button>
+              <button class="dropzone" style="padding:1.4rem 1rem;text-align:left" onclick="toast('Announcement','Announcement composer opened (mockup)')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11v2a2 2 0 0 0 2 2h2l4 4V5L8 9H6a2 2 0 0 0-2 2z"/></svg>
+                <b>New announcement</b><div class="formats">Set an active window</div>
+              </button>
+            </div>
+
+            <div class="group-label" style="margin-top:1.8rem">Publishing health</div>
+            <div class="bar-row"><span>Pages with unpublished drafts</span><b>2 of 5</b></div>
+            <div class="meter"><i style="width:40%"></i></div>
+            <div class="bar-row"><span>Section drafts awaiting review</span><b>3</b></div>
+            <div class="meter"><i style="width:22%"></i></div>
+            <div class="bar-row"><span>Unused media (orphan assets)</span><b>6</b></div>
+            <div class="meter"><i style="width:15%"></i></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Recent activity</h3><a class="more" href="#" onclick="goto('activity');return false">View all →</a></div>
+            <div class="activity-row"><div class="activity-dot pub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg></div><div class="activity-body"><span class="act">Published</span> <span class="ctx">Events page · v4</span><div class="when">2 hours ago</div></div></div>
+            <div class="activity-row"><div class="activity-dot edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></div><div class="activity-body"><span class="act">Updated</span> <span class="ctx">Hero section · new headline</span><div class="when">5 hours ago</div></div></div>
+            <div class="activity-row"><div class="activity-dot trash"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></div><div class="activity-body"><span class="act">Deleted</span> <span class="ctx">Media · sunday-banner-old.jpg</span><div class="when">Yesterday</div></div></div>
+            <div class="activity-row"><div class="activity-dot auth"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></div><div class="activity-body"><span class="act">Signed in</span> <span class="ctx">admin@tecim.org</span><div class="when">Today, 09:12</div></div></div>
+          </div>
+
+          <div class="card span-2">
+            <div class="card-head"><h3>Live pages</h3><a class="more" href="#" onclick="goto('pages');return false">All pages →</a></div>
+            <div class="list">
+              <div class="list-row" style="cursor:pointer" onclick="goto('builder')">
+                <div class="thumb"><svg viewBox="0 0 80 80"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12302c"/><stop offset=".5" stop-color="#0f1115"/><stop offset="1" stop-color="#3a2410"/></linearGradient></defs><rect width="80" height="80" fill="url(#g1)"/><rect x="16" y="20" width="48" height="3" fill="#f5f2ed" opacity=".85"/><rect x="16" y="27" width="32" height="2" fill="#f5f2ed" opacity=".4"/><rect x="16" y="38" width="36" height="2" fill="#d97706"/><rect x="16" y="44" width="24" height="2" fill="#f5f2ed" opacity=".3"/></svg></div>
+                <div class="main"><div class="t">Home</div><div class="s">/ · 8 sections · v12 published · last edited today</div></div>
+                <span class="badge badge--pub">Published</span>
+                <span class="badge badge--draft" style="margin-left:.2rem">1 draft</span>
+                <div class="row-act"><button class="icon-btn" onclick="toast('Edit','Opening Home in the builder');goto('builder')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button class="icon-btn" onclick="toast('Preview','Opened / in a new tab')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+              </div>
+              <div class="list-row">
+                <div class="thumb"><svg viewBox="0 0 80 80"><defs><linearGradient id="g2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#2a150a"/><stop offset="1" stop-color="#0f1115"/></linearGradient></defs><rect width="80" height="80" fill="url(#g2)"/><circle cx="40" cy="32" r="14" fill="none" stroke="#f5f2ed" opacity=".5"/><rect x="26" y="50" width="28" height="2" fill="#f5f2ed" opacity=".4"/><rect x="32" y="56" width="16" height="2" fill="#f5f2ed" opacity=".25"/></svg></div>
+                <div class="main"><div class="t">About</div><div class="s">/about · 3 sections · v5 published</div></div>
+                <span class="badge badge--pub">Published</span>
+                <div class="row-act"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+              </div>
+              <div class="list-row">
+                <div class="thumb"><svg viewBox="0 0 80 80"><defs><linearGradient id="g3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#101c33"/><stop offset="1" stop-color="#0f1115"/></linearGradient></defs><rect width="80" height="80" fill="url(#g3)"/><rect x="22" y="18" width="36" height="2" fill="#f5f2ed" opacity=".7"/><rect x="22" y="26" width="26" height="2" fill="#f5f2ed" opacity=".35"/><circle cx="40" cy="46" r="7" fill="#14b8a6" opacity=".7"/><rect x="28" y="58" width="24" height="2" fill="#f5f2ed" opacity=".3"/></svg></div>
+                <div class="main"><div class="t">Events</div><div class="s">/events · 2 sections · v4 published</div></div>
+                <span class="badge badge--pub">Published</span>
+                <div class="row-act"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+              </div>
+              <div class="list-row">
+                <div class="thumb"><svg viewBox="0 0 80 80"><defs><linearGradient id="g4" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2410"/><stop offset="1" stop-color="#0f1115"/></linearGradient></defs><rect width="80" height="80" fill="url(#g4)"/><rect x="20" y="24" width="40" height="2" fill="#f5f2ed" opacity=".6"/><rect x="26" y="32" width="28" height="2" fill="#f5f2ed" opacity=".3"/><rect x="20" y="44" width="14" height="14" fill="none" stroke="#d97706" opacity=".8"/></svg></div>
+                <div class="main"><div class="t">Contact</div><div class="s">/contact · 2 sections · v2 published</div></div>
+                <span class="badge badge--pub">Published</span>
+                <div class="row-act"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ PAGES ============ -->
+      <section class="screen" id="screen-pages">
+        <div class="screen-head">
+          <div>
+            <div class="eyebrow">Structure</div>
+            <h2>Pages</h2>
+            <p class="desc">Each page is a stack of pre-built sections. Reorder them, edit text and images, and publish — the design never changes.</p>
+          </div>
+          <div class="screen-actions">
+            <div class="seg"><button class="active">All</button><button>Drafts</button><button>Published</button></div>
+            <button class="btn btn--ghost btn--sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search</button>
+            <button class="btn btn--gold btn--sm" onclick="toast('Page','New page wizard opened (mockup)')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>New page</button>
+          </div>
+        </div>
+        <div class="list">
+          <div class="list-row" style="cursor:pointer" onclick="goto('builder')">
+            <span class="drag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+            <div class="thumb"><svg viewBox="0 0 80 80"><rect width="80" height="80" fill="#12302c"/><rect x="16" y="20" width="48" height="3" fill="#f5f2ed" opacity=".85"/><rect x="16" y="27" width="32" height="2" fill="#f5f2ed" opacity=".4"/><rect x="16" y="38" width="36" height="2" fill="#d97706"/><rect x="16" y="44" width="24" height="2" fill="#f5f2ed" opacity=".3"/></svg></div>
+            <div class="main"><div class="t">Home</div><div class="s">/ · slug <b style="color:var(--turq)">home</b> · 8 sections · v12 published</div></div>
+            <span class="badge badge--pub">Published</span>
+            <span class="badge badge--draft" style="margin-left:.2rem">1 draft</span>
+            <div class="row-act"><button class="icon-btn" onclick="toast('Edit','Opening Home in the builder');goto('builder')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button class="icon-btn" onclick="toast('Versions','v12 history opened');goto('versions')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg></button></div>
+          </div>
+          <div class="list-row">
+            <span class="drag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+            <div class="thumb"><svg viewBox="0 0 80 80"><rect width="80" height="80" fill="#2a150a"/><circle cx="40" cy="32" r="14" fill="none" stroke="#f5f2ed" opacity=".5"/><rect x="26" y="50" width="28" height="2" fill="#f5f2ed" opacity=".4"/></svg></div>
+            <div class="main"><div class="t">About</div><div class="s">/about · slug <b style="color:var(--turq)">about</b> · 3 sections · v5 published</div></div>
+            <span class="badge badge--pub">Published</span>
+            <div class="row-act"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button class="icon-btn" onclick="goto('versions')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg></button></div>
+          </div>
+          <div class="list-row">
+            <span class="drag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+            <div class="thumb"><svg viewBox="0 0 80 80"><rect width="80" height="80" fill="#101c33"/><rect x="22" y="18" width="36" height="2" fill="#f5f2ed" opacity=".7"/><circle cx="40" cy="46" r="7" fill="#14b8a6" opacity=".7"/><rect x="28" y="58" width="24" height="2" fill="#f5f2ed" opacity=".3"/></svg></div>
+            <div class="main"><div class="t">Events</div><div class="s">/events · slug <b style="color:var(--turq)">events</b> · 2 sections · v4 published</div></div>
+            <span class="badge badge--pub">Published</span>
+            <div class="row-act"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button class="icon-btn" onclick="goto('versions')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg></button></div>
+          </div>
+          <div class="list-row">
+            <span class="drag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+            <div class="thumb"><svg viewBox="0 0 80 80"><rect width="80" height="80" fill="#3a2410"/><rect x="20" y="24" width="40" height="2" fill="#f5f2ed" opacity=".6"/><rect x="26" y="32" width="28" height="2" fill="#f5f2ed" opacity=".3"/><rect x="20" y="44" width="14" height="14" fill="none" stroke="#d97706" opacity=".8"/></svg></div>
+            <div class="main"><div class="t">Contact</div><div class="s">/contact · slug <b style="color:var(--turq)">contact</b> · 2 sections · v2 published</div></div>
+            <span class="badge badge--pub">Published</span>
+            <div class="row-act"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button class="icon-btn" onclick="goto('versions')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg></button></div>
+          </div>
+          <div class="list-row">
+            <span class="drag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+            <div class="thumb"><svg viewBox="0 0 80 80"><rect width="80" height="80" fill="#3a2410"/><path d="M22 52c6-14 14-20 20-14s10 2 16-6-2-10 2-14" fill="none" stroke="#d97706" opacity=".8"/><rect x="24" y="56" width="32" height="2" fill="#f5f2ed" opacity=".4"/></svg></div>
+            <div class="main"><div class="t">Give</div><div class="s">/give · slug <b style="color:var(--turq)">give</b> · 1 section · v1 published</div></div>
+            <span class="badge badge--pub">Published</span>
+            <div class="row-act"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button class="icon-btn" onclick="goto('versions')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg></button></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ PAGE BUILDER ============ -->
+      <section class="screen" id="screen-builder">
+        <div class="screen-head">
+          <div>
+            <div class="eyebrow">Visual page builder</div>
+            <h2>Home — the cinematic canvas</h2>
+            <p class="desc">Drag sections to reorder. Open one to edit its text and images. Layouts, spacing, and motion are locked — you compose, not code.</p>
+          </div>
+          <div class="screen-actions">
+            <div class="seg">
+              <button class="active">Desktop</button><button onclick="toast('Preview','Tablet preview (mockup)')">Tablet</button><button onclick="toast('Preview','Mobile preview (mockup)')">Mobile</button>
+            </div>
+            <button class="btn btn--ghost btn--sm" onclick="toast('Preview','Draft opened at /preview')">Preview draft</button>
+            <button class="btn btn--turq btn--sm" onclick="publishSim()">Publish v13</button>
+          </div>
+        </div>
+
+        <div class="builder-grid">
+          <div class="builder-left">
+            <!-- Hero -->
+            <div class="section-card open" onclick="toggleSection(this)">
+              <div class="sc-head">
+                <span class="drag"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+                <span class="num">01</span>
+                <div class="ttl"><div class="nm">Hero</div><div class="tpl">template <b style="color:var(--turq)">hero</b> · layout <b style="color:var(--turq)">full_width</b></div></div>
+                <span class="badge badge--draft">Edited</span>
+                <span class="chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span>
+              </div>
+              <div class="sc-body">
+                <div class="field"><label>Headline</label><input class="input" value="A Light That Calls Men Higher"></div>
+                <div class="form-grid">
+                  <div class="field"><label>Eyebrow label</label><input class="input" value="Est. 1998 · Accra, Ghana"></div>
+                  <div class="field"><label>Subheadline</label><input class="input" value="Where scripture meets the cinematic — worship, teaching, and fellowship."></div>
+                </div>
+                <div class="form-grid">
+                  <div class="field full"><label>Layout variant</label>
+                    <div class="seg">
+                      <button class="active">full_width</button><button onclick="event.stopPropagation();toast('Variant','Layout variants are preset components (mockup)')">split</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="field full"><label>Identity tabs · pill accent (code — not editable)</label>
+                  <div class="seg">
+                    <button class="active">Light</button><button onclick="event.stopPropagation();toast('Identity','Trumpets preset (mockup)')">Trumpets</button><button onclick="event.stopPropagation();toast('Identity','Swords preset (mockup)')">Swords</button>
+                  </div>
+                </div>
+                <div class="field full"><label>Background image</label>
+                  <div class="pick" onclick="event.stopPropagation();toast('Media','Media picker opened (mockup)')">
+                    <div class="thumb"><svg viewBox="0 0 44 44"><defs><linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12302c"/><stop offset=".55" stop-color="#0f1115"/><stop offset="1" stop-color="#3a2410"/></linearGradient></defs><rect width="44" height="44" fill="url(#bg1)"/><circle cx="22" cy="18" r="6" fill="none" stroke="#f5f2ed" opacity=".5"/><rect x="14" y="29" width="16" height="2" fill="#f5f2ed" opacity=".4"/></svg></div>
+                    <div class="meta"><div class="nm">hero-chancel-dusk.jpg</div><div class="dt">2400 × 1350 · WebP · 1.2 MB</div></div>
+                    <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- About -->
+            <div class="section-card" onclick="toggleSection(this)">
+              <div class="sc-head">
+                <span class="drag"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+                <span class="num">02</span>
+                <div class="ttl"><div class="nm">About</div><div class="tpl">template <b style="color:var(--turq)">about_image_left</b> · layout <b style="color:var(--turq)">image_left</b></div></div>
+                <span class="chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span>
+              </div>
+              <div class="sc-body">
+                <div class="field"><label>Heading</label><input class="input" value="Rooted in the Word"></div>
+                <div class="field"><label>Body copy</label><textarea class="input" rows="3">TECIM is a fellowship built on scripture, prayer, and the conviction that worship can move the heart like film moves the eyes.</textarea></div>
+                <div class="field"><label>Image</label>
+                  <div class="pick">
+                    <div class="thumb"><svg viewBox="0 0 44 44"><rect width="44" height="44" fill="#2a150a"/><circle cx="22" cy="17" r="8" fill="none" stroke="#f5f2ed" opacity=".5"/><rect x="14" y="29" width="16" height="2" fill="#f5f2ed" opacity=".4"/></svg></div>
+                    <div class="meta"><div class="nm">choir-rehearsal.jpg</div><div class="dt">1600 × 1200 · WebP</div></div>
+                    <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+                  </div>
+                </div>
+                <div class="field"><label>Badge title</label><input class="input" value="Since 1998"></div>
+              </div>
+            </div>
+
+            <!-- Values -->
+            <div class="section-card" onclick="toggleSection(this)">
+              <div class="sc-head">
+                <span class="drag"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+                <span class="num">03</span>
+                <div class="ttl"><div class="nm">Values</div><div class="tpl">template <b style="color:var(--turq)">values</b> · layout <b style="color:var(--turq)">default</b></div></div>
+                <span class="chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span>
+              </div>
+              <div class="sc-body">
+                <div class="field"><label>Heading</label><input class="input" value="Three pillars"></div>
+                <div class="grid-3 mt">
+                  <div class="field"><label>Card 01 · title</label><input class="input" value="Faith"></div>
+                  <div class="field"><label>Card 01 · body</label><input class="input" value="Scripture at the centre of every moment."></div>
+                </div>
+                <div class="grid-3">
+                  <div class="field"><label>Card 02 · title</label><input class="input" value="Community"></div>
+                  <div class="field"><label>Card 02 · body</label><input class="input" value="Carrying each other through every season."></div>
+                </div>
+                <div class="grid-3">
+                  <div class="field"><label>Card 03 · title</label><input class="input" value="Excellence"></div>
+                  <div class="field"><label>Card 03 · body</label><input class="input" value="Worship that honours the God we serve."></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Vision -->
+            <div class="section-card" onclick="toggleSection(this)">
+              <div class="sc-head">
+                <span class="drag"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+                <span class="num">04</span>
+                <div class="ttl"><div class="nm">Vision</div><div class="tpl">template <b style="color:var(--turq)">vision_band</b> · layout <b style="color:var(--turq)">default</b></div></div>
+                <span class="chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span>
+              </div>
+              <div class="sc-body">
+                <div class="field"><label>Heading</label><input class="input" value="Vision & Mission"></div>
+                <div class="field"><label>Vision text</label><textarea class="input" rows="2">A city transformed by the light of the gospel, one life at a time.</textarea></div>
+                <div class="field"><label>Mission text</label><textarea class="input" rows="2">To make disciples through cinematic worship, faithful teaching, and real community.</textarea></div>
+              </div>
+            </div>
+
+            <!-- Services -->
+            <div class="section-card" onclick="toggleSection(this)">
+              <div class="sc-head">
+                <span class="drag"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+                <span class="num">05</span>
+                <div class="ttl"><div class="nm">Services</div><div class="tpl">template <b style="color:var(--turq)">services</b> · layout <b style="color:var(--turq)">default</b></div></div>
+                <span class="chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span>
+              </div>
+              <div class="sc-body">
+                <div class="field"><label>Heading</label><input class="input" value="Service times"></div>
+                <div class="grid-3">
+                  <div class="field"><label>Row 01 · day</label><input class="input" value="Sunday"></div>
+                  <div class="field"><label>Row 01 · time</label><input class="input" value="8:00 AM · 10:30 AM"></div>
+                  <div class="field"><label>Row 01 · tag</label><input class="input" value="Main service"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Events -->
+            <div class="section-card" onclick="toggleSection(this)">
+              <div class="sc-head">
+                <span class="drag"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+                <span class="num">06</span>
+                <div class="ttl"><div class="nm">Events</div><div class="tpl">template <b style="color:var(--turq)">events</b> · layout <b style="color:var(--turq)">default</b> · sourced from the Events collection</div></div>
+                <span class="chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span>
+              </div>
+              <div class="sc-body">
+                <div class="row-gap" style="color:var(--muted);font-size:.82rem">
+                  <span class="immutable">Collection-driven</span>
+                  This section renders published events automatically. Manage them in the Events tab.
+                </div>
+                <div class="row-gap mt"><button class="btn btn--ghost btn--sm" onclick="goto('events')">Go to Events →</button></div>
+              </div>
+            </div>
+
+            <!-- Gallery -->
+            <div class="section-card" onclick="toggleSection(this)">
+              <div class="sc-head">
+                <span class="drag"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+                <span class="num">07</span>
+                <div class="ttl"><div class="nm">Gallery</div><div class="tpl">template <b style="color:var(--turq)">gallery</b> · layout <b style="color:var(--turq)">marquee</b> · collection-driven</div></div>
+                <span class="chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span>
+              </div>
+              <div class="sc-body">
+                <div class="row-gap" style="color:var(--muted);font-size:.82rem">
+                  <span class="immutable">Collection-driven</span>
+                  Renders the Gallery collection as a cinematic marquee. Feature an item in the Gallery tab to highlight it.
+                </div>
+                <div class="row-gap mt"><button class="btn btn--ghost btn--sm" onclick="goto('gallery')">Go to Gallery →</button></div>
+              </div>
+            </div>
+
+            <!-- Contact -->
+            <div class="section-card" onclick="toggleSection(this)">
+              <div class="sc-head">
+                <span class="drag"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+                <span class="num">08</span>
+                <div class="ttl"><div class="nm">Contact</div><div class="tpl">template <b style="color:var(--turq)">contact</b> · layout <b style="color:var(--turq)">default</b></div></div>
+                <span class="chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span>
+              </div>
+              <div class="sc-body">
+                <div class="row-gap" style="color:var(--muted);font-size:.82rem">
+                  <span class="immutable">Settings-driven</span>
+                  Phone, email, address, service times, and map links come from Settings.
+                </div>
+                <div class="row-gap mt"><button class="btn btn--ghost btn--sm" onclick="goto('settings')">Go to Settings →</button></div>
+              </div>
+            </div>
+
+            <button class="add-btn" onclick="toast('Template picker','Choose a section template (mockup)')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              Add section — pick a template
+            </button>
+          </div>
+
+          <!-- RIGHT PREVIEW -->
+          <div class="builder-right">
+            <div class="preview-label"><span>LIVE PREVIEW</span><span>page <b>/home</b> · draft</span></div>
+            <div class="preview-frame">
+              <div class="preview-toolbar">
+                <span class="preview-dot"></span><span class="preview-dot"></span><span class="preview-dot"></span>
+                <span class="url">tecim.org/home</span>
+              </div>
+              <div class="preview-body">
+                <div class="preview-device">Desktop · 1280</div>
+                <div class="mini-hero">
+                  <div class="mh-label">Est. 1998 · Accra, Ghana</div>
+                  <h4>A Light That Calls Men Higher</h4>
+                  <p>Where scripture meets the cinematic — worship, teaching, and fellowship.</p>
+                  <div class="mh-pills">
+                    <span class="mh-pill on">Light</span><span class="mh-pill">Trumpets</span><span class="mh-pill">Swords</span>
+                  </div>
+                </div>
+                <div class="mini-film"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              </div>
+            </div>
+            <div class="card mt">
+              <div class="preview-label"><span>PUBLISH FLOW</span><span class="immutable">Immutable</span></div>
+              <div class="bar-row"><span>Current live version</span><b>v12</b></div>
+              <div class="bar-row"><span>Unsaved changes in draft</span><b style="color:var(--gold)">3</b></div>
+              <div class="meter mt"><i style="width:100%"></i></div>
+              <p class="helper mt">Publishing snapshots this page into an immutable version. The public site updates in seconds. Rolling back is one click.</p>
+              <div class="row-gap mt">
+                <button class="btn btn--turq btn--sm" onclick="publishSim()">Publish v13</button>
+                <button class="btn btn--ghost btn--sm" onclick="goto('versions')">Version history</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ MEDIA ============ -->
+      <section class="screen" id="screen-media">
+        <div class="screen-head">
+          <div>
+            <div class="eyebrow">Library</div>
+            <h2>Media library</h2>
+            <p class="desc">Every image and video lives in Cloudinary — optimized, compressed, and served through a fast CDN. You pick from here, never paste a URL.</p>
+          </div>
+          <div class="screen-actions">
+            <div class="seg"><button class="active">Images</button><button>Videos</button><button>All</button></div>
+            <button class="btn btn--gold btn--sm" onclick="toast('Upload','Dropzone activated (mockup)')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4m0 0 4 4m-4-4L8 8"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Upload</button>
+          </div>
+        </div>
+
+        <div class="dropzone mb" onclick="toast('Upload','Choose files or drag & drop (mockup)')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4m0 0 4 4m-4-4L8 8"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-16"/></svg>
+          <div><b>Drag & drop</b> files here, or <span style="color:var(--turq)">browse</span></div>
+          <div class="formats">JPG · PNG · WebP · GIF · SVG · MP4 · WebM · up to 10 MB</div>
+        </div>
+
+        <div class="media-grid">
+          <div class="media-tile">
+            <div class="mimg"><svg viewBox="0 0 180 180"><defs><linearGradient id="m1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12302c"/><stop offset=".55" stop-color="#0f1115"/><stop offset="1" stop-color="#3a2410"/></linearGradient></defs><rect width="180" height="180" fill="url(#m1)"/><circle cx="90" cy="72" r="26" fill="none" stroke="#f5f2ed" opacity=".5"/><rect x="54" y="116" width="72" height="6" fill="#f5f2ed" opacity=".5"/><rect x="66" y="130" width="48" height="5" fill="#f5f2ed" opacity=".3"/></svg>
+              <div class="hover-act"><button class="icon-btn" onclick="toast('Copied','public_id copied (mockup)')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button><button class="icon-btn danger" onclick="toast('Delete','Media removed from Cloudinary + library (mockup)')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div>
+            </div>
+            <div class="mmeta"><div class="nm">hero-chancel-dusk.jpg</div><div class="dt"><span>2400×1350</span><span>WebP</span></div></div>
+          </div>
+          <div class="media-tile">
+            <div class="mimg"><svg viewBox="0 0 180 180"><defs><linearGradient id="m2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#2a150a"/><stop offset="1" stop-color="#0f1115"/></linearGradient></defs><rect width="180" height="180" fill="url(#m2)"/><path d="M20 150c30-60 50-90 90-70s40-40 50-60" fill="none" stroke="#d97706" stroke-width="4" opacity=".8"/><circle cx="60" cy="60" r="16" fill="none" stroke="#f5f2ed" opacity=".4" stroke-width="3"/></svg>
+              <div class="hover-act"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button><button class="icon-btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div>
+            </div>
+            <div class="mmeta"><div class="nm">choir-rehearsal.jpg</div><div class="dt"><span>1600×1200</span><span>WebP</span></div></div>
+          </div>
+          <div class="media-tile">
+            <div class="mimg"><svg viewBox="0 0 180 180"><defs><linearGradient id="m3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#101c33"/><stop offset="1" stop-color="#0f1115"/></linearGradient></defs><rect width="180" height="180" fill="url(#m3)"/><rect x="40" y="40" width="100" height="8" rx="4" fill="#f5f2ed" opacity=".7"/><rect x="52" y="58" width="76" height="6" rx="3" fill="#f5f2ed" opacity=".35"/><circle cx="90" cy="108" r="20" fill="#14b8a6" opacity=".75"/><rect x="58" y="138" width="64" height="6" rx="3" fill="#f5f2ed" opacity=".3"/></svg>
+              <div class="hover-act"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button><button class="icon-btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div>
+            </div>
+            <div class="mmeta"><div class="nm">sermon-series.jpg</div><div class="dt"><span>1920×1080</span><span>WebP</span></div></div>
+          </div>
+          <div class="media-tile">
+            <div class="mimg"><svg viewBox="0 0 180 180"><defs><linearGradient id="m4" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2410"/><stop offset="1" stop-color="#0f1115"/></linearGradient></defs><rect width="180" height="180" fill="url(#m4)"/><rect x="30" y="50" width="120" height="6" rx="3" fill="#f5f2ed" opacity=".6"/><rect x="44" y="64" width="92" height="6" rx="3" fill="#f5f2ed" opacity=".35"/><rect x="30" y="90" width="40" height="40" rx="4" fill="none" stroke="#d97706" stroke-width="3" opacity=".8"/></svg>
+              <div class="hover-act"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button><button class="icon-btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div>
+            </div>
+            <div class="mmeta"><div class="nm">gallery-community.jpg</div><div class="dt"><span>1200×900</span><span>WebP</span></div></div>
+          </div>
+          <div class="media-tile">
+            <div class="mimg"><svg viewBox="0 0 180 180"><defs><linearGradient id="m5" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#14203a"/><stop offset="1" stop-color="#0f1115"/></linearGradient></defs><rect width="180" height="180" fill="url(#m5)"/><rect x="46" y="30" width="88" height="70" rx="4" fill="none" stroke="#f5f2ed" opacity=".6"/><path d="M56 74l-10 26M126 70l8 30M40 100h100" stroke="#d97706" stroke-width="3" opacity=".8" fill="none"/><circle cx="52" cy="120" r="10" fill="#fb7185" opacity=".8"/></svg>
+              <div class="hover-act"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button><button class="icon-btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div>
+            </div>
+            <div class="mmeta"><div class="nm">service-worship.mp4</div><div class="dt"><span>1280×720</span><span>MP4 · 24MB</span></div></div>
+          </div>
+          <div class="media-tile">
+            <div class="mimg"><svg viewBox="0 0 180 180"><defs><linearGradient id="m6" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#0d3b3a"/><stop offset="1" stop-color="#0f1115"/></linearGradient></defs><rect width="180" height="180" fill="url(#m6)"/><path d="M30 120c20-30 40-20 60-40s40-10 60-40v120H30z" fill="#14b8a6" opacity=".35"/><rect x="30" y="140" width="120" height="4" fill="#f5f2ed" opacity=".4"/></svg>
+              <div class="hover-act"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button><button class="icon-btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div>
+            </div>
+            <div class="mmeta"><div class="nm">baptism-day.jpg</div><div class="dt"><span>1800×1350</span><span>WebP</span></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ EVENTS ============ -->
+      <section class="screen" id="screen-events">
+        <div class="screen-head">
+          <div>
+            <div class="eyebrow">Collection</div>
+            <h2>Events</h2>
+            <p class="desc">Published events appear automatically on the home page. Drafts stay invisible until you press publish.</p>
+          </div>
+          <div class="screen-actions">
+            <div class="seg"><button class="active">All</button><button>Upcoming</button><button>Drafts</button></div>
+            <button class="btn btn--gold btn--sm" onclick="toast('Event','New event composer opened (mockup)')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>New event</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Event</th><th>When</th><th>Location</th><th>Status</th><th style="text-align:right">Actions</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><b>Night of Worship</b><div class="sub">slug night-of-worship · cover image</div></td>
+                <td>Sat, Aug 22 · 7:00 PM</td>
+                <td>Main Hall</td>
+                <td><span class="badge badge--pub">Published</span></td>
+                <td style="text-align:right"><div class="row-act" style="opacity:1;justify-content:flex-end"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button><button class="icon-btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div></td>
+              </tr>
+              <tr>
+                <td><b>Sunday Service</b><div class="sub">slug sunday-service</div></td>
+                <td>Sun, Aug 9 · 8:00 AM</td>
+                <td>Main Hall</td>
+                <td><span class="badge badge--pub">Published</span></td>
+                <td style="text-align:right"><div class="row-act" style="opacity:1;justify-content:flex-end"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button><button class="icon-btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div></td>
+              </tr>
+              <tr>
+                <td><b>Youth Bible Study</b><div class="sub">slug youth-bible-study</div></td>
+                <td>Fri, Aug 14 · 6:30 PM</td>
+                <td>Annex</td>
+                <td><span class="badge badge--draft">Draft</span></td>
+                <td style="text-align:right"><div class="row-act" style="opacity:1;justify-content:flex-end"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button><button class="icon-btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div></td>
+              </tr>
+              <tr>
+                <td><b>Community Outreach</b><div class="sub">slug community-outreach</div></td>
+                <td>Sat, Aug 29 · 9:00 AM</td>
+                <td>City Centre</td>
+                <td><span class="badge badge--draft">Draft</span></td>
+                <td style="text-align:right"><div class="row-act" style="opacity:1;justify-content:flex-end"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button><button class="icon-btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Event editor form -->
+        <div class="card panel-form mt-lg">
+          <div class="card-head"><h3>Edit event</h3><span class="badge badge--draft">Draft</span></div>
+          <div class="two-col">
+            <div class="field"><label>Title</label><input class="input" value="Youth Bible Study"></div>
+            <div class="field"><label>Slug</label><input class="input" value="youth-bible-study"><div class="helper">Auto-generated from title — edit only if needed</div></div>
+          </div>
+          <div class="two-col">
+            <div class="field"><label>Start time</label><input class="input" type="datetime-local" value="2026-08-14T18:30"></div>
+            <div class="field"><label>End time</label><input class="input" type="datetime-local" value="2026-08-14T20:00"></div>
+          </div>
+          <div class="two-col">
+            <div class="field"><label>Location</label><input class="input" value="Annex"></div>
+            <div class="field"><label>Status</label>
+              <select class="input"><option>draft</option><option>published</option></select>
+            </div>
+          </div>
+          <div class="field"><label>Cover image</label>
+            <div class="pick">
+              <div class="thumb"><svg viewBox="0 0 44 44"><rect width="44" height="44" fill="#101c33"/><rect x="10" y="12" width="24" height="2" fill="#f5f2ed" opacity=".7"/><circle cx="22" cy="24" r="5" fill="#14b8a6" opacity=".7"/><rect x="12" y="34" width="20" height="2" fill="#f5f2ed" opacity=".35"/></svg></div>
+              <div class="meta"><div class="nm">youth-gathering.jpg</div><div class="dt">1600 × 900 · WebP</div></div>
+              <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+            </div>
+          </div>
+          <div class="field"><label>Description</label><textarea class="input" rows="3">Digging into the Word together — scripture, snacks, and honest questions. All teens welcome.</textarea></div>
+          <div class="row-gap mt">
+            <button class="btn btn--turq btn--sm" onclick="toast('Saved','Event updated (mockup)')">Save draft</button>
+            <button class="btn btn--gold btn--sm" onclick="toast('Published','Event is now live on the site')">Publish</button>
+            <button class="btn btn--ghost btn--sm">Discard</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ GALLERY ============ -->
+      <section class="screen" id="screen-gallery">
+        <div class="screen-head">
+          <div>
+            <div class="eyebrow">Collection</div>
+            <h2>Gallery</h2>
+            <p class="desc">Photos render on the site as a cinematic marquee. Star items to feature them, and set their display order.</p>
+          </div>
+          <div class="screen-actions">
+            <button class="btn btn--ghost btn--sm" onclick="toast('Media','Pick images from the library (mockup)')">Add images</button>
+            <button class="btn btn--gold btn--sm" onclick="toast('Order','Drag to reorder (mockup)')">Reorder</button>
+          </div>
+        </div>
+        <div class="media-grid">
+          <div class="media-tile">
+            <div class="mimg"><svg viewBox="0 0 180 180"><rect width="180" height="180" fill="#12302c"/><circle cx="90" cy="72" r="26" fill="none" stroke="#f5f2ed" opacity=".5"/><rect x="54" y="116" width="72" height="6" fill="#f5f2ed" opacity=".5"/></svg>
+              <div class="hover-act"><button class="icon-btn" style="background:var(--gold);color:#0a0a0a" title="Featured"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></button></div>
+            </div>
+            <div class="mmeta"><div class="nm">baptism-day.jpg</div><div class="dt"><span>Featured</span><span>Order 01</span></div></div>
+          </div>
+          <div class="media-tile">
+            <div class="mimg"><svg viewBox="0 0 180 180"><rect width="180" height="180" fill="#2a150a"/><path d="M20 150c30-60 50-90 90-70s40-40 50-60" fill="none" stroke="#d97706" stroke-width="4" opacity=".8"/></svg>
+              <div class="hover-act"><button class="icon-btn" title="Mark featured"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></button></div>
+            </div>
+            <div class="mmeta"><div class="nm">choir-rehearsal.jpg</div><div class="dt"><span>Order 02</span><span></span></div></div>
+          </div>
+          <div class="media-tile">
+            <div class="mimg"><svg viewBox="0 0 180 180"><rect width="180" height="180" fill="#101c33"/><rect x="40" y="40" width="100" height="8" rx="4" fill="#f5f2ed" opacity=".7"/><circle cx="90" cy="108" r="20" fill="#14b8a6" opacity=".75"/></svg>
+              <div class="hover-act"><button class="icon-btn" title="Mark featured"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></button></div>
+            </div>
+            <div class="mmeta"><div class="nm">sermon-series.jpg</div><div class="dt"><span>Order 03</span><span></span></div></div>
+          </div>
+          <div class="media-tile">
+            <div class="mimg"><svg viewBox="0 0 180 180"><rect width="180" height="180" fill="#3a2410"/><rect x="30" y="50" width="120" height="6" rx="3" fill="#f5f2ed" opacity=".6"/><rect x="30" y="90" width="40" height="40" rx="4" fill="none" stroke="#d97706" stroke-width="3" opacity=".8"/></svg>
+              <div class="hover-act"><button class="icon-btn" title="Mark featured"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></button></div>
+            </div>
+            <div class="mmeta"><div class="nm">gallery-community.jpg</div><div class="dt"><span>Order 04</span><span></span></div></div>
+          </div>
+          <div class="media-tile">
+            <div class="mimg"><svg viewBox="0 0 180 180"><rect width="180" height="180" fill="#0d3b3a"/><path d="M30 120c20-30 40-20 60-40s40-10 60-40v120H30z" fill="#14b8a6" opacity=".35"/></svg>
+              <div class="hover-act"><button class="icon-btn" title="Mark featured"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></button></div>
+            </div>
+            <div class="mmeta"><div class="nm">baptism-day.jpg</div><div class="dt"><span>Order 05</span><span></span></div></div>
+          </div>
+        </div>
+        <div class="card panel-form mt-lg">
+          <div class="card-head"><h3>Item details</h3><span class="badge badge--pub">Published</span></div>
+          <div class="two-col">
+            <div class="field"><label>Caption</label><input class="input" value="Baptism Sunday — new lives, new starts."></div>
+            <div class="field"><label>Alt text</label><input class="input" value="Congregants celebrating baptisms in the courtyard"></div>
+          </div>
+          <div class="two-col">
+            <div class="field"><label>Display order</label><input class="input" value="1"></div>
+            <div class="field"><label>Feature this item</label>
+              <label class="toggle"><input type="checkbox" checked><span class="sw"></span>Featured</label>
+            </div>
+          </div>
+          <div class="row-gap mt"><button class="btn btn--turq btn--sm" onclick="toast('Saved','Gallery item updated (mockup)')">Save</button></div>
+        </div>
+      </section>
+
+      <!-- ============ SERMONS ============ -->
+      <section class="screen" id="screen-sermons">
+        <div class="screen-head">
+          <div>
+            <div class="eyebrow">Collection</div>
+            <h2>Sermons</h2>
+            <p class="desc">Teachings with a speaker, a date, and a video or audio link. Publish to make them available to the congregation.</p>
+          </div>
+          <div class="screen-actions">
+            <button class="btn btn--gold btn--sm" onclick="toast('Sermon','New sermon composer opened (mockup)')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>New sermon</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Sermon</th><th>Speaker</th><th>Date</th><th>Status</th><th style="text-align:right">Actions</th></tr></thead>
+            <tbody>
+              <tr><td><b>The Cost of Discipleship</b><div class="sub">slug the-cost-of-discipleship</div></td><td>Pastor Emmanuel</td><td>Aug 2, 2026</td><td><span class="badge badge--pub">Published</span></td><td style="text-align:right"><div class="row-act" style="opacity:1;justify-content:flex-end"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button class="icon-btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div></td></tr>
+              <tr><td><b>Faith for the Long Road</b><div class="sub">slug faith-for-the-long-road</div></td><td>Minister Adjoa</td><td>Jul 26, 2026</td><td><span class="badge badge--pub">Published</span></td><td style="text-align:right"><div class="row-act" style="opacity:1;justify-content:flex-end"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button class="icon-btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div></td></tr>
+              <tr><td><b>Grace in the Mess</b><div class="sub">slug grace-in-the-mess</div></td><td>Pastor Emmanuel</td><td>Jul 19, 2026</td><td><span class="badge badge--draft">Draft</span></td><td style="text-align:right"><div class="row-act" style="opacity:1;justify-content:flex-end"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button class="icon-btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card panel-form mt-lg">
+          <div class="card-head"><h3>Edit sermon</h3></div>
+          <div class="two-col">
+            <div class="field"><label>Title</label><input class="input" value="Grace in the Mess"></div>
+            <div class="field"><label>Speaker</label><input class="input" value="Pastor Emmanuel"></div>
+          </div>
+          <div class="two-col">
+            <div class="field"><label>Date preached</label><input class="input" type="date" value="2026-07-19"></div>
+            <div class="field"><label>Media link</label><input class="input" value="https://cloudinary.com/…/grace-in-the-mess.mp4"></div>
+          </div>
+          <div class="field"><label>Description</label><textarea class="input" rows="3">Even in the mess, God's grace holds us. A message for the weary.</textarea></div>
+          <div class="row-gap mt"><button class="btn btn--turq btn--sm" onclick="toast('Saved','Sermon updated (mockup)')">Save draft</button><button class="btn btn--gold btn--sm" onclick="toast('Published','Sermon is live')">Publish</button></div>
+        </div>
+      </section>
+
+      <!-- ============ ANNOUNCEMENTS ============ -->
+      <section class="screen" id="screen-announcements">
+        <div class="screen-head">
+          <div>
+            <div class="eyebrow">Collection</div>
+            <h2>Announcements</h2>
+            <p class="desc">Short notices shown site-wide. Set an active window — announcements appear only between those dates, automatically.</p>
+          </div>
+          <div class="screen-actions">
+            <button class="btn btn--gold btn--sm" onclick="toast('Announcement','New announcement opened (mockup)')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>New announcement</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Announcement</th><th>Active window</th><th>Link</th><th>Status</th><th style="text-align:right">Actions</th></tr></thead>
+            <tbody>
+              <tr><td><b>Choir auditions this Saturday</b></td><td>Aug 3 → Aug 8, 2026</td><td>—</td><td><span class="badge badge--pub">Published</span></td><td style="text-align:right"><div class="row-act" style="opacity:1;justify-content:flex-end"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button class="icon-btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div></td></tr>
+              <tr><td><b>Missions trip info meeting</b></td><td>Aug 10 → Aug 17, 2026</td><td>rsvp link</td><td><span class="badge badge--pub">Published</span></td><td style="text-align:right"><div class="row-act" style="opacity:1;justify-content:flex-end"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button class="icon-btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div></td></tr>
+              <tr><td><b>Volunteers for Sunday school</b></td><td>always active</td><td>—</td><td><span class="badge badge--draft">Draft</span></td><td style="text-align:right"><div class="row-act" style="opacity:1;justify-content:flex-end"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button class="icon-btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card panel-form mt-lg">
+          <div class="card-head"><h3>Edit announcement</h3></div>
+          <div class="field"><label>Title</label><input class="input" value="Choir auditions this Saturday"></div>
+          <div class="field"><label>Body</label><textarea class="input" rows="2">Join us at 2 PM in the annex — voices welcome, no experience needed.</textarea></div>
+          <div class="three-col">
+            <div class="field"><label>Active from</label><input class="input" type="date" value="2026-08-03"></div>
+            <div class="field"><label>Active until</label><input class="input" type="date" value="2026-08-08"></div>
+            <div class="field"><label>Link label</label><input class="input" value="Sign up"></div>
+          </div>
+          <div class="row-gap mt"><button class="btn btn--turq btn--sm" onclick="toast('Saved','Announcement updated (mockup)')">Save draft</button><button class="btn btn--gold btn--sm" onclick="toast('Published','Announcement is live until Aug 8')">Publish</button></div>
+        </div>
+      </section>
+
+      <!-- ============ SETTINGS ============ -->
+      <section class="screen" id="screen-settings">
+        <div class="screen-head">
+          <div>
+            <div class="eyebrow">Global</div>
+            <h2>Settings</h2>
+            <p class="desc">Site-wide text, contact details, and links. These values feed the header, footer, and contact section automatically.</p>
+          </div>
+          <div class="screen-actions"><button class="btn btn--turq btn--sm" onclick="toast('Saved','Settings saved (mockup)')">Save changes</button></div>
+        </div>
+        <div class="panel-form">
+          <div class="card">
+            <div class="group-label">Site</div>
+            <div class="two-col">
+              <div class="field"><label>Site name</label><input class="input" value="TECIM"></div>
+              <div class="field"><label>Tagline</label><input class="input" value="Transforming Every City In Mercy"></div>
+            </div>
+            <div class="field"><label>Logo</label>
+              <div class="pick">
+                <div class="thumb" style="background:var(--panel-2);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:600;font-size:1rem;color:var(--gold)">T.</div>
+                <div class="meta"><div class="nm">logo-tecim.svg</div><div class="dt">SVG · transparent</div></div>
+                <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+              </div>
+            </div>
+            <div class="group-label">Contact</div>
+            <div class="two-col">
+              <div class="field"><label>Phone</label><input class="input" value="+233 30 000 0000"></div>
+              <div class="field"><label>Email</label><input class="input" value="hello@tecim.org"></div>
+            </div>
+            <div class="field"><label>Address</label><input class="input" value="12 Independence Avenue, Accra, Ghana"></div>
+            <div class="group-label">Service times</div>
+            <div class="two-col">
+              <div class="field"><label>Sunday worship</label><input class="input" value="8:00 AM · 10:30 AM"></div>
+              <div class="field"><label>Midweek</label><input class="input" value="Wednesday 6:30 PM"></div>
+            </div>
+            <div class="group-label">Social links</div>
+            <div class="three-col">
+              <div class="field"><label>Instagram</label><input class="input" value="https://instagram.com/tecim"></div>
+              <div class="field"><label>Facebook</label><input class="input" value="https://facebook.com/tecim"></div>
+              <div class="field"><label>YouTube</label><input class="input" value="https://youtube.com/@tecim"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ NAVIGATION ============ -->
+      <section class="screen" id="screen-navigation">
+        <div class="screen-head">
+          <div>
+            <div class="eyebrow">Global</div>
+            <h2>Navigation</h2>
+            <p class="desc">The header menu. Drag to reorder, point a link at a page or an external URL, and toggle what's visible.</p>
+          </div>
+          <div class="screen-actions">
+            <button class="btn btn--ghost btn--sm" onclick="toast('Reorder','Drag handles to reorder (mockup)')">Reorder</button>
+            <button class="btn btn--gold btn--sm" onclick="toast('Item','Add navigation item (mockup)')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Add item</button>
+          </div>
+        </div>
+        <div class="list">
+          <div class="list-row">
+            <span class="drag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+            <div class="main"><div class="t">Home</div><div class="s">Page → <b style="color:var(--turq)">/home</b></div></div>
+            <label class="toggle"><input type="checkbox" checked><span class="sw"></span>Active</label>
+            <div class="row-act"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button></div>
+          </div>
+          <div class="list-row">
+            <span class="drag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+            <div class="main"><div class="t">About</div><div class="s">Page → <b style="color:var(--turq)">/about</b></div></div>
+            <label class="toggle"><input type="checkbox" checked><span class="sw"></span>Active</label>
+            <div class="row-act"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button></div>
+          </div>
+          <div class="list-row">
+            <span class="drag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+            <div class="main"><div class="t">Events</div><div class="s">Page → <b style="color:var(--turq)">/events</b></div></div>
+            <label class="toggle"><input type="checkbox" checked><span class="sw"></span>Active</label>
+            <div class="row-act"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button></div>
+          </div>
+          <div class="list-row">
+            <span class="drag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+            <div class="main"><div class="t">Contact</div><div class="s">Page → <b style="color:var(--turq)">/contact</b></div></div>
+            <label class="toggle"><input type="checkbox" checked><span class="sw"></span>Active</label>
+            <div class="row-act"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button></div>
+          </div>
+          <div class="list-row">
+            <span class="drag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+            <div class="main"><div class="t">Give</div><div class="s">External → <b style="color:var(--turq)">https://pay.tecim.org</b> · new tab</div></div>
+            <label class="toggle"><input type="checkbox" checked><span class="sw"></span>Active</label>
+            <div class="row-act"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button></div>
+          </div>
+          <div class="list-row">
+            <span class="drag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+            <div class="main"><div class="t">Watch Live</div><div class="s">External → <b style="color:var(--turq)">https://youtube.com/@tecim/live</b> · new tab</div></div>
+            <label class="toggle"><input type="checkbox" checked><span class="sw"></span>Active</label>
+            <div class="row-act"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button></div>
+          </div>
+          <div class="list-row" style="opacity:.55">
+            <span class="drag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+            <div class="main"><div class="t">Blog (coming soon)</div><div class="s">External → <b style="color:var(--turq)">#</b> · hidden</div></div>
+            <label class="toggle"><input type="checkbox"><span class="sw"></span>Active</label>
+            <div class="row-act"><button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SEO ============ -->
+      <section class="screen" id="screen-seo">
+        <div class="screen-head">
+          <div>
+            <div class="eyebrow">Discovery</div>
+            <h2>SEO</h2>
+            <p class="desc">Titles, descriptions, and social preview images — per page and for the whole site. Preview the Google result before publishing.</p>
+          </div>
+          <div class="screen-actions"><button class="btn btn--turq btn--sm" onclick="toast('Saved','SEO settings saved (mockup)')">Save changes</button></div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>Global defaults</h3><span class="immutable">Applied everywhere</span></div>
+            <div class="field"><label>Meta title</label><input class="input" value="TECIM — A Light That Calls Men Higher"></div>
+            <div class="field"><label>Meta description</label><textarea class="input" rows="2">TECIM is a fellowship rooted in scripture — cinematic worship, faithful teaching, and community in Accra, Ghana.</textarea></div>
+            <div class="field"><label>OG image</label>
+              <div class="pick">
+                <div class="thumb"><svg viewBox="0 0 44 44"><rect width="44" height="44" fill="#12302c"/><circle cx="22" cy="17" r="6" fill="none" stroke="#f5f2ed" opacity=".5"/><rect x="14" y="28" width="16" height="2" fill="#f5f2ed" opacity=".4"/></svg></div>
+                <div class="meta"><div class="nm">og-tecim.png</div><div class="dt">1200 × 630 · PNG</div></div>
+                <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+              </div>
+            </div>
+            <div class="group-label">Google preview</div>
+            <div style="background:#fff;border-radius:12px;padding:1rem 1.2rem;color:#1f2937">
+              <div style="font-size:.8rem;color:#1a73e8;margin-bottom:.15rem">tecim.org</div>
+              <div style="font-size:1.15rem;font-weight:500;color:#1a0dab;line-height:1.3">TECIM — A Light That Calls Men Higher</div>
+              <div style="font-size:.82rem;color:#4b5563;margin-top:.2rem">TECIM is a fellowship rooted in scripture — cinematic worship, faithful teaching, and community in Accra, Ghana.</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Per page</h3></div>
+            <div class="list">
+              <div class="list-row"><div class="main"><div class="t">Home</div><div class="s">Uses global defaults</div></div><span class="badge badge--ghost">Inherited</span></div>
+              <div class="list-row"><div class="main"><div class="t">About</div><div class="s">Own title + description</div></div><span class="badge badge--pub">Custom</span></div>
+              <div class="list-row"><div class="main"><div class="t">Events</div><div class="s">Uses global defaults</div></div><span class="badge badge--ghost">Inherited</span></div>
+              <div class="list-row"><div class="main"><div class="t">Contact</div><div class="s">Uses global defaults</div></div><span class="badge badge--ghost">Inherited</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ VERSIONS ============ -->
+      <section class="screen" id="screen-versions">
+        <div class="screen-head">
+          <div>
+            <div class="eyebrow">History</div>
+            <h2>Versions — Home</h2>
+            <p class="desc">Every publish is a permanent snapshot. Restore any one in a click; a new snapshot is created, the old one is never touched.</p>
+          </div>
+          <div class="screen-actions">
+            <span class="status-pill"><i></i>v12 live</span>
+          </div>
+        </div>
+        <div class="timeline">
+          <div class="tl-item current">
+            <div class="tl-body">
+              <div class="tl-top"><span class="vnum">v13</span><span class="immutable">Immutable snapshot</span><span class="when" style="margin-left:auto">a minute ago · just now</span></div>
+              <div class="note">Draft snapshot created — not yet published.</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-body">
+              <div class="tl-top"><span class="vnum">v12</span><span class="when" style="margin-left:auto">Today · 09:12 · via Publish</span></div>
+              <div class="note">"Hero headline changed to 'A Light That Calls Men Higher' · 3 sections updated."</div>
+              <div class="row-gap mt"><button class="btn btn--ghost btn--sm" onclick="toast('Restore','Restored to v12 (mockup)')">Restore</button><button class="btn btn--ghost btn--sm" onclick="toast('Preview','Viewing v12 (mockup)')">View</button></div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-body">
+              <div class="tl-top"><span class="vnum">v11</span><span class="when" style="margin-left:auto">Yesterday · 18:44 · via Publish</span></div>
+              <div class="note">"Added gallery section · reordered events above services."</div>
+              <div class="row-gap mt"><button class="btn btn--ghost btn--sm" onclick="toast('Restore','Restored to v11 (mockup)')">Restore</button><button class="btn btn--ghost btn--sm" onclick="toast('Preview','Viewing v11 (mockup)')">View</button></div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-body">
+              <div class="tl-top"><span class="vnum">v10</span><span class="when" style="margin-left:auto">Aug 1 · 10:02 · via Publish</span></div>
+              <div class="note">"New contact section · updated service times."</div>
+              <div class="row-gap mt"><button class="btn btn--ghost btn--sm" onclick="toast('Restore','Restored to v10 (mockup)')">Restore</button><button class="btn btn--ghost btn--sm" onclick="toast('Preview','Viewing v10 (mockup)')">View</button></div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-body">
+              <div class="tl-top"><span class="vnum">v9</span><span class="when" style="margin-left:auto">Jul 28 · 15:30 · via Publish</span></div>
+              <div class="note">"Initial home page build — hero, about, values, vision, services, events."</div>
+              <div class="row-gap mt"><button class="btn btn--ghost btn--sm" onclick="toast('Restore','Restored to v9 (mockup)')">Restore</button><button class="btn btn--ghost btn--sm" onclick="toast('Preview','Viewing v9 (mockup)')">View</button></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ ACTIVITY ============ -->
+      <section class="screen" id="screen-activity">
+        <div class="screen-head">
+          <div>
+            <div class="eyebrow">Audit trail</div>
+            <h2>Activity</h2>
+            <p class="desc">A complete record of every action — who did what, when. Used to verify the story behind each version.</p>
+          </div>
+          <div class="screen-actions">
+            <div class="seg"><button class="active">All</button><button>Publishes</button><button>Edits</button></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="activity-row"><div class="activity-dot pub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg></div><div class="activity-body"><span class="act">Published</span> <span class="ctx">Events page → v4</span><div class="when">Today, 09:12 · admin@tecim.org · IP 105.112.*.*</div></div></div>
+          <div class="activity-row"><div class="activity-dot edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></div><div class="activity-body"><span class="act">Updated</span> <span class="ctx">Home / Hero section · headline + background image</span><div class="when">Today, 08:47 · admin@tecim.org</div></div></div>
+          <div class="activity-row"><div class="activity-dot pub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg></div><div class="activity-body"><span class="act">Published</span> <span class="ctx">Home page → v12</span><div class="when">Yesterday, 18:44 · admin@tecim.org</div></div></div>
+          <div class="activity-row"><div class="activity-dot trash"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></div><div class="activity-body"><span class="act">Deleted</span> <span class="ctx">Media · old-banner.jpg (removed from Cloudinary)</span><div class="when">Yesterday, 14:02 · admin@tecim.org</div></div></div>
+          <div class="activity-row"><div class="activity-dot auth"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></div><div class="activity-body"><span class="act">Password reset</span> <span class="ctx">admin@tecim.org · OTP verified</span><div class="when">Jul 30, 19:05 · via forgot-password flow</div></div></div>
+          <div class="activity-row"><div class="activity-dot edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></div><div class="activity-body"><span class="act">Updated</span> <span class="ctx">Settings · service times</span><div class="when">Jul 29, 16:20 · admin@tecim.org</div></div></div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">
+  <div class="tk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m4 12 5 5L20 6"/></svg></div>
+  <div><b id="toastT">Saved</b><span id="toastS">(mockup)</span></div>
+</div>
+
+<script>
+function showScreen(name, opts){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
+  const el = document.getElementById('screen-'+name);
+  if(el) el.classList.add('on');
+  document.querySelectorAll('.nav-item').forEach(b => {
+    b.classList.toggle('active', b.dataset.screen === name);
+  });
+  const titles = {dashboard:'Dashboard',pages:'Pages',builder:'Page Builder',media:'Media Library',events:'Events',gallery:'Gallery',sermons:'Sermons',announcements:'Announcements',settings:'Settings',navigation:'Navigation',seo:'SEO',versions:'Versions',activity:'Activity'};
+  const crumb = document.getElementById('crumbCur');
+  if(crumb) crumb.textContent = titles[name] || name;
+  const top = document.getElementById('topStatus');
+  if(top){ top.classList.toggle('draft', name==='builder'); top.innerHTML = name==='builder' ? '<i></i>Draft' : '<i></i>Live'; }
+  document.querySelector('.content').scrollTop = 0;
+}
+function goto(name){ showScreen(name); }
+document.querySelectorAll('.nav-item').forEach(b => b.addEventListener('click', () => showScreen(b.dataset.screen)));
+
+function enterApp(){
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('app').classList.add('on');
+  showScreen('dashboard');
+  toast('Welcome back','Signed in as admin@tecim.org');
+}
+function showLogin(){
+  document.getElementById('app').classList.remove('on');
+  document.getElementById('loginScreen').style.display = 'flex';
+}
+let toastTimer;
+function toast(title, sub){
+  document.getElementById('toastT').textContent = title;
+  document.getElementById('toastS').textContent = sub || 'mockup';
+  const t = document.getElementById('toast');
+  t.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('on'), 2600);
+}
+function publishSim(){
+  toast('Published v13','Home page is live — revalidated in 2s');
+  const st = document.getElementById('topStatus');
+  st.classList.remove('draft'); st.innerHTML = '<i></i>Live · v13';
+}
+function toggleSection(card){
+  card.classList.toggle('open');
+}
+</script>
+</body>
+</html>
