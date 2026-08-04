@@ -1,8 +1,10 @@
+import type { ImageValue } from "@/lib/image";
+
 export type EventCard = {
   date: string;
   title: string;
   location: string;
-  image: string;
+  image: ImageValue;
   imageAlt: string;
 };
 

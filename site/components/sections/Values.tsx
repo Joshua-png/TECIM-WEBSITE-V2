@@ -1,16 +1,16 @@
 import Reveal from "@/components/ui/Reveal";
-import { valuesContent } from "./values/content";
+import { valuesContent, type ValuesContent } from "./values/content";
 
-export default function Values() {
+export default function Values({ content = valuesContent }: { content?: ValuesContent }) {
   return (
     <section className="section" id="values">
       <div className="section-inner">
         <Reveal>
-          <p className="section-label">{valuesContent.label}</p>
-          <h2>{valuesContent.title}</h2>
+          <p className="section-label">{content.label}</p>
+          <h2>{content.title}</h2>
         </Reveal>
         <div className="values-grid">
-          {valuesContent.cards.map((card, i) => (
+          {content.cards.map((card, i) => (
             <Reveal key={card.title} className="value-card">
               <div className="value-num">
                 {String(i + 1).padStart(2, "0")}

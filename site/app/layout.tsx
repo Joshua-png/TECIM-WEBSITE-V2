@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
+import Nav from "@/components/layouts/Nav";
+import Footer from "@/components/layouts/Footer";
+import { loadChrome } from "@/lib/chrome";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -27,11 +30,13 @@ export const viewport: Viewport = {
   themeColor: "#0a0a0c",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { links, footer } = await loadChrome();
+
   return (
     <html
       lang="en"
@@ -39,7 +44,9 @@ export default function RootLayout({
       className={`${inter.variable} ${cormorant.variable} antialiased`}
     >
       <body className="flex min-h-screen flex-col" suppressHydrationWarning>
+        <Nav links={links} />
         {children}
+        <Footer data={footer} />
       </body>
     </html>
   );

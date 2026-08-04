@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { NavLink } from "@/lib/chrome";
 
-const LINKS = [
+const DEFAULT_LINKS: NavLink[] = [
   { href: "#about", label: "About" },
   { href: "#values", label: "Values" },
   { href: "#vision", label: "Vision" },
@@ -11,7 +12,7 @@ const LINKS = [
   { href: "#gallery", label: "Gallery" },
 ];
 
-export default function Nav() {
+export default function Nav({ links = DEFAULT_LINKS }: { links?: NavLink[] }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("");
@@ -47,6 +48,7 @@ export default function Nav() {
 
   const isActive = (href: string) =>
     href !== "#contact" && active === href ? "active-link" : "";
+  const isCta = (href: string) => href === "#contact";
 
   return (
     <>
@@ -55,18 +57,16 @@ export default function Nav() {
           TECIM<span>.</span>
         </a>
         <ul className="nav-links">
-          {LINKS.map((link) => (
+          {links.map((link) => (
             <li key={link.href}>
-              <a href={link.href} className={isActive(link.href)}>
+              <a
+                href={link.href}
+                className={isCta(link.href) ? "nav-cta" : isActive(link.href)}
+              >
                 {link.label}
               </a>
             </li>
           ))}
-          <li>
-            <a href="#contact" className="nav-cta">
-              Connect
-            </a>
-          </li>
         </ul>
         <button
           className={`nav-toggle${open ? " open" : ""}`}
@@ -80,23 +80,16 @@ export default function Nav() {
         </button>
       </nav>
       <div className={`mobile-menu${open ? " open" : ""}`}>
-        {LINKS.map((link) => (
+        {links.map((link) => (
           <a
             key={link.href}
             href={link.href}
-            className={isActive(link.href)}
+            className={isCta(link.href) ? "mm-cta" : isActive(link.href)}
             onClick={() => setOpen(false)}
           >
             {link.label}
           </a>
         ))}
-        <a
-          href="#contact"
-          className="mm-cta"
-          onClick={() => setOpen(false)}
-        >
-          Connect
-        </a>
       </div>
     </>
   );

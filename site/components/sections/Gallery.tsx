@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Reveal from "@/components/ui/Reveal";
-import { galleryContent } from "./gallery/content";
+import { galleryContent, type GalleryContent } from "./gallery/content";
 
 const ROW_A_SIZES = "(max-width: 480px) 150px, (max-width: 700px) 210px, 300px";
 const ROW_B_SIZES = "(max-width: 480px) 115px, (max-width: 700px) 160px, 240px";
@@ -24,18 +24,18 @@ function Frame({
   );
 }
 
-export default function Gallery() {
-  const { rowA, rowB } = galleryContent;
+export default function Gallery({ content = galleryContent }: { content?: GalleryContent }) {
+  const { rowA, rowB } = content;
 
   return (
     <section className="section gallery" id="gallery">
       <div className="gallery-grain" />
       <div className="section-inner">
         <Reveal>
-          <p className="section-label">{galleryContent.label}</p>
-          <h2>{galleryContent.title}</h2>
-          <p className="gal-sub">{galleryContent.sub}</p>
-          <p className="gal-reel-tag">{galleryContent.reelTag}</p>
+          <p className="section-label">{content.label}</p>
+          <h2>{content.title}</h2>
+          <p className="gal-sub">{content.sub}</p>
+          <p className="gal-reel-tag">{content.reelTag}</p>
         </Reveal>
       </div>
 
@@ -66,8 +66,8 @@ export default function Gallery() {
       </div>
 
       <div className="section-inner">
-        <a className="gal-more" href={galleryContent.moreHref}>
-          {galleryContent.moreLabel} →
+        <a className="gal-more" href={content.moreHref}>
+          {content.moreLabel} →
         </a>
       </div>
     </section>

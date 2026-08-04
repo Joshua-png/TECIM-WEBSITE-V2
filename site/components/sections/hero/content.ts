@@ -1,3 +1,5 @@
+import type { ImageValue } from "@/lib/image";
+
 export type IdentitySlug = "light" | "trumpets" | "swords";
 
 export type HeroStep = {
@@ -5,13 +7,13 @@ export type HeroStep = {
   title: string;
   body: string;
   verse: string;
-  image: string;
+  image: ImageValue;
 };
 
 export type HeroIdentity = {
   slug: IdentitySlug;
   label: string;
-  backgroundImage: string;
+  backgroundImage: ImageValue;
   bgFilter: string;
   steps: HeroStep[];
 };
