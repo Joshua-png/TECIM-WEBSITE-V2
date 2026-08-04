@@ -1,6 +1,7 @@
 "use client";
 
-import { Eye, LayoutTemplate, Save, X } from "lucide-react";
+import { CalendarDays, Eye, LayoutTemplate, Save, X } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Section, SectionTemplate } from "@/lib/types";
 import { layoutOptions, templateDisplayName } from "@/lib/template-helpers";
@@ -102,6 +103,19 @@ export function SectionEditorModal({
           <div className="flex items-start gap-3 rounded-xl border border-turquoise/25 bg-turquoise/8 p-4">
             <LayoutTemplate className="mt-0.5 size-5 shrink-0 text-turquoise" />
             <p className="text-sm leading-relaxed text-muted">{template.description}</p>
+          </div>
+        ) : null}
+
+        {section.template === "events" ? (
+          <div className="flex items-start gap-3 rounded-xl border border-line bg-white/[0.03] p-4">
+            <CalendarDays className="mt-0.5 size-5 shrink-0 text-turquoise" />
+            <p className="text-sm leading-relaxed text-muted">
+              Event cards come from the{" "}
+              <Link href="/events" className="text-turquoise underline underline-offset-2 hover:text-turquoise/80">
+                Events page
+              </Link>
+              . Add or edit events there — published events appear here automatically.
+            </p>
           </div>
         ) : null}
 

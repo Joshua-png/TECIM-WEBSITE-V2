@@ -54,7 +54,9 @@ export async function findAll(): Promise<EventRow[]> {
 
 export async function findPublished(): Promise<EventRow[]> {
   const { rows } = await query<EventRow>(
-    "SELECT * FROM events WHERE status = 'published' ORDER BY start_at ASC, created_at ASC"
+    `SELECT * FROM events
+     WHERE status = 'published' AND start_at >= NOW()
+     ORDER BY start_at ASC, created_at ASC`
   );
   return rows;
 }

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import { getGlobalSeo, getPageSeo, getPublishedPage } from "@/lib/api";
+import { getGlobalSeo, getPageSeo, getPublishedEvents, getPublishedPage } from "@/lib/api";
 import { renderSection } from "@/lib/sections";
+import { publishedEventsToCards } from "@/lib/events";
+import type { EventCard } from "@tecim/shared";
 import {
   Hero,
   About,
@@ -23,6 +25,15 @@ async function loadHomePage(): Promise<
     }));
   } catch {
     return null;
+  }
+}
+
+async function loadPublishedEvents(): Promise<EventCard[]> {
+  try {
+    const { events } = await getPublishedEvents();
+    return publishedEventsToCards(events);
+  } catch {
+    return [];
   }
 }
 
@@ -54,7 +65,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const sections = await loadHomePage();
+  const [sections, events] = await Promise.all([loadHomePage(), loadPublishedEvents()]);
 
   if (!sections) {
     return (
@@ -74,7 +85,13 @@ export default async function HomePage() {
   return (
     <main className="flex-1">
       {sections.map((section, i) =>
-        renderSection(section.template, section.content, `${section.template}-${i}`)
+        renderSection(
+          section.template,
+          section.content,
+          `${section.template}-${i}`,
+          false,
+          section.template === "events" ? { events } : undefined
+        )
       )}
     </main>
   );

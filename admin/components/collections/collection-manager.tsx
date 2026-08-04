@@ -134,7 +134,11 @@ export function CollectionManager({
           method: "PATCH",
           body: payload,
         });
-        toast.push("success", `${singular} updated`);
+        toast.push(
+          "success",
+          `${singular} saved as draft — publish to make it live`,
+          editing.title as string
+        );
       } else {
         await apiFetch(listPath, { method: "POST", body: payload });
         toast.push("success", `${singular} created`);

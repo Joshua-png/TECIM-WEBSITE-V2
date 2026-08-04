@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { getDraftPreview, type PageWithSections } from "@/lib/api";
+import { getDraftPreview, getPublishedEvents, type PageWithSections } from "@/lib/api";
 import { renderSection } from "@/lib/sections";
+import { publishedEventsToCards } from "@/lib/events";
 import { EditableOverlay } from "@/components/editor/EditableOverlay";
 
 export const dynamic = "force-dynamic";
@@ -37,6 +38,10 @@ export default async function SectionPreviewPage({
     return <Notice message="This section is no longer on the page. Reopen the preview from the TECIM admin." />;
   }
 
+  const events = await getPublishedEvents()
+    .then(({ events: list }) => publishedEventsToCards(list))
+    .catch(() => []);
+
   return (
     <>
       <div className="fixed left-1/2 top-3 z-[100] -translate-x-1/2">
@@ -46,7 +51,13 @@ export default async function SectionPreviewPage({
       </div>
       <main className="flex-1">
         <div data-section-id={section.id} style={{ display: "contents" }}>
-          {renderSection(template, section.content, template, true)}
+          {renderSection(
+            template,
+            section.content,
+            template,
+            true,
+            template === "events" ? { events } : undefined
+          )}
         </div>
       </main>
       <EditableOverlay token={token} sections={[section]} />

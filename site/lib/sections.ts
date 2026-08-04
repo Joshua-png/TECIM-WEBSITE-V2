@@ -40,11 +40,12 @@ export function renderSection(
   template: string,
   content: SectionContent,
   key: string,
-  editable = false
+  editable = false,
+  extra?: Record<string, unknown>
 ): ReactElement | null {
   const Component = sections[template as SectionSlug] as unknown as SectionComponent;
   if (!Component) return null;
-  return createElement(Component, { key, content, editable });
+  return createElement(Component, { key, content, editable, ...extra });
 }
 
 export default sections;

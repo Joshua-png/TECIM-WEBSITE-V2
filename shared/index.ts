@@ -17,7 +17,7 @@ export { getPath, setPath, type EditablePath } from "./editor/path";
 export { heroContent, type HeroContent, type HeroStep, type IdentitySlug } from "./sections/hero/content";
 export { aboutContent, type AboutContent } from "./sections/about/content";
 export { contactContent, type ContactContent, type Location } from "./sections/contact/content";
-export { eventsContent, type EventsContent } from "./sections/events/content";
+export { eventsContent, type EventsContent, type EventCard } from "./sections/events/content";
 export { galleryContent, type GalleryContent } from "./sections/gallery/content";
 export { servicesContent, type ServicesContent } from "./sections/services/content";
 export { valuesContent, type ValuesContent } from "./sections/values/content";

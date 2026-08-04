@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getDraftPreview, type PageWithSections } from "@/lib/api";
+import { getDraftPreview, getPublishedEvents, type PageWithSections } from "@/lib/api";
 import { renderSection } from "@/lib/sections";
+import { publishedEventsToCards } from "@/lib/events";
 import { EditableOverlay } from "@/components/editor/EditableOverlay";
 
 export const dynamic = "force-dynamic";
@@ -32,6 +33,10 @@ export default async function PreviewPage({
 
   const sections = data.sections;
 
+  const events = await getPublishedEvents()
+    .then(({ events: list }) => publishedEventsToCards(list))
+    .catch(() => []);
+
   return (
     <>
       <div className="fixed left-1/2 top-3 z-[100] -translate-x-1/2">
@@ -54,7 +59,13 @@ export default async function PreviewPage({
               data-section-id={section.id}
               style={{ display: "contents" }}
             >
-              {renderSection(section.template, section.content, `${section.template}-${i}`, true)}
+              {renderSection(
+                section.template,
+                section.content,
+                `${section.template}-${i}`,
+                true,
+                section.template === "events" ? { events } : undefined
+              )}
             </div>
           ))
         )}
