@@ -36,6 +36,31 @@ export function isAuthenticated(): boolean {
   return getTokens() !== null;
 }
 
+export async function ensureFreshAccessToken(): Promise<string | null> {
+  const tokens = getTokens();
+  if (!tokens) return null;
+  const payload = decodeJwtPayload(tokens.accessToken);
+  const expiresAt = payload?.exp ? payload.exp * 1000 : 0;
+  if (expiresAt > Date.now() + 60_000) return tokens.accessToken;
+  refreshPromise = refreshPromise ?? performRefresh(tokens.refreshToken);
+  try {
+    return await refreshPromise;
+  } finally {
+    refreshPromise = null;
+  }
+}
+
+function decodeJwtPayload(token: string): { exp?: number } | null {
+  try {
+    const part = token.split(".")[1];
+    if (!part) return null;
+    const padded = part.replace(/-/g, "+").replace(/_/g, "/").padEnd(Math.ceil(part.length / 4) * 4, "=");
+    return JSON.parse(atob(padded)) as { exp?: number };
+  } catch {
+    return null;
+  }
+}
+
 export function redirectToLogin(): void {
   clearTokens();
   if (typeof window !== "undefined") {
