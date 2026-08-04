@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
+import "@tecim/shared/sections/sections.css";
 import Nav from "@/components/layouts/Nav";
 import Footer from "@/components/layouts/Footer";
 import { PreviewChrome } from "@/components/layouts/PreviewChrome";

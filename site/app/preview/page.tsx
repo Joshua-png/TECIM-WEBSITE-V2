@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getDraftPreview, type PageWithSections } from "@/lib/api";
 import { renderSection } from "@/lib/sections";
+import { EditableOverlay } from "@/components/editor/EditableOverlay";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
@@ -29,10 +30,7 @@ export default async function PreviewPage({
     );
   }
 
-  const sections = data.sections.map((section) => ({
-    template: section.template,
-    content: section.content,
-  }));
+  const sections = data.sections;
 
   return (
     <>
@@ -50,11 +48,18 @@ export default async function PreviewPage({
             <p className="text-sm text-muted">This page has no sections yet.</p>
           </div>
         ) : (
-          sections.map((section, i) =>
-            renderSection(section.template, section.content, `${section.template}-${i}`)
-          )
+          sections.map((section, i) => (
+            <div
+              key={section.id}
+              data-section-id={section.id}
+              style={{ display: "contents" }}
+            >
+              {renderSection(section.template, section.content, `${section.template}-${i}`, true)}
+            </div>
+          ))
         )}
       </main>
+      <EditableOverlay token={token} sections={sections} />
     </>
   );
 }

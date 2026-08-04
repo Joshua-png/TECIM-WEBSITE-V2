@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getDraftPreview, type PageWithSections } from "@/lib/api";
 import { renderSection } from "@/lib/sections";
+import { EditableOverlay } from "@/components/editor/EditableOverlay";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
@@ -43,7 +44,12 @@ export default async function SectionPreviewPage({
           Section preview
         </span>
       </div>
-      <main className="flex-1">{renderSection(template, section.content, template)}</main>
+      <main className="flex-1">
+        <div data-section-id={section.id} style={{ display: "contents" }}>
+          {renderSection(template, section.content, template, true)}
+        </div>
+      </main>
+      <EditableOverlay token={token} sections={[section]} />
     </>
   );
 }

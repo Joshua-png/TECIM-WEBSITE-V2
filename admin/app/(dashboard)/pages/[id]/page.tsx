@@ -26,6 +26,7 @@ import { Field, Input } from "@/components/ui/field";
 import { PageLoader } from "@/components/ui/spinner";
 import { useToast } from "@/components/ui/toast";
 import { SectionEditor } from "@/components/builder/SectionEditor";
+import { SectionEditorModal } from "@/components/builder/SectionEditorModal";
 import { AddSectionModal } from "@/components/builder/AddSectionModal";
 import { VersionsModal } from "@/components/builder/VersionsModal";
 
@@ -38,7 +39,7 @@ export default function PageEditor() {
   const templatesData = useData<{ templates: SectionTemplate[] }>("/admin/templates");
 
   const [sections, setSections] = useState<Section[]>([]);
-  const [expanded, setExpanded] = useState<string | null>(null);
+  const [editing, setEditing] = useState<Section | null>(null);
   const [savingId, setSavingId] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
@@ -145,7 +146,7 @@ export default function PageEditor() {
         { method: "POST", body: data }
       );
       setSections((prev) => [...prev, result.section]);
-      setExpanded(result.section.id);
+      setEditing(result.section);
       toast.push("success", "Section added");
     } catch (err) {
       toast.push("error", "Add failed", err instanceof Error ? err.message : undefined);
@@ -224,7 +225,7 @@ export default function PageEditor() {
             </Button>
             <Button variant="ghost" onClick={openPreview}>
               <Eye className="size-4" />
-              Preview site
+              Preview &amp; edit
             </Button>
             {page.status === "published" ? (
               <a
@@ -279,13 +280,10 @@ export default function PageEditor() {
                   templates={templates}
                   index={index}
                   total={sections.length}
-                  expanded={expanded === section.id}
-                  onToggle={() => setExpanded(expanded === section.id ? null : section.id)}
-                  onSave={handleSaveSection}
+                  onEdit={setEditing}
                   onDelete={(id) => setDeleteTarget(sections.find((s) => s.id === id) ?? null)}
                   onMove={(id, dir) => void handleMove(id, dir)}
                   onPreview={openSectionPreview}
-                  saving={savingId === section.id}
                 />
               ))}
             </div>
@@ -349,6 +347,17 @@ export default function PageEditor() {
         open={versionsOpen}
         onClose={() => setVersionsOpen(false)}
         onRolledBack={reload}
+      />
+
+      <SectionEditorModal
+        section={editing}
+        templates={templates}
+        index={(editing ? sections.findIndex((s) => s.id === editing.id) : 0) + 1}
+        total={sections.length}
+        onClose={() => setEditing(null)}
+        onSave={handleSaveSection}
+        onPreview={openSectionPreview}
+        saving={editing !== null && savingId === editing.id}
       />
 
       <ConfirmDialog

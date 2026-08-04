@@ -1,4 +1,4 @@
-import type { ImageValue } from "@/lib/image";
+import type { ImageValue } from "../../lib/image";
 
 export type IdentitySlug = "light" | "trumpets" | "swords";
 

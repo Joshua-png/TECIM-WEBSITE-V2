@@ -12,14 +12,16 @@ export function Modal({
   children,
   footer,
   wide,
+  scrollBody,
 }: {
   open: boolean;
   onClose: () => void;
   title: string;
-  subtitle?: string;
+  subtitle?: React.ReactNode;
   children: React.ReactNode;
   footer?: React.ReactNode;
   wide?: boolean;
+  scrollBody?: boolean;
 }) {
   useEffect(() => {
     if (!open) return;
@@ -48,10 +50,11 @@ export function Modal({
         aria-modal="true"
         className={cn(
           "rise relative my-auto w-full rounded-2xl border border-line-strong bg-panel shadow-[0_30px_80px_rgba(0,0,0,0.55)]",
-          wide ? "max-w-3xl" : "max-w-lg"
+          wide ? "max-w-3xl" : "max-w-lg",
+          scrollBody && "flex max-h-[calc(100vh-4rem)] flex-col"
         )}
       >
-        <div className="flex items-start justify-between gap-4 border-b border-line px-6 py-4">
+        <div className="flex shrink-0 items-start justify-between gap-4 border-b border-line px-6 py-4">
           <div>
             <h2 className="text-xl font-semibold text-ink">{title}</h2>
             {subtitle ? <p className="mt-0.5 text-xs text-muted">{subtitle}</p> : null}
@@ -64,9 +67,14 @@ export function Modal({
             <X className="size-4.5" />
           </button>
         </div>
-        <div className="px-6 py-5">{children}</div>
+        <div className={cn("px-6 py-5", scrollBody && "overflow-y-auto")}>{children}</div>
         {footer ? (
-          <div className="flex items-center justify-end gap-2.5 border-t border-line px-6 py-4">
+          <div
+            className={cn(
+              "flex items-center justify-end gap-2.5 border-t border-line px-6 py-4",
+              scrollBody && "shrink-0"
+            )}
+          >
             {footer}
           </div>
         ) : null}
