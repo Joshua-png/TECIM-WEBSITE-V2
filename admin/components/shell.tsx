@@ -8,6 +8,7 @@ import {
   Feather,
   GalleryHorizontal,
   Images,
+  LayoutDashboard,
   LayoutTemplate,
   LogOut,
   Megaphone,
@@ -15,7 +16,6 @@ import {
   Newspaper,
   Search,
   SlidersHorizontal,
-  Sparkles,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -35,7 +35,7 @@ const groups: { group: string; items: NavEntry[] }[] = [
   {
     group: "Workspace",
     items: [
-      { href: "/", label: "Overview", icon: Sparkles },
+      { href: "/", label: "Dashboard", icon: LayoutDashboard },
       { href: "/pages", label: "Pages", icon: LayoutTemplate },
       { href: "/media", label: "Media", icon: Images },
     ],
@@ -60,7 +60,7 @@ const groups: { group: string; items: NavEntry[] }[] = [
 ];
 
 const titles: Record<string, string> = {
-  "/": "Overview",
+  "/": "Dashboard",
   "/pages": "Pages",
   "/media": "Media library",
   "/events": "Events",

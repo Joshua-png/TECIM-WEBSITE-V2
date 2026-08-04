@@ -27,7 +27,7 @@ const ACTION_TONE: Record<string, "neutral" | "turquoise" | "gold" | "rose"> = {
   delete: "rose",
 };
 
-export default function OverviewPage() {
+export default function DashboardPage() {
   const pages = useData<{ pages: unknown[] }>("/admin/pages");
   const media = useDataPaginated<Media[]>("/admin/media?perPage=1");
   const activity = useDataPaginated<ActivityEntry[]>("/admin/activity?perPage=6");
@@ -95,7 +95,7 @@ export default function OverviewPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow="Workspace"
+        eyebrow="Studio overview"
         title="Good day, Director"
         description="The studio is live. Review the state of the site and pick up where you left off."
       />
