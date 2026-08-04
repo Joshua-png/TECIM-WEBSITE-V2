@@ -92,3 +92,13 @@ in Phase 4. Architecture confirmed with user: overlay lives on the **site previe
   the editor (scroll-close handler ignores targets inside `.tecim-ec-editor`).
 - **Editability affordance**: edit mode now shows faint dashed amber outlines on all
   editable fields at rest; hover strengthens them. Toolbar hint: "Dashed = editable · click to edit".
+
+## Fix (2026-08-04): empty `src` when a section is missing an image
+`imageUrl()` returned "" for missing image values, and `<Image src="">` produced a
+Next.js warning (and could refetch the page). Added `shared/sections/SectionImage.tsx`
+(a thin `next/image` wrapper): when `src` is falsy it renders a subtle
+`.section-image-fallback` placeholder ("Add an image" for About, "No image" elsewhere)
+instead of an empty `<img>`; when a real image is present the markup is byte-identical
+to a plain `<Image>`. Wired into About, Events, Gallery, and Hero (both background and
+film-card images). In edit mode the placeholder sits inside `EditableImage`, so clicking
+it still opens the image picker; saving re-renders via `router.refresh()`.

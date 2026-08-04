@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Reveal from "./Reveal";
+import SectionImage from "./SectionImage";
 import { imageUrl } from "../lib/image";
 import { EditableText } from "../editor/EditableText";
 import { EditableImage } from "../editor/EditableImage";
@@ -32,7 +32,7 @@ export default function Events({
             <Reveal key={event.title} className="evt-card">
               <div className="evt-img">
                 <EditableImage path={`events.${i}.image`} editable={editable}>
-                  <Image
+                  <SectionImage
                     src={imageUrl(event.image)}
                     alt={event.imageAlt}
                     fill

@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { SITE_URL, apiFetch, getTokens } from "@/lib/api";
 import type { Page, PageWithSections, Section, SectionTemplate } from "@/lib/types";
 import { useData } from "@/lib/use-data";
@@ -52,6 +52,13 @@ export default function PageEditor() {
   const [metaTitle, setMetaTitle] = useState("");
   const [metaSlug, setMetaSlug] = useState("");
   const [savingMeta, setSavingMeta] = useState(false);
+
+  const [draggingId, setDraggingId] = useState<string | null>(null);
+  const [overId, setOverId] = useState<string | null>(null);
+  const originalOrderRef = useRef<Section[]>([]);
+  const droppedRef = useRef(false);
+  const sectionsRef = useRef(sections);
+  sectionsRef.current = sections;
 
   useEffect(() => {
     if (pageData.data) setSections(pageData.data.sections);
@@ -100,24 +107,66 @@ export default function PageEditor() {
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
-  const handleMove = async (sectionId: string, direction: -1 | 1) => {
-    const index = sections.findIndex((s) => s.id === sectionId);
-    const target = index + direction;
-    if (index < 0 || target < 0 || target >= sections.length) return;
-    const reordered = sections.slice();
-    const [moved] = reordered.splice(index, 1);
-    reordered.splice(target, 0, moved);
+  const handleDragStart = (sectionId: string) => {
+    originalOrderRef.current = sections;
+    droppedRef.current = false;
+    setDraggingId(sectionId);
+  };
+
+  const handleDragOver = (targetId: string, el: HTMLElement, clientY: number) => {
+    if (!draggingId || draggingId === targetId) return;
+    const list = sectionsRef.current;
+    const from = list.findIndex((s) => s.id === draggingId);
+    const targetIndex = list.findIndex((s) => s.id === targetId);
+    if (from < 0 || targetIndex < 0) return;
+    setOverId(targetId);
+    const rect = el.getBoundingClientRect();
+    const before = clientY < rect.top + rect.height / 2;
+    let to = before ? targetIndex : targetIndex + 1;
+    if (from < to) to -= 1;
+    if (from === to) return;
+    const reordered = list.slice();
+    const [moved] = reordered.splice(from, 1);
+    reordered.splice(to, 0, moved);
     setSections(reordered);
+  };
+
+  const persistOrder = async (ordered: Section[]) => {
     try {
       const result = await apiFetch<{ sections: Section[] }>(
         `/admin/pages/${pageId}/sections/order`,
-        { method: "PUT", body: { sectionIds: reordered.map((s) => s.id) } }
+        { method: "PUT", body: { sectionIds: ordered.map((s) => s.id) } }
       );
       setSections(result.sections);
+      toast.push("success", "Sections reordered");
     } catch (err) {
       toast.push("error", "Reorder failed", err instanceof Error ? err.message : undefined);
       reload();
     }
+  };
+
+  const handleDrop = () => {
+    droppedRef.current = true;
+    const ordered = sectionsRef.current;
+    const changed =
+      ordered.map((s) => s.id).join(",") !==
+      originalOrderRef.current.map((s) => s.id).join(",");
+    setDraggingId(null);
+    setOverId(null);
+    if (changed) void persistOrder(ordered);
+  };
+
+  const handleDragEnd = () => {
+    if (!droppedRef.current) {
+      const ordered = sectionsRef.current;
+      const changed =
+        ordered.map((s) => s.id).join(",") !==
+        originalOrderRef.current.map((s) => s.id).join(",");
+      if (changed) setSections(originalOrderRef.current);
+    }
+    droppedRef.current = false;
+    setDraggingId(null);
+    setOverId(null);
   };
 
   const handleDelete = async () => {
@@ -279,11 +328,15 @@ export default function PageEditor() {
                   section={section}
                   templates={templates}
                   index={index}
-                  total={sections.length}
+                  dragging={draggingId === section.id}
+                  over={overId === section.id}
                   onEdit={setEditing}
                   onDelete={(id) => setDeleteTarget(sections.find((s) => s.id === id) ?? null)}
-                  onMove={(id, dir) => void handleMove(id, dir)}
                   onPreview={openSectionPreview}
+                  onDragStart={handleDragStart}
+                  onDragOver={handleDragOver}
+                  onDrop={handleDrop}
+                  onDragEnd={handleDragEnd}
                 />
               ))}
             </div>

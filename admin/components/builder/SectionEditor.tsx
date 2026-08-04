@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, ChevronUp, Eye, GripVertical, Pencil, Trash2 } from "lucide-react";
+import { Eye, GripVertical, Pencil, Trash2 } from "lucide-react";
 import type { Section, SectionTemplate } from "@/lib/types";
 import { templateDisplayName } from "@/lib/template-helpers";
 import { StatusPill } from "@/components/ui/badge";
@@ -10,23 +10,54 @@ export function SectionEditor({
   section,
   templates,
   index,
-  total,
+  dragging,
+  over,
   onEdit,
   onDelete,
-  onMove,
   onPreview,
+  onDragStart,
+  onDragOver,
+  onDrop,
+  onDragEnd,
 }: {
   section: Section;
   templates: SectionTemplate[];
   index: number;
-  total: number;
+  dragging: boolean;
+  over: boolean;
   onEdit: (section: Section) => void;
   onDelete: (sectionId: string) => void;
-  onMove: (sectionId: string, direction: -1 | 1) => void;
   onPreview: (section: Section) => void;
+  onDragStart: (sectionId: string) => void;
+  onDragOver: (sectionId: string, el: HTMLElement, clientY: number) => void;
+  onDrop: () => void;
+  onDragEnd: () => void;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-line bg-panel px-4 py-3 transition-colors hover:border-line-strong">
+    <div
+      draggable
+      onDragStart={(e) => {
+        e.dataTransfer.effectAllowed = "move";
+        e.dataTransfer.setData("text/plain", section.id);
+        onDragStart(section.id);
+      }}
+      onDragOver={(e) => {
+        e.preventDefault();
+        onDragOver(section.id, e.currentTarget, e.clientY);
+      }}
+      onDragEnter={(e) => e.preventDefault()}
+      onDrop={(e) => {
+        e.preventDefault();
+        onDrop();
+      }}
+      onDragEnd={onDragEnd}
+      className={cn(
+        "flex select-none items-center gap-3 rounded-2xl border border-line bg-panel px-4 py-3 transition-colors",
+        "cursor-grab active:cursor-grabbing",
+        over && "border-turquoise bg-turquoise/[0.04]",
+        dragging && "opacity-40"
+      )}
+    >
       <GripVertical className="size-4 shrink-0 text-faint" />
       <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-white/[0.05] font-serif text-sm text-faint">
         {String(index + 1).padStart(2, "0")}
@@ -51,22 +82,6 @@ export function SectionEditor({
           title="Preview this section"
         >
           <Eye className="size-4" />
-        </button>
-        <button
-          onClick={() => onMove(section.id, -1)}
-          disabled={index === 0}
-          className="rounded-md p-1.5 text-muted transition-colors hover:bg-white/[0.06] hover:text-ink disabled:opacity-30 disabled:pointer-events-none"
-          aria-label="Move up"
-        >
-          <ChevronUp className="size-4" />
-        </button>
-        <button
-          onClick={() => onMove(section.id, 1)}
-          disabled={index === total - 1}
-          className="rounded-md p-1.5 text-muted transition-colors hover:bg-white/[0.06] hover:text-ink disabled:opacity-30 disabled:pointer-events-none"
-          aria-label="Move down"
-        >
-          <ChevronDown className="size-4" />
         </button>
         <button
           onClick={() => onDelete(section.id)}
