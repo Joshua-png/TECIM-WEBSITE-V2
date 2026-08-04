@@ -14,7 +14,7 @@ import {
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { SITE_URL, apiFetch } from "@/lib/api";
+import { SITE_URL, apiFetch, getTokens } from "@/lib/api";
 import type { Page, PageWithSections, Section, SectionTemplate } from "@/lib/types";
 import { useData } from "@/lib/use-data";
 import { PageHeader } from "@/components/page-header";
@@ -28,7 +28,6 @@ import { useToast } from "@/components/ui/toast";
 import { SectionEditor } from "@/components/builder/SectionEditor";
 import { AddSectionModal } from "@/components/builder/AddSectionModal";
 import { VersionsModal } from "@/components/builder/VersionsModal";
-import { PreviewOverlay } from "@/components/builder/PreviewOverlay";
 
 export default function PageEditor() {
   const params = useParams<{ id: string }>();
@@ -44,7 +43,6 @@ export default function PageEditor() {
   const [creating, setCreating] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
   const [versionsOpen, setVersionsOpen] = useState(false);
-  const [previewOpen, setPreviewOpen] = useState(false);
   const [publishOpen, setPublishOpen] = useState(false);
   const [publishing, setPublishing] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<Section | null>(null);
@@ -89,6 +87,11 @@ export default function PageEditor() {
     } finally {
       setSavingId(null);
     }
+  };
+
+  const openPreview = () => {
+    const url = `${SITE_URL}/preview?pageId=${encodeURIComponent(pageId)}&token=${encodeURIComponent(getTokens()?.accessToken ?? "")}`;
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   const handleMove = async (sectionId: string, direction: -1 | 1) => {
@@ -214,9 +217,9 @@ export default function PageEditor() {
               <History className="size-4" />
               Versions
             </Button>
-            <Button variant="ghost" onClick={() => setPreviewOpen(true)}>
+            <Button variant="ghost" onClick={openPreview}>
               <Eye className="size-4" />
-              Preview draft
+              Preview site
             </Button>
             {page.status === "published" ? (
               <a
@@ -340,14 +343,6 @@ export default function PageEditor() {
         open={versionsOpen}
         onClose={() => setVersionsOpen(false)}
         onRolledBack={reload}
-      />
-
-      <PreviewOverlay
-        pageId={pageId}
-        pageTitle={page.title}
-        templates={templates}
-        open={previewOpen}
-        onClose={() => setPreviewOpen(false)}
       />
 
       <ConfirmDialog
