@@ -14,7 +14,7 @@ import {
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { SITE_URL, apiFetch, getTokens } from "@/lib/api";
+import { SITE_URL, apiFetch, ensureFreshAccessToken, redirectToLogin } from "@/lib/api";
 import type { Page, PageWithSections, Section, SectionTemplate } from "@/lib/types";
 import { useData } from "@/lib/use-data";
 import { PageHeader } from "@/components/page-header";
@@ -97,13 +97,23 @@ export default function PageEditor() {
     }
   };
 
-  const openPreview = () => {
-    const url = `${SITE_URL}/preview?pageId=${encodeURIComponent(pageId)}&token=${encodeURIComponent(getTokens()?.accessToken ?? "")}`;
+  const openPreview = async () => {
+    const token = await ensureFreshAccessToken();
+    if (!token) {
+      redirectToLogin();
+      return;
+    }
+    const url = `${SITE_URL}/preview?pageId=${encodeURIComponent(pageId)}&token=${encodeURIComponent(token)}`;
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
-  const openSectionPreview = (section: Section) => {
-    const url = `${SITE_URL}/preview/section/${encodeURIComponent(section.template)}?pageId=${encodeURIComponent(pageId)}&sectionId=${encodeURIComponent(section.id)}&token=${encodeURIComponent(getTokens()?.accessToken ?? "")}`;
+  const openSectionPreview = async (section: Section) => {
+    const token = await ensureFreshAccessToken();
+    if (!token) {
+      redirectToLogin();
+      return;
+    }
+    const url = `${SITE_URL}/preview/section/${encodeURIComponent(section.template)}?pageId=${encodeURIComponent(pageId)}&sectionId=${encodeURIComponent(section.id)}&token=${encodeURIComponent(token)}`;
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
