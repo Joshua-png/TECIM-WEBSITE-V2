@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { getDraftPreview, getPublishedEvents, type PageWithSections } from "@/lib/api";
+import { getDraftPreview, getPublishedEvents, getPublishedGallery, type PageWithSections } from "@/lib/api";
 import { renderSection } from "@/lib/sections";
 import { publishedEventsToCards } from "@/lib/events";
+import { publishedGalleryToImages } from "@/lib/gallery";
 import { EditableOverlay } from "@/components/editor/EditableOverlay";
 
 export const dynamic = "force-dynamic";
@@ -42,6 +43,10 @@ export default async function SectionPreviewPage({
     .then(({ events: list }) => publishedEventsToCards(list))
     .catch(() => []);
 
+  const gallery = await getPublishedGallery()
+    .then(({ gallery: list }) => publishedGalleryToImages(list))
+    .catch(() => []);
+
   return (
     <>
       <div className="fixed left-1/2 top-3 z-[100] -translate-x-1/2">
@@ -56,7 +61,11 @@ export default async function SectionPreviewPage({
             section.content,
             template,
             true,
-            template === "events" ? { events } : undefined
+            template === "events"
+              ? { events }
+              : template === "gallery"
+                ? { items: gallery }
+                : undefined
           )}
         </div>
       </main>

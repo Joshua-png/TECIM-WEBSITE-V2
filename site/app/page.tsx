@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { getGlobalSeo, getPageSeo, getPublishedEvents, getPublishedPage } from "@/lib/api";
+import { getGlobalSeo, getPageSeo, getPublishedEvents, getPublishedGallery, getPublishedPage } from "@/lib/api";
 import { renderSection } from "@/lib/sections";
 import { publishedEventsToCards } from "@/lib/events";
-import type { EventCard } from "@tecim/shared";
+import { publishedGalleryToImages } from "@/lib/gallery";
+import type { EventCard, GalleryImage } from "@tecim/shared";
 import {
   Hero,
   About,
@@ -37,6 +38,15 @@ async function loadPublishedEvents(): Promise<EventCard[]> {
   }
 }
 
+async function loadPublishedGallery(): Promise<GalleryImage[]> {
+  try {
+    const { gallery } = await getPublishedGallery();
+    return publishedGalleryToImages(gallery);
+  } catch {
+    return [];
+  }
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const { seo } = await getPageSeo("home");
@@ -65,7 +75,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [sections, events] = await Promise.all([loadHomePage(), loadPublishedEvents()]);
+  const [sections, events, gallery] = await Promise.all([
+    loadHomePage(),
+    loadPublishedEvents(),
+    loadPublishedGallery(),
+  ]);
 
   if (!sections) {
     return (
@@ -90,7 +104,11 @@ export default async function HomePage() {
           section.content,
           `${section.template}-${i}`,
           false,
-          section.template === "events" ? { events } : undefined
+          section.template === "events"
+            ? { events }
+            : section.template === "gallery"
+              ? { items: gallery }
+              : undefined
         )
       )}
     </main>

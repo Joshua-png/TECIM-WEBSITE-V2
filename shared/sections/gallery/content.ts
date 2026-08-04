@@ -3,6 +3,13 @@ export type GalleryRow = {
   images: string[];
 };
 
+export type GalleryImage = {
+  src: string;
+  alt?: string | null;
+  width?: number | null;
+  height?: number | null;
+};
+
 export type GalleryContent = {
   label: string;
   title: string;

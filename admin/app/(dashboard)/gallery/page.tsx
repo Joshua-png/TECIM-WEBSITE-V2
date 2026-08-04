@@ -7,8 +7,21 @@ import type { GalleryItem, Media } from "@/lib/types";
 
 const fields: CollectionField[] = [
   { key: "mediaId", label: "Image", type: "media", required: true },
-  { key: "caption", label: "Caption", type: "text", placeholder: "Short caption" },
-  { key: "altText", label: "Alt text", type: "text", hint: "accessibility" },
+  {
+    key: "caption",
+    label: "Caption",
+    type: "text",
+    placeholder: "Short caption",
+    disabled: true,
+    hint: "locked for now — will be shown later",
+  },
+  {
+    key: "altText",
+    label: "Alt text",
+    type: "text",
+    hint: "accessibility",
+    disabled: true,
+  },
   { key: "displayOrder", label: "Display order", type: "number", hint: "lower = earlier" },
   { key: "isFeatured", label: "Featured", type: "boolean" },
 ];

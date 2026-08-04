@@ -119,6 +119,19 @@ export function SectionEditorModal({
           </div>
         ) : null}
 
+        {section.template === "gallery" ? (
+          <div className="flex items-start gap-3 rounded-xl border border-line bg-white/[0.03] p-4">
+            <CalendarDays className="mt-0.5 size-5 shrink-0 text-turquoise" />
+            <p className="text-sm leading-relaxed text-muted">
+              Marquee images come from the{" "}
+              <Link href="/gallery" className="text-turquoise underline underline-offset-2 hover:text-turquoise/80">
+                Gallery page
+              </Link>
+              . Add or edit images there — published images appear here automatically.
+            </p>
+          </div>
+        ) : null}
+
         <div className="grid gap-3 sm:grid-cols-2">
           <Field label="Section label" hint="Helps you recognise this section in the list">
             <Input
