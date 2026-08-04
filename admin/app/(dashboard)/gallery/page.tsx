@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { CollectionManager, type CollectionField } from "@/components/collections/collection-manager";
-import { useData } from "@/lib/use-data";
+import { useDataPaginated } from "@/lib/use-data";
 import type { GalleryItem, Media } from "@/lib/types";
 
 const fields: CollectionField[] = [
@@ -14,12 +14,12 @@ const fields: CollectionField[] = [
 ];
 
 export default function GalleryPage() {
-  const mediaData = useData<{ data: Media[]; meta: { total: number } }>("/admin/media?perPage=100");
+  const mediaData = useDataPaginated<Media[]>("/admin/media?perPage=100");
   const mediaMap = useMemo(() => {
     const map = new Map<string, Media>();
-    for (const media of mediaData.data?.data ?? []) map.set(media.id, media);
+    for (const media of mediaData.items) map.set(media.id, media);
     return map;
-  }, [mediaData.data]);
+  }, [mediaData.items]);
 
   return (
     <CollectionManager

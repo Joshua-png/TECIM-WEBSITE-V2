@@ -1,15 +1,23 @@
-export default function Footer() {
+import type { FooterData } from "@/lib/chrome";
+
+const DEFAULT_DATA: FooterData = {
+  siteName: "The Eagle Centre for International Ministries",
+  shortName: "TECIM",
+  tagline:
+    "Equipping a generation of kingdom-minded people of integrity and the Word — as Light, Trumpets and Swords.",
+  email: "theeaglecenter1@gmail.com",
+  phones: ["+233 271 503 760"],
+};
+
+export default function Footer({ data = DEFAULT_DATA }: { data?: FooterData }) {
   return (
     <footer className="site-footer">
       <div className="footer-grid">
         <div className="footer-brand">
           <a href="#" className="logo">
-            TECIM<span>.</span>
+            {data.shortName}<span>.</span>
           </a>
-          <p>
-            Equipping a generation of kingdom-minded people of integrity and
-            the Word — as Light, Trumpets and Swords.
-          </p>
+          <p>{data.tagline}</p>
         </div>
         <div className="f-col">
           <h4>Events</h4>
@@ -45,19 +53,19 @@ export default function Footer() {
         <div className="f-col">
           <h4>Have a Question?</h4>
           <ul>
+            {data.phones.map((phone) => (
+              <li key={phone}>
+                <a href={`tel:${phone.replace(/\s/g, "")}`}>{phone}</a>
+              </li>
+            ))}
             <li>
-              <a href="tel:+233271503760">+233 271 503 760</a>
-            </li>
-            <li>
-              <a href="mailto:theeaglecenter1@gmail.com">
-                theeaglecenter1@gmail.com
-              </a>
+              <a href={`mailto:${data.email}`}>{data.email}</a>
             </li>
           </ul>
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© 2026 The Eagle Centre for International Ministries</span>
+        <span>© 2026 {data.siteName}</span>
         <span>Light · Trumpets · Swords</span>
       </div>
     </footer>

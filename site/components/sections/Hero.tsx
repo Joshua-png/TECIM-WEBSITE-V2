@@ -2,8 +2,10 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { imageUrl } from "@/lib/image";
 import {
   heroContent,
+  type HeroContent,
   type HeroStep,
   type IdentitySlug,
 } from "./hero/content";
@@ -12,7 +14,7 @@ import InsightDrawer from "./hero/InsightDrawer";
 const ORDER: IdentitySlug[] = ["light", "trumpets", "swords"];
 const ROTATE_MS = 9000;
 
-export default function Hero() {
+export default function Hero({ content = heroContent }: { content?: HeroContent }) {
   const [active, setActive] = useState<IdentitySlug>("light");
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerStep, setDrawerStep] = useState<HeroStep | null>(null);
@@ -59,13 +61,13 @@ export default function Hero() {
 
   return (
     <section className="hero">
-      {heroContent.identities.map((identity) => (
+      {content.identities.map((identity) => (
         <div
           key={identity.slug}
           className={`hero-bg ${identity.bgFilter}${active === identity.slug ? " active" : ""}`}
         >
           <Image
-            src={identity.backgroundImage}
+            src={imageUrl(identity.backgroundImage)}
             alt=""
             fill
             priority={identity.slug === "light"}
@@ -80,16 +82,16 @@ export default function Hero() {
       <div className="hero-grain" />
 
       <div className="hero-inner">
-        <p className="hero-label">{heroContent.label}</p>
+        <p className="hero-label">{content.label}</p>
         <h1 className="display">
-          {heroContent.title}
+          {content.title}
           <br />
-          {heroContent.titleBreak}
+          {content.titleBreak}
         </h1>
-        <p className="hero-sub">{heroContent.subtitle}</p>
+        <p className="hero-sub">{content.subtitle}</p>
 
         <div className="id-pills">
-          {heroContent.identities.map((identity) => (
+          {content.identities.map((identity) => (
             <button
               key={identity.slug}
               className={`id-pill${active === identity.slug ? " active" : ""}`}
@@ -102,7 +104,7 @@ export default function Hero() {
         </div>
 
         <div className="filmstrip-wrap">
-          {heroContent.identities.map((identity) => (
+          {content.identities.map((identity) => (
             <div key={identity.slug}>
               <div
                 className={`filmstrip${active === identity.slug ? " active" : ""}`}
@@ -114,7 +116,7 @@ export default function Hero() {
                     className="film-card"
                     onClick={() => openInsight(identity.slug, step)}
                   >
-                    <Image src={step.image} alt={step.title} fill sizes="150px" />
+                    <Image src={imageUrl(step.image)} alt={step.title} fill sizes="150px" />
                     <span className="film-card-cap">
                       <span className="num">{step.num}</span>
                       <h4>{step.title}</h4>

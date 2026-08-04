@@ -10,7 +10,7 @@ import {
   Megaphone,
 } from "lucide-react";
 import Link from "next/link";
-import { useData } from "@/lib/use-data";
+import { useData, useDataPaginated } from "@/lib/use-data";
 import type { ActivityEntry, Media } from "@/lib/types";
 import { PageHeader } from "@/components/page-header";
 import { Card } from "@/components/ui/card";
@@ -29,10 +29,8 @@ const ACTION_TONE: Record<string, "neutral" | "turquoise" | "gold" | "rose"> = {
 
 export default function OverviewPage() {
   const pages = useData<{ pages: unknown[] }>("/admin/pages");
-  const media = useData<{ data: Media[]; meta: { total: number } }>("/admin/media?perPage=1");
-  const activity = useData<{ data: ActivityEntry[]; meta: { total: number } }>(
-    "/admin/activity?perPage=6"
-  );
+  const media = useDataPaginated<Media[]>("/admin/media?perPage=1");
+  const activity = useDataPaginated<ActivityEntry[]>("/admin/activity?perPage=6");
   const events = useData<{ events: unknown[] }>("/admin/events");
   const gallery = useData<{ gallery: unknown[] }>("/admin/gallery");
   const sermons = useData<{ sermons: unknown[] }>("/admin/sermons");
@@ -54,7 +52,7 @@ export default function OverviewPage() {
     },
     {
       label: "Media assets",
-      value: media.data?.meta.total ?? 0,
+      value: media.meta.total,
       sub: "Cloudinary library",
       icon: Images,
       href: "/media",
@@ -124,9 +122,9 @@ export default function OverviewPage() {
         <Card title="Recent activity" description="The last few actions across the CMS">
           {activity.loading ? (
             <PageLoader />
-          ) : activity.data && activity.data.data.length > 0 ? (
+          ) : activity.items.length > 0 ? (
             <ul className="divide-y divide-line">
-              {activity.data.data.map((entry) => (
+              {activity.items.map((entry) => (
                 <li key={entry.id} className="flex items-center gap-3.5 px-5 py-3">
                   <Badge tone={ACTION_TONE[entry.action] ?? "neutral"} className="w-24 justify-center">
                     {entry.action}

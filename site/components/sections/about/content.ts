@@ -1,3 +1,5 @@
+import type { ImageValue } from "@/lib/image";
+
 export type AboutContent = {
   label: string;
   title: string;
@@ -6,7 +8,7 @@ export type AboutContent = {
   tailIntro: string;
   partners: string[];
   tailSuffix: string;
-  image: string;
+  image: ImageValue;
   imageAlt: string;
   badgeTitle: string;
   badgeSubtitle: string;

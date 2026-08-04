@@ -39,8 +39,7 @@ export default function RootLayout({
       className={`${inter.variable} ${cormorant.variable} antialiased`}
     >
       <body className="grain" suppressHydrationWarning>
-        {children}
-        <Toaster />
+        <Toaster>{children}</Toaster>
       </body>
     </html>
   );

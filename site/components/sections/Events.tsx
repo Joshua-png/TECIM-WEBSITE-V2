@@ -1,21 +1,22 @@
 import Image from "next/image";
 import Reveal from "@/components/ui/Reveal";
-import { eventsContent } from "./events/content";
+import { imageUrl } from "@/lib/image";
+import { eventsContent, type EventsContent } from "./events/content";
 
-export default function Events() {
+export default function Events({ content = eventsContent }: { content?: EventsContent }) {
   return (
     <section className="section events" id="events">
       <div className="section-inner">
         <Reveal>
-          <p className="section-label">{eventsContent.label}</p>
-          <h2>{eventsContent.title}</h2>
+          <p className="section-label">{content.label}</p>
+          <h2>{content.title}</h2>
         </Reveal>
         <div className="evt-grid">
-          {eventsContent.events.map((event) => (
+          {content.events.map((event) => (
             <Reveal key={event.title} className="evt-card">
               <div className="evt-img">
                 <Image
-                  src={event.image}
+                  src={imageUrl(event.image)}
                   alt={event.imageAlt}
                   fill
                   sizes="(max-width: 550px) 100vw, 180px"

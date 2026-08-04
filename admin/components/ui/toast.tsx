@@ -22,7 +22,7 @@ export function useToast() {
   return ctx;
 }
 
-export function Toaster() {
+export function Toaster({ children }: { children?: React.ReactNode }) {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
   const idRef = useRef(0);
 
@@ -40,6 +40,7 @@ export function Toaster() {
 
   return (
     <ToastContext.Provider value={value}>
+      {children}
       <div className="pointer-events-none fixed bottom-5 right-5 z-[100] flex w-80 flex-col gap-2">
         {toasts.map((toast) => (
           <div

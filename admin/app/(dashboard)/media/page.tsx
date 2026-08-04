@@ -4,7 +4,7 @@ import { ImagePlus, Images, Trash2, UploadCloud } from "lucide-react";
 import { useRef, useState } from "react";
 import { apiFetch } from "@/lib/api";
 import type { Media } from "@/lib/types";
-import { useData } from "@/lib/use-data";
+import { useDataPaginated } from "@/lib/use-data";
 import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { ConfirmDialog } from "@/components/ui/confirm";
@@ -18,10 +18,10 @@ const PER_PAGE = 24;
 
 export default function MediaPage() {
   const [page, setPage] = useState(1);
-  const { data, loading, reload } = useData<{
-    data: Media[];
-    meta: { total: number; totalPages: number };
-  }>(`/admin/media?page=${page}&perPage=${PER_PAGE}`, [page]);
+  const { items, meta, loading, reload } = useDataPaginated<Media[]>(
+    `/admin/media?page=${page}&perPage=${PER_PAGE}`,
+    [page]
+  );
 
   const [uploading, setUploading] = useState(false);
   const [dragOver, setDragOver] = useState(false);
@@ -71,9 +71,8 @@ export default function MediaPage() {
 
   if (loading) return <PageLoader />;
 
-  const items = data?.data ?? [];
-  const total = data?.meta.total ?? 0;
-  const totalPages = Math.max(1, data?.meta.totalPages ?? 1);
+  const total = meta.total;
+  const totalPages = meta.totalPages;
 
   return (
     <div>

@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Reveal from "@/components/ui/Reveal";
-import { visionContent } from "./vision/content";
+import { visionContent, type VisionContent } from "./vision/content";
 
 const SLIDE_MS = 5000;
 
-export default function Vision() {
+export default function Vision({ content = visionContent }: { content?: VisionContent }) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -15,17 +15,17 @@ export default function Vision() {
     ).matches;
     if (reduceMotion) return;
     const interval = setInterval(() => {
-      setIndex((i) => (i + 1) % visionContent.slides.length);
+      setIndex((i) => (i + 1) % content.slides.length);
     }, SLIDE_MS);
     return () => clearInterval(interval);
-  }, []);
+  }, [content]);
 
   return (
     <section className="section vision-band" id="vision">
       <div className="section-inner">
         <Reveal>
-          <p className="section-label">{visionContent.label}</p>
-          <h2>{visionContent.title}</h2>
+          <p className="section-label">{content.label}</p>
+          <h2>{content.title}</h2>
         </Reveal>
         <Reveal className="vm-carousel">
           <div className="vm-viewport">
@@ -33,7 +33,7 @@ export default function Vision() {
               className="vm-track"
               style={{ transform: `translateX(-${index * 50}%)` }}
             >
-              {visionContent.slides.map((slide, i) => (
+              {content.slides.map((slide, i) => (
                 <div key={slide.heading} className={`vm-slide ${i === 0 ? "v" : "m"}`}>
                   <h3>{slide.heading}</h3>
                   {slide.items ? (
@@ -50,7 +50,7 @@ export default function Vision() {
             </div>
           </div>
           <div className="vm-dots">
-            {visionContent.slides.map((slide, i) => (
+            {content.slides.map((slide, i) => (
               <button
                 key={slide.heading}
                 className={`vm-dot${i === index ? " active" : ""}`}

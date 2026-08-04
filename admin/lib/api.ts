@@ -1,3 +1,5 @@
+import type { PaginationMeta } from "@/lib/types";
+
 export const API_URL =
   process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ?? "http://localhost:4000";
 
@@ -77,10 +79,12 @@ async function performRefresh(refreshToken: string): Promise<string | null> {
   return json.data.accessToken;
 }
 
-export async function apiFetch<T>(
+type RequestResult<T> = { data: T; meta?: PaginationMeta };
+
+async function request<T>(
   path: string,
   options: RequestOptions = {}
-): Promise<T> {
+): Promise<RequestResult<T>> {
   const { method = "GET", body, auth = true, formData } = options;
   const url = `${BASE}${path}`;
 
@@ -111,7 +115,7 @@ export async function apiFetch<T>(
   }
 
   if (res.status === 204) {
-    return undefined as T;
+    return { data: undefined as T };
   }
 
   const json = (await res.json().catch(() => null)) as
@@ -129,10 +133,36 @@ export async function apiFetch<T>(
     );
   }
 
-  return (json as ApiEnvelopeShape<T>).data;
+  const envelope = json as ApiEnvelopeShape<T>;
+  return { data: envelope.data, meta: envelope.meta };
 }
 
-type ApiEnvelopeShape<T> = { success: true; data: T };
+export async function apiFetch<T>(
+  path: string,
+  options: RequestOptions = {}
+): Promise<T> {
+  const result = await request<T>(path, options);
+  return result.data;
+}
+
+export async function apiFetchPaginated<T>(
+  path: string,
+  options: RequestOptions = {}
+): Promise<{ items: T; meta: PaginationMeta }> {
+  const result = await request<T>(path, options);
+  const meta = result.meta ?? { page: 1, perPage: 20, total: 0 };
+  return {
+    items: result.data,
+    meta: {
+      page: meta.page,
+      perPage: meta.perPage,
+      total: meta.total,
+      totalPages: Math.max(1, Math.ceil(meta.total / Math.max(1, meta.perPage))),
+    },
+  };
+}
+
+type ApiEnvelopeShape<T> = { success: true; data: T; meta?: PaginationMeta };
 type ApiErrorShape = { success: false; error: { code: string; message: string; details?: unknown[] } };
 
 export async function login(email: string, password: string): Promise<void> {

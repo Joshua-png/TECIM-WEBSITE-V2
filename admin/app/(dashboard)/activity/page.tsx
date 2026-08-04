@@ -2,8 +2,8 @@
 
 import { History } from "lucide-react";
 import { useState } from "react";
-import { useData } from "@/lib/use-data";
-import type { ActivityEntry, PaginationMeta } from "@/lib/types";
+import { useDataPaginated } from "@/lib/use-data";
+import type { ActivityEntry } from "@/lib/types";
 import { formatDateTime, relativeTime } from "@/lib/format";
 import { PageHeader } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
@@ -36,15 +36,14 @@ const ACTION_LABELS: Record<string, string> = {
 
 export default function ActivityPage() {
   const [page, setPage] = useState(1);
-  const { data, loading } = useData<{ data: ActivityEntry[]; meta: PaginationMeta }>(
+  const { items, meta, loading } = useDataPaginated<ActivityEntry[]>(
     `/admin/activity?page=${page}&perPage=20`,
     [page]
   );
 
   if (loading) return <PageLoader />;
 
-  const entries = data?.data ?? [];
-  const meta = data?.meta;
+  const entries = items;
 
   return (
     <div>
@@ -86,7 +85,7 @@ export default function ActivityPage() {
             ))}
           </div>
           <div className="border-t border-line">
-            <Pagination page={page} totalPages={meta?.totalPages ?? 1} onPage={setPage} />
+            <Pagination page={page} totalPages={meta.totalPages} onPage={setPage} />
           </div>
         </Card>
       )}

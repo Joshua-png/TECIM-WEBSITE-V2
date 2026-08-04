@@ -1,28 +1,28 @@
 import Reveal from "@/components/ui/Reveal";
-import { servicesContent } from "./services/content";
+import { servicesContent, type ServicesContent } from "./services/content";
 
-export default function Services() {
+export default function Services({ content = servicesContent }: { content?: ServicesContent }) {
   return (
     <section className="section" id="services">
       <div className="section-inner">
         <div className="wh-head">
           <div>
             <Reveal>
-              <p className="section-label">{servicesContent.label}</p>
-              <h2>{servicesContent.title}</h2>
-              <p className="wh-sub">{servicesContent.sub}</p>
+              <p className="section-label">{content.label}</p>
+              <h2>{content.title}</h2>
+              <p className="wh-sub">{content.sub}</p>
             </Reveal>
           </div>
           <Reveal>
-            <a className="wh-cta" href={servicesContent.ctaHref}>
-              {servicesContent.ctaLabel} →
+            <a className="wh-cta" href={content.ctaHref}>
+              {content.ctaLabel} →
             </a>
           </Reveal>
         </div>
         <div className="wh-list">
-          {servicesContent.rows.map((row) => (
+          {content.rows.map((row) => (
             <Reveal key={row.day}>
-              <a className="wh-row" href={servicesContent.ctaHref}>
+              <a className="wh-row" href={content.ctaHref}>
                 <div className="wh-date">
                   <span className="wh-day">{row.day}</span>
                   <span className="wh-time">{row.time}</span>

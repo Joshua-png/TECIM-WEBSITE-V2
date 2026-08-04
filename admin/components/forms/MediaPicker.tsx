@@ -2,7 +2,7 @@
 
 import { ImagePlus, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { apiFetch } from "@/lib/api";
+import { apiFetchPaginated } from "@/lib/api";
 import type { Media } from "@/lib/types";
 import { Modal } from "@/components/ui/modal";
 import { Pagination } from "@/components/ui/pagination";
@@ -30,12 +30,10 @@ export function MediaPicker({
     let cancelled = false;
     setLoading(true);
     setError(null);
-    apiFetch<{ data: Media[]; meta: { total: number; totalPages: number; page: number } }>(
-      `/admin/media?page=${page}&perPage=24`
-    )
+    apiFetchPaginated<Media[]>(`/admin/media?page=${page}&perPage=24`)
       .then((result) => {
         if (cancelled) return;
-        setItems(result.data);
+        setItems(result.items);
         setTotal(result.meta.total);
         setTotalPages(Math.max(1, result.meta.totalPages));
       })
