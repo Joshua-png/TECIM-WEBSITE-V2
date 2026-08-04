@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { isAuthenticated, logout } from "@/lib/api";
 import { cn } from "@/lib/cn";
 import { SITE_URL } from "@/lib/api";
@@ -78,9 +78,10 @@ export function Shell({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
-  const email = useMemo(() => {
-    if (typeof window === "undefined") return "";
-    return window.localStorage.getItem("tecim.email") ?? "Admin";
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    setEmail(window.localStorage.getItem("tecim.email") ?? "Admin");
   }, []);
 
   useEffect(() => {
