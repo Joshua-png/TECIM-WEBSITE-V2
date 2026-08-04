@@ -3,14 +3,16 @@ import {
   type ComponentType,
   type ReactElement,
 } from "react";
-import Hero from "@/components/sections/Hero";
-import About from "@/components/sections/About";
-import Values from "@/components/sections/Values";
-import Vision from "@/components/sections/Vision";
-import Services from "@/components/sections/Services";
-import Events from "@/components/sections/Events";
-import Gallery from "@/components/sections/Gallery";
-import Contact from "@/components/sections/Contact";
+import {
+  Hero,
+  About,
+  Values,
+  Vision,
+  Services,
+  Events,
+  Gallery,
+  Contact,
+} from "@tecim/shared";
 
 const sections = {
   hero: Hero,
@@ -29,16 +31,20 @@ export type SectionSlug = keyof typeof sections;
 
 type SectionContent = Record<string, unknown>;
 
-type SectionComponent = ComponentType<{ content?: SectionContent }>;
+type SectionComponent = ComponentType<{
+  content?: SectionContent;
+  editable?: boolean;
+}>;
 
 export function renderSection(
   template: string,
   content: SectionContent,
-  key: string
+  key: string,
+  editable = false
 ): ReactElement | null {
   const Component = sections[template as SectionSlug] as unknown as SectionComponent;
   if (!Component) return null;
-  return createElement(Component, { key, content });
+  return createElement(Component, { key, content, editable });
 }
 
 export default sections;

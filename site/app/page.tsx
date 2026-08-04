@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 import { getGlobalSeo, getPageSeo, getPublishedPage } from "@/lib/api";
 import { renderSection } from "@/lib/sections";
-import Hero from "@/components/sections/Hero";
-import About from "@/components/sections/About";
-import Values from "@/components/sections/Values";
-import Vision from "@/components/sections/Vision";
-import Services from "@/components/sections/Services";
-import Events from "@/components/sections/Events";
-import Gallery from "@/components/sections/Gallery";
-import Contact from "@/components/sections/Contact";
+import {
+  Hero,
+  About,
+  Values,
+  Vision,
+  Services,
+  Events,
+  Gallery,
+  Contact,
+} from "@tecim/shared";
 
 async function loadHomePage(): Promise<
   { template: string; content: Record<string, unknown> }[] | null

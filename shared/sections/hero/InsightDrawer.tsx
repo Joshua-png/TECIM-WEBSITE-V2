@@ -1,15 +1,20 @@
 import { useEffect } from "react";
+import { EditableText } from "../../editor/EditableText";
 import type { HeroStep, IdentitySlug } from "./content";
 
 export default function InsightDrawer({
   open,
   step,
   identity,
+  pathPrefix,
+  editable,
   onClose,
 }: {
   open: boolean;
   step: HeroStep | null;
   identity: IdentitySlug;
+  pathPrefix?: string;
+  editable?: boolean;
   onClose: () => void;
 }) {
   useEffect(() => {
@@ -44,10 +49,29 @@ export default function InsightDrawer({
             Step {step?.num} · {identity}
           </p>
           <h3 className="si-title" id="siTitle">
-            {step?.title}
+            <EditableText
+              path={pathPrefix ? `${pathPrefix}.title` : ""}
+              editable={editable && Boolean(pathPrefix)}
+            >
+              {step?.title}
+            </EditableText>
           </h3>
-          <p className="si-body">{step?.body}</p>
-          <p className="si-verse">{step?.verse}</p>
+          <p className="si-body">
+            <EditableText
+              path={pathPrefix ? `${pathPrefix}.body` : ""}
+              editable={editable && Boolean(pathPrefix)}
+            >
+              {step?.body}
+            </EditableText>
+          </p>
+          <p className="si-verse">
+            <EditableText
+              path={pathPrefix ? `${pathPrefix}.verse` : ""}
+              editable={editable && Boolean(pathPrefix)}
+            >
+              {step?.verse}
+            </EditableText>
+          </p>
         </div>
       </div>
     </>

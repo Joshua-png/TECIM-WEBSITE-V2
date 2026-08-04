@@ -1,12 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Reveal from "@/components/ui/Reveal";
+import Reveal from "./Reveal";
+import { EditableText } from "../editor/EditableText";
 import { visionContent, type VisionContent } from "./vision/content";
 
 const SLIDE_MS = 5000;
 
-export default function Vision({ content = visionContent }: { content?: VisionContent }) {
+export default function Vision({
+  content = visionContent,
+  editable = false,
+}: {
+  content?: VisionContent;
+  editable?: boolean;
+}) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -24,8 +31,16 @@ export default function Vision({ content = visionContent }: { content?: VisionCo
     <section className="section vision-band" id="vision">
       <div className="section-inner">
         <Reveal>
-          <p className="section-label">{content.label}</p>
-          <h2>{content.title}</h2>
+          <p className="section-label">
+            <EditableText path="label" editable={editable}>
+              {content.label}
+            </EditableText>
+          </p>
+          <h2>
+            <EditableText path="title" editable={editable}>
+              {content.title}
+            </EditableText>
+          </h2>
         </Reveal>
         <Reveal className="vm-carousel">
           <div className="vm-viewport">
@@ -35,15 +50,27 @@ export default function Vision({ content = visionContent }: { content?: VisionCo
             >
               {content.slides.map((slide, i) => (
                 <div key={slide.heading} className={`vm-slide ${i === 0 ? "v" : "m"}`}>
-                  <h3>{slide.heading}</h3>
+                  <h3>
+                    <EditableText path={`slides.${i}.heading`} editable={editable}>
+                      {slide.heading}
+                    </EditableText>
+                  </h3>
                   {slide.items ? (
                     <ul>
-                      {slide.items.map((item) => (
-                        <li key={item}>{item}</li>
+                      {slide.items.map((item, j) => (
+                        <li key={item}>
+                          <EditableText path={`slides.${i}.items.${j}`} editable={editable}>
+                            {item}
+                          </EditableText>
+                        </li>
                       ))}
                     </ul>
                   ) : (
-                    <p>{slide.text}</p>
+                    <p>
+                      <EditableText path={`slides.${i}.text`} editable={editable}>
+                        {slide.text}
+                      </EditableText>
+                    </p>
                   )}
                 </div>
               ))}
