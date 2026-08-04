@@ -94,6 +94,11 @@ export default function PageEditor() {
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
+  const openSectionPreview = (section: Section) => {
+    const url = `${SITE_URL}/preview/section/${encodeURIComponent(section.template)}?pageId=${encodeURIComponent(pageId)}&sectionId=${encodeURIComponent(section.id)}&token=${encodeURIComponent(getTokens()?.accessToken ?? "")}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
   const handleMove = async (sectionId: string, direction: -1 | 1) => {
     const index = sections.findIndex((s) => s.id === sectionId);
     const target = index + direction;
@@ -279,6 +284,7 @@ export default function PageEditor() {
                   onSave={handleSaveSection}
                   onDelete={(id) => setDeleteTarget(sections.find((s) => s.id === id) ?? null)}
                   onMove={(id, dir) => void handleMove(id, dir)}
+                  onPreview={openSectionPreview}
                   saving={savingId === section.id}
                 />
               ))}

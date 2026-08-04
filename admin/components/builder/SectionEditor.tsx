@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, ChevronUp, GripVertical, Pencil, Save, Trash2, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Eye, GripVertical, Pencil, Save, Trash2, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { Section, SectionTemplate } from "@/lib/types";
 import { layoutOptions, templateDisplayName } from "@/lib/template-helpers";
@@ -20,6 +20,7 @@ export function SectionEditor({
   onSave,
   onDelete,
   onMove,
+  onPreview,
   saving,
 }: {
   section: Section;
@@ -31,6 +32,7 @@ export function SectionEditor({
   onSave: (sectionId: string, patch: { content: Record<string, unknown>; layout: string; label: string | null }) => Promise<void>;
   onDelete: (sectionId: string) => void;
   onMove: (sectionId: string, direction: -1 | 1) => void;
+  onPreview: (section: Section) => void;
   saving: boolean;
 }) {
   const template = templates.find((t) => t.slug === section.template);
@@ -81,6 +83,14 @@ export function SectionEditor({
         </button>
         <StatusPill status={section.status} />
         <div className="flex items-center gap-0.5">
+          <button
+            onClick={() => onPreview(section)}
+            className="rounded-md p-1.5 text-muted transition-colors hover:bg-turquoise/10 hover:text-turquoise"
+            aria-label={`Preview ${section.label || section.template}`}
+            title="Preview this section"
+          >
+            <Eye className="size-4" />
+          </button>
           <button
             onClick={() => onMove(section.id, -1)}
             disabled={index === 0}
@@ -172,6 +182,10 @@ export function SectionEditor({
           )}
 
           <div className="mt-4 flex items-center justify-end gap-2.5 border-t border-line pt-4">
+            <Button variant="ghost" size="sm" onClick={() => onPreview(section)}>
+              <Eye className="size-3.5" />
+              Preview section
+            </Button>
             <Button
               variant="ghost"
               size="sm"

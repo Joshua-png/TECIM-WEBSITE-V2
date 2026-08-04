@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/layouts/Nav";
 import Footer from "@/components/layouts/Footer";
+import { PreviewChrome } from "@/components/layouts/PreviewChrome";
 import { loadChrome } from "@/lib/chrome";
 
 const inter = Inter({
@@ -44,9 +45,9 @@ export default async function RootLayout({
       className={`${inter.variable} ${cormorant.variable} antialiased`}
     >
       <body className="flex min-h-screen flex-col" suppressHydrationWarning>
-        <Nav links={links} />
-        {children}
-        <Footer data={footer} />
+        <PreviewChrome nav={<Nav links={links} />} footer={<Footer data={footer} />}>
+          {children}
+        </PreviewChrome>
       </body>
     </html>
   );
