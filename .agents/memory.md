@@ -5,6 +5,19 @@ Written by the `remember` skill at the end of each session; read at the start of
 ## Project state
 
 - **Site (`site/`)**: DONE. All 8 sections + footer + nav (scroll-spy) + Connect CTA, reference-faithful, committed (`406b8d5`). Reads hardcoded `content.ts` — not yet wired to API.
+- **Admin (`admin/`)**: BUILT (Next.js 15 + Tailwind v4, runs `-p 3001`, consumes live API). All pages implemented, **uncommitted**, checks green (`typecheck`, `lint`, `build` from `admin/`).
+  - Auth: login page + JWT via `lib/api.ts` (localStorage `tecim.access`/`tecim.refresh`, cookie `tecim_admin` for middleware), single-flight 401 refresh, logout.
+  - Structure: `app/(dashboard)/layout.tsx` (Shell: sidebar nav groups Workspace/Content/Structure/System, topbar user menu, "View site" link, live API pill) + `app/login`.
+  - Pages: overview dashboard, pages list + create/delete, page editor (`pages/[id]`: section list, reorder via `PUT /admin/pages/:pageId/sections/order`, edit/delete section, add-section template grid, meta edit, Publish, Versions, PreviewOverlay draft preview, meta modal).
+  - Builder components: `SectionEditor` (schema-driven content via `SchemaForm`, layout variant, dirty tracking), `AddSectionModal`, `VersionsModal` (rollback), `PreviewOverlay` (draft render via `GET /admin/pages/:id/preview`).
+  - Media library: upload (drag&drop, parallel `POST /admin/media/upload`), grid, delete, pagination; `MediaPicker` modal reused by SchemaForm + collection forms + SEO.
+  - Collections via generic `components/collections/collection-manager.tsx` (config-driven fields, create/edit modal, status toggle, delete): `events`, `gallery` (thumbnail from media map), `sermons`, `announcements`. Field types: text/textarea/datetime/date/number/url/media/boolean. Datetime→ISO via `fromLocalInput`, date-only via `toLocalDate`.
+  - `settings` page: config-driven forms for seed groups `site`/`contact`/`social` (text/textarea/list/rows editors) + JSON editor fallback; save = `PUT /admin/settings/:key {value}`.
+  - `navigation` page: flat ordered editor (label/url/target/active, move up/down, add/remove) → `PUT /admin/navigation {items:[…]}` (replaceAll deletes+reinserts, so **flat only**, parentId null — nested children from API are flattened).
+  - `seo` page: global (`PUT /admin/seo`) + per-page override (`GET /seo/pages/:slug` to load, `PUT /admin/seo/pages/:pageId` to save) with Google SERP preview.
+  - `activity` page: paginated `GET /admin/activity`, action tones, relative times.
+  - Config notes: `(dashboard)/layout.tsx` has `export const dynamic = "force-dynamic"` (avoids prerender context pitfalls; correct for auth-gated admin). `eslint.config.mjs` mirrors site (FlatCompat + next/core-web-vitals + next/typescript). `next.config.ts` sets `outputFileTracingRoot`. Ports: admin 3001, site 3000, API 4000 (`CORS_ORIGINS` includes 3000+3001).
+  - Lucide icon note: no `Announcement`/`Publish` icons — use `Megaphone`, `Send`/`Rocket`.
 - **API (`api/`)**: Phase 1 core content engine + all Phase 2 integrations built and verified locally.
   - Scaffold: Express 4 + TS (ESM/NodeNext, strict), pg, node-pg-migrate, zod 3, ajv, bcryptjs 3, jsonwebtoken, helmet, cors, ioredis (in-memory fallback when `REDIS_URL` unset), nodemon 3.1.14 (`dev` = `nodemon --watch src -e ts --exec "tsx src/server.ts"`), vitest 2 + supertest. Deps added: `@sendgrid/mail`, `cloudinary`, `multer` (+ dev `@types/multer`).
   - Migrations: `001_init.sql` (15 tables) + `002_collections.sql` (new `announcements` table + `gallery.status` column + indexes). Applied to dev `tecim_api` AND test `tecim_api_test` (`DATABASE_URL=postgres://localhost:5432/tecim_api_test npm run migrate:up`).
@@ -32,6 +45,6 @@ Written by the `remember` skill at the end of each session; read at the start of
 
 ## Next steps
 
-- Build `admin/` portal (login, pages, sections, publish/rollback, media, events/gallery/sermons/announcements, settings, nav, seo).
 - Wire `site/` to API (lib/api.ts + revalidation route with `REVALIDATE_SECRET`).
-- Phase 2 integrations (media, OTP, collections) are implemented but **uncommitted** — commit when approved.
+- Manual browser verification of `admin/` against a running API (login, CRUD, publish/preview, uploads) — see `.agents/prompts/admin-portal.md` if drafted.
+- Phase 2 integrations (media, OTP, collections) + the whole `admin/` app are **uncommitted** — commit when approved.
