@@ -202,29 +202,14 @@ export const sectionTemplates: SectionTemplateDefinition[] = [
   {
     slug: "events",
     name: "Events",
-    description: "Upcoming conferences and gatherings as image-left cards.",
+    description: "Upcoming conferences and gatherings rendered from the Events collection.",
     componentName: "Events",
     schema: {
       type: "object",
-      required: ["label", "title", "events"],
+      required: ["label", "title"],
       properties: {
         label: { type: "string" },
         title: { type: "string" },
-        events: {
-          type: "array",
-          minItems: 1,
-          items: {
-            type: "object",
-            required: ["date", "title", "location", "image", "imageAlt"],
-            properties: {
-              date: { type: "string" },
-              title: { type: "string" },
-              location: { type: "string" },
-              image: imageField,
-              imageAlt: { type: "string" },
-            },
-          },
-        },
       },
     },
   },

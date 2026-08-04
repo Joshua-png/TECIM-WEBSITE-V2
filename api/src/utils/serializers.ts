@@ -114,7 +114,16 @@ export function serializeMedia(row: MediaRow): Record<string, unknown> {
   };
 }
 
-export function serializeEvent(row: EventRow): Record<string, unknown> {
+export interface SerializedMediaImage {
+  public_id: string;
+  secure_url: string;
+  width: number | null;
+  height: number | null;
+}
+
+export function serializeEvent(
+  row: EventRow & { image?: SerializedMediaImage | null }
+): Record<string, unknown> {
   return {
     id: row.id,
     title: row.title,
@@ -124,6 +133,7 @@ export function serializeEvent(row: EventRow): Record<string, unknown> {
     endAt: row.end_at,
     location: row.location,
     imageMediaId: row.image_media_id,
+    image: row.image ?? null,
     status: row.status,
     createdAt: row.created_at,
     updatedAt: row.updated_at,

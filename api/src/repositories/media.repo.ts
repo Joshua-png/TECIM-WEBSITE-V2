@@ -53,6 +53,15 @@ export async function findById(id: string): Promise<MediaRow | null> {
   return rows[0] ?? null;
 }
 
+export async function findByIds(ids: string[]): Promise<MediaRow[]> {
+  if (ids.length === 0) return [];
+  const { rows } = await query<MediaRow>(
+    `SELECT * FROM media WHERE id = ANY($1::uuid[])`,
+    [ids]
+  );
+  return rows;
+}
+
 export async function list(data: {
   limit: number;
   offset: number;

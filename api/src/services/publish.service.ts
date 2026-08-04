@@ -46,7 +46,7 @@ function buildSnapshot(
   };
 }
 
-async function triggerRevalidation(slug: string): Promise<void> {
+export async function triggerRevalidation(slug: string): Promise<void> {
   if (!env.siteUrl || !env.revalidateSecret) {
     logger.warn(`Revalidation skipped for "${slug}" (SITE_URL/REVALIDATE_SECRET not set)`);
     return;
