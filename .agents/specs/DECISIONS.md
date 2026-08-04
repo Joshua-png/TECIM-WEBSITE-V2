@@ -47,10 +47,10 @@ Cheap/free, serverless. OTP lives in Redis (5-min TTL), never PostgreSQL. Also b
 
 Auto-format/WebP/resize/crop/CDN/folders. Store only `public_id`, `secure_url`, `width`, `height` in PostgreSQL.
 
-## ADR-010 — Deployment: Vercel (site + admin), Railway (backend), Cloudflare DNS
+## ADR-010 — Deployment: Vercel (site + admin + backend), Cloudflare DNS
 **Status:** accepted · **Date:** 2026-08-03
 
-Next.js apps on Vercel; Express API on Railway; Cloudflare terminates DNS for both apps and the API.
+Next.js apps + Express API on Vercel (serverless via `@vercel/node`); Cloudflare terminates DNS for all three apps.
 
 ## ADR-011 — Single admin user, JWT + rotating refresh tokens
 **Status:** accepted · **Date:** 2026-08-03
