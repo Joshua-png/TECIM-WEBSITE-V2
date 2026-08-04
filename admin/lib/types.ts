@@ -20,7 +20,6 @@ export interface PaginationMeta {
   total: number;
   totalPages: number;
 }
-
 export interface User {
   id: string;
   email: string;
