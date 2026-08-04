@@ -53,12 +53,13 @@ describe("events CRUD", () => {
   });
 
   it("publishes an event and exposes it publicly", async () => {
+    const startAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
     const created = await request(app)
       .post("/api/v1/admin/events")
       .set("Authorization", `Bearer ${token}`)
       .send({
         title: "Public Event",
-        startAt: "2026-06-01T09:00:00.000Z",
+        startAt,
         location: "Accra",
       });
     const id = (created.body.data.event as { id: string }).id;

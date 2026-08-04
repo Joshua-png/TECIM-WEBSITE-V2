@@ -48,6 +48,11 @@ export function getStore(): Store {
   if (env.redisUrl) {
     try {
       const client = new Redis(env.redisUrl, { maxRetriesPerRequest: 1 });
+      client.on("error", (err) => {
+        logger.warn("Redis unavailable; falling back to in-memory store", err);
+        store = new MemoryStore();
+        client.disconnect();
+      });
       store = new RedisStore(client);
       logger.info("Using Redis store");
     } catch (err) {
