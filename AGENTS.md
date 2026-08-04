@@ -28,7 +28,7 @@ Build only what is specified. Do not overbuild, and do not add features that wer
 | Email | **SendGrid** (OTP + password reset) |
 | Validation | Zod |
 | DB driver / migrations | `pg` (node-postgres) + `node-pg-migrate` |
-| Deployment | Vercel (site + admin), Railway (backend), Cloudflare DNS |
+| Deployment | Vercel (site + admin + backend), Cloudflare DNS |
 
 ## 3. Repository Layout
 
@@ -220,9 +220,9 @@ Rule: **content is data, design is code.** If a change is not expressible as tem
 
 - **Site**: Vercel (Next.js, ISR + on-demand revalidation for instant publish updates).
 - **Admin**: Vercel.
-- **Backend**: Railway.
+- **Backend**: Vercel (Express via `@vercel/node`).
 - **DB**: Supabase. **Redis**: Upstash. **Media**: Cloudinary. **Email**: SendGrid.
-- **DNS**: Cloudflare → points at both Vercel apps and the API.
+- **DNS**: Cloudflare → points at all three Vercel apps.
 - Environment variables are per-app; never in the repo. See `.agents/specs/DEPLOYMENT.md`.
 
 ## 11. Performance Expectations

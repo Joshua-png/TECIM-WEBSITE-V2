@@ -308,6 +308,10 @@ const swaggerOptions = {
 
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 
-router.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+router.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  customCssUrl: "https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui.css",
+  customJs: "https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.js",
+  customSiteTitle: "TECIM API Docs",
+}));
 
 export default router;
