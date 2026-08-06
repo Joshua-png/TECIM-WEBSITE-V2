@@ -46,7 +46,7 @@ export function Toaster({ children }: { children?: React.ReactNode }) {
           <div
             key={toast.id}
             className={cn(
-              "rise pointer-events-auto flex items-start gap-3 rounded-xl border bg-panel-2 px-4 py-3 shadow-[0_16px_40px_rgba(0,0,0,0.5)]",
+              "rise pointer-events-auto flex items-start gap-3 rounded-xl border bg-panel-2 px-4 py-3 shadow-pop",
               toast.kind === "success" && "border-turquoise/30",
               toast.kind === "error" && "border-rose/30",
               toast.kind === "info" && "border-line-strong"

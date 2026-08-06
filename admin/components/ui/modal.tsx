@@ -41,7 +41,7 @@ export function Modal({
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto p-4 sm:p-8">
       <div
-        className="fixed inset-0 bg-black/70 backdrop-blur-sm"
+        className="fixed inset-0 bg-scrim backdrop-blur-sm"
         onClick={onClose}
         aria-hidden
       />
@@ -49,7 +49,7 @@ export function Modal({
         role="dialog"
         aria-modal="true"
         className={cn(
-          "rise relative my-auto w-full rounded-2xl border border-line-strong bg-panel shadow-[0_30px_80px_rgba(0,0,0,0.55)]",
+          "rise relative my-auto w-full rounded-2xl border border-line-strong bg-panel shadow-modal",
           wide ? "max-w-3xl" : "max-w-lg",
           scrollBody && "flex max-h-[calc(100vh-4rem)] flex-col"
         )}
@@ -61,7 +61,7 @@ export function Modal({
           </div>
           <button
             onClick={onClose}
-            className="rounded-lg p-1.5 text-muted transition-colors hover:bg-white/[0.06] hover:text-ink"
+            className="rounded-lg p-1.5 text-muted transition-colors hover:bg-overlay-strong hover:text-ink"
             aria-label="Close"
           >
             <X className="size-4.5" />

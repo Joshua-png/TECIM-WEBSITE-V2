@@ -11,10 +11,10 @@ const variants: Record<Variant, string> = {
     "bg-turquoise text-[#06201d] hover:bg-turquoise-deep hover:text-white shadow-[0_8px_24px_rgba(20,184,166,0.25)]",
   gold: "bg-gold text-[#1a1003] hover:bg-gold-deep hover:text-white shadow-[0_8px_24px_rgba(217,119,6,0.22)]",
   ghost:
-    "bg-white/[0.04] text-ink border border-line hover:bg-white/[0.08] hover:border-line-strong",
-  outline: "border border-line-strong text-ink hover:bg-white/[0.06]",
+    "bg-overlay text-ink border border-line hover:bg-overlay-strong hover:border-line-strong",
+  outline: "border border-line-strong text-ink hover:bg-overlay-strong",
   danger: "bg-rose/15 text-rose border border-rose/30 hover:bg-rose/25",
-  subtle: "bg-transparent text-muted hover:text-ink hover:bg-white/[0.05]",
+  subtle: "bg-transparent text-muted hover:text-ink hover:bg-overlay-strong",
 };
 
 const sizes: Record<Size, string> = {

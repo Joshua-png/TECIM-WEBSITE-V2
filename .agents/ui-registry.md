@@ -155,3 +155,19 @@ Additional fixed colors used in CSS: html/body frame `#0a0a0c`, `#fbbf24` (amber
 ## Hard rule
 
 Design tokens are **code**, never CMS-editable. Admin edits text and images only. If a visual decision is not here, add it — not to a template schema.
+
+## Admin theme system (built — `admin/`)
+
+Class-based light/dark theming on the **admin portal** (`admin/app/globals.css`). The public site remains dark-only; do not mirror this to `site/` unless asked.
+
+- **Mechanism**: `:root` = light palette, `.dark` (on `<html>`) = dark palette. `@custom-variant dark (&:where(.dark, .dark *))` enables `dark:` utilities (used once, for the SEO Google-preview link color: `text-[#1a0dab] dark:text-[#8ab4f8]`).
+- **Boot**: inline `themeInit` script is the first child of `<body>` in `admin/app/layout.tsx` — reads `localStorage["tecim.theme"]` (`"light"`/`"dark"`), else falls back to `prefers-color-scheme`. `components/theme-provider.tsx` re-applies the class on mount and persists only after the user toggles (so system-preference users keep following their OS). Toggle UI: `components/theme-toggle.tsx` (Sun/Moon), placed in the Shell header (`components/shell.tsx`) and top-right of the login page.
+- **Light palette** (`:root`): canvas `#f6f4f0`, soft `#efede8`, panel `#ffffff`, panel-2 `#faf8f5`, panel-3 `#f1efe9`, ink `#171b22`, accents deepened for contrast — turquoise `#0d9488`, gold `#b45309`, rose `#e11d48`.
+- **Dark palette** (`.dark`, unchanged legacy): canvas `#0f1115`, panel `#171b22`, ink `#f5f2ed`, turquoise `#14b8a6`, gold `#d97706`, rose `#fb7185`.
+- **Theme-aware overlays** (replaces hard-coded `bg-white/[x]`, `bg-black/[x]`, heavy black shadows):
+  - `bg-overlay` (`--overlay`: `rgba(15,17,21,.04)` / `rgba(245,242,237,.05)`) — subtle surface fills & input backgrounds.
+  - `bg-overlay-strong` (`--overlay-strong`: `.09` both) — hover fills, close buttons, ghost-button hover.
+  - `bg-scrim` (`--scrim`: `.35` dark tint / `.7` black) — modal & mobile-sidebar backdrops.
+  - `shadow-pop` / `shadow-modal` (`--pop-shadow` / `--modal-shadow`) — dropdowns, toasts, modals.
+  - Keep `bg-black/40` / `bg-black/55` for image placeholders and overlays-on-media in **both** themes; text sitting on those dark scrims uses `text-white` (see media page).
+- **Misc**: scrollbars and `color-scheme` are token-driven; `color-scheme: light` / `dark` on `:root` / `.dark` so native date/time pickers match. `viewport.themeColor` is a media query pair (`#f6f4f0` light / `#0f1115` dark).

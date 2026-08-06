@@ -117,7 +117,7 @@ export default function PagesPage() {
               {pages.map((page) => (
                 <tr
                   key={page.id}
-                  className="group cursor-pointer transition-colors hover:bg-white/[0.03]"
+                  className="group cursor-pointer transition-colors hover:bg-overlay"
                   onClick={() => router.push(`/pages/${page.id}`)}
                 >
                   <td className="px-5 py-4">
@@ -147,7 +147,7 @@ export default function PagesPage() {
                         onClick={(e) => {
                           e.stopPropagation();
                         }}
-                        className="rounded-lg p-2 text-muted hover:bg-white/[0.06] hover:text-turquoise"
+                        className="rounded-lg p-2 text-muted hover:bg-overlay-strong hover:text-turquoise"
                         aria-label="Edit"
                       >
                         <Pencil className="size-4" />
@@ -157,7 +157,7 @@ export default function PagesPage() {
                         onClick={(e) => {
                           e.stopPropagation();
                         }}
-                        className="rounded-lg p-2 text-muted hover:bg-white/[0.06] hover:text-turquoise"
+                        className="rounded-lg p-2 text-muted hover:bg-overlay-strong hover:text-turquoise"
                         aria-label="Open"
                       >
                         <ExternalLink className="size-4" />
@@ -207,7 +207,7 @@ export default function PagesPage() {
             />
           </Field>
           <Field label="Slug" required hint="kebab-case, lowercase">
-            <div className="flex items-center gap-1 rounded-lg border border-line bg-white/[0.03] px-3">
+            <div className="flex items-center gap-1 rounded-lg border border-line bg-overlay px-3">
               <span className="text-sm text-faint">/</span>
               <input
                 value={slug}

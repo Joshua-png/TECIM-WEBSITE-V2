@@ -29,7 +29,7 @@ export function Badge({ children, tone = "neutral", className }: {
   className?: string;
 }) {
   const tones = {
-    neutral: "bg-white/[0.05] text-muted border-line",
+    neutral: "bg-overlay text-muted border-line",
     turquoise: "bg-turquoise/10 text-turquoise border-turquoise/25",
     gold: "bg-gold/10 text-gold border-gold/25",
     rose: "bg-rose/10 text-rose border-rose/25",

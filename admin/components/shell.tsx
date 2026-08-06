@@ -23,6 +23,7 @@ import { useEffect, useState } from "react";
 import { isAuthenticated, logout } from "@/lib/api";
 import { cn } from "@/lib/cn";
 import { SITE_URL } from "@/lib/api";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type NavEntry = {
   href: string;
@@ -99,7 +100,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
   const nav = (
     <nav className="flex flex-col gap-6 overflow-y-auto px-4 pb-8">
       <div className="flex items-center gap-3 px-2 pt-6">
-        <span className="flex size-9 items-center justify-center rounded-xl border border-line-strong bg-white/[0.05]">
+        <span className="flex size-9 items-center justify-center rounded-xl border border-line-strong bg-overlay">
           <Feather className="size-4.5 text-gold" />
         </span>
         <div>
@@ -129,7 +130,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
                       "group flex items-center gap-3 rounded-lg px-3 py-2 text-[0.82rem] font-medium transition-colors",
                       active
                         ? "bg-turquoise/12 text-turquoise"
-                        : "text-muted hover:bg-white/[0.05] hover:text-ink"
+                        : "text-muted hover:bg-overlay-strong hover:text-ink"
                     )}
                   >
                     <item.icon
@@ -162,7 +163,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
                 "group flex items-center gap-3 rounded-lg px-3 py-2 text-[0.82rem] font-medium transition-colors",
                 pathname.startsWith("/activity")
                   ? "bg-turquoise/12 text-turquoise"
-                  : "text-muted hover:bg-white/[0.05] hover:text-ink"
+                  : "text-muted hover:bg-overlay-strong hover:text-ink"
               )}
             >
               <Activity
@@ -179,7 +180,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
               href={SITE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-3 rounded-lg px-3 py-2 text-[0.82rem] font-medium text-muted transition-colors hover:bg-white/[0.05] hover:text-ink"
+              className="group flex items-center gap-3 rounded-lg px-3 py-2 text-[0.82rem] font-medium text-muted transition-colors hover:bg-overlay-strong hover:text-ink"
             >
               <Newspaper className="size-4 text-faint group-hover:text-muted" />
               View site
@@ -206,7 +207,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
       {sidebarOpen ? (
         <div
-          className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-30 bg-scrim backdrop-blur-sm lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       ) : null}
@@ -216,7 +217,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="rounded-lg p-1.5 text-muted hover:bg-white/[0.06] hover:text-ink lg:hidden"
+              className="rounded-lg p-1.5 text-muted hover:bg-overlay-strong hover:text-ink lg:hidden"
               aria-label="Open menu"
             >
               <Menu className="size-5" />
@@ -229,6 +230,8 @@ export function Shell({ children }: { children: React.ReactNode }) {
               <span className="live-dot size-1.5 rounded-full bg-turquoise" />
               API {process.env.NEXT_PUBLIC_API_URL ?? "connected"}
             </span>
+
+            <ThemeToggle />
 
             <div className="relative">
               <button
@@ -246,7 +249,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
               {userOpen ? (
                 <>
                   <div className="fixed inset-0 z-10" onClick={() => setUserOpen(false)} />
-                  <div className="rise absolute right-0 z-20 mt-2 w-48 overflow-hidden rounded-xl border border-line-strong bg-panel-2 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                  <div className="rise absolute right-0 z-20 mt-2 w-48 overflow-hidden rounded-xl border border-line-strong bg-panel-2 shadow-pop">
                     <p className="border-b border-line px-4 py-3 text-xs text-faint">
                       Signed in as
                       <span className="mt-0.5 block truncate text-sm font-medium text-ink">{email}</span>

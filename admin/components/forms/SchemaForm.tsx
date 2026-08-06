@@ -104,7 +104,7 @@ function SchemaField({
 
   if (schema.type === "boolean") {
     return (
-      <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-line bg-white/[0.03] px-3.5 py-2.5">
+      <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-line bg-overlay px-3.5 py-2.5">
         <input
           type="checkbox"
           checked={Boolean(value)}
