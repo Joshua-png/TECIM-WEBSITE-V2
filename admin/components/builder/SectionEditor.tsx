@@ -59,12 +59,12 @@ export function SectionEditor({
       )}
     >
       <GripVertical className="size-4 shrink-0 text-faint" />
-      <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-white/[0.05] font-serif text-sm text-faint">
+      <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-overlay font-serif text-sm text-faint">
         {String(index + 1).padStart(2, "0")}
       </span>
       <button
         onClick={() => onEdit(section)}
-        className="min-w-0 flex-1 rounded-lg px-1.5 py-1 text-left transition-colors hover:bg-white/[0.04]"
+        className="min-w-0 flex-1 rounded-lg px-1.5 py-1 text-left transition-colors hover:bg-overlay-strong"
       >
         <p className="truncate text-sm font-medium text-ink">
           {templateDisplayName(section.template, templates)}

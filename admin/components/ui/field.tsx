@@ -4,7 +4,7 @@ import { forwardRef, type InputHTMLAttributes, type SelectHTMLAttributes, type T
 import { cn } from "@/lib/cn";
 
 const controlClass =
-  "w-full rounded-lg bg-white/[0.03] border border-line px-3.5 text-sm text-ink placeholder:text-faint outline-none transition-colors focus:border-turquoise/70 focus:ring-2 focus:ring-turquoise/15 disabled:opacity-50 disabled:pointer-events-none";
+  "w-full rounded-lg bg-overlay border border-line px-3.5 text-sm text-ink placeholder:text-faint outline-none transition-colors focus:border-turquoise/70 focus:ring-2 focus:ring-turquoise/15 disabled:opacity-50 disabled:pointer-events-none";
 
 export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
   function Input({ className, ...rest }, ref) {

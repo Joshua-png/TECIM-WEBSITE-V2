@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toast";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -24,8 +25,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0f1115",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f6f4f0" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f1115" },
+  ],
 };
+
+const themeInit = `(function(){var t;try{t=window.localStorage.getItem("tecim.theme")}catch(e){}if(t==="dark"||t==="light"){document.documentElement.classList.toggle("dark",t==="dark")}else if(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches){document.documentElement.classList.add("dark")}})();`;
 
 export default function RootLayout({
   children,
@@ -39,7 +45,10 @@ export default function RootLayout({
       className={`${inter.variable} ${cormorant.variable} antialiased`}
     >
       <body className="grain" suppressHydrationWarning>
-        <Toaster>{children}</Toaster>
+        <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+        <ThemeProvider>
+          <Toaster>{children}</Toaster>
+        </ThemeProvider>
       </body>
     </html>
   );

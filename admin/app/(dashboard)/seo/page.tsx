@@ -30,12 +30,12 @@ function SerpPreview({
     : `${siteName}`;
   const url = `${SITE_URL}${path}`;
   return (
-    <div className="rounded-xl border border-line bg-white/[0.04] p-4">
+    <div className="rounded-xl border border-line bg-overlay p-4">
       <p className="text-xs font-medium uppercase tracking-widest text-faint">Google preview</p>
       <a href={url} target="_blank" rel="noreferrer" className="mt-2 block text-sm text-turquoise hover:underline">
         {url}
       </a>
-      <p className="mt-1 line-clamp-2 text-lg text-[#8ab4f8]">{displayTitle}</p>
+      <p className="mt-1 line-clamp-2 text-lg text-[#1a0dab] dark:text-[#8ab4f8]">{displayTitle}</p>
       <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-muted">
         {description.trim() || "No meta description — Google may pick its own snippet."}
       </p>

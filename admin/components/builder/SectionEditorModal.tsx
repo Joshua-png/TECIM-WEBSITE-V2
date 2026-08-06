@@ -107,7 +107,7 @@ export function SectionEditorModal({
         ) : null}
 
         {section.template === "events" ? (
-          <div className="flex items-start gap-3 rounded-xl border border-line bg-white/[0.03] p-4">
+          <div className="flex items-start gap-3 rounded-xl border border-line bg-overlay p-4">
             <CalendarDays className="mt-0.5 size-5 shrink-0 text-turquoise" />
             <p className="text-sm leading-relaxed text-muted">
               Event cards come from the{" "}
@@ -120,7 +120,7 @@ export function SectionEditorModal({
         ) : null}
 
         {section.template === "gallery" ? (
-          <div className="flex items-start gap-3 rounded-xl border border-line bg-white/[0.03] p-4">
+          <div className="flex items-start gap-3 rounded-xl border border-line bg-overlay p-4">
             <CalendarDays className="mt-0.5 size-5 shrink-0 text-turquoise" />
             <p className="text-sm leading-relaxed text-muted">
               Marquee images come from the{" "}

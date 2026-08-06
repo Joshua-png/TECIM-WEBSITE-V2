@@ -234,14 +234,14 @@ export function CollectionManager({
                 <div className="flex items-center gap-1.5">
                   <button
                     onClick={() => void toggleStatus(row)}
-                    className="rounded-lg p-2 text-muted transition-colors hover:bg-white/[0.06] hover:text-turquoise"
+                    className="rounded-lg p-2 text-muted transition-colors hover:bg-overlay-strong hover:text-turquoise"
                     title={row.status === "published" ? "Move to draft" : "Publish"}
                   >
                     <Send className="size-4" />
                   </button>
                   <button
                     onClick={() => openEdit(row)}
-                    className="rounded-lg p-2 text-muted transition-colors hover:bg-white/[0.06] hover:text-turquoise"
+                    className="rounded-lg p-2 text-muted transition-colors hover:bg-overlay-strong hover:text-turquoise"
                     title="Edit"
                   >
                     <Pencil className="size-4" />
@@ -283,7 +283,7 @@ export function CollectionManager({
               return (
                 <label
                   key={field.key}
-                  className="flex cursor-pointer items-center gap-3 rounded-lg border border-line bg-white/[0.03] px-3.5 py-2.5 sm:col-span-2"
+                  className="flex cursor-pointer items-center gap-3 rounded-lg border border-line bg-overlay px-3.5 py-2.5 sm:col-span-2"
                 >
                   <input
                     type="checkbox"

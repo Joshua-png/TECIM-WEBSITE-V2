@@ -114,7 +114,7 @@ export function AddSectionModal({
               key={template.id}
               onClick={() => pick(template)}
               className={cn(
-                "group flex items-start gap-3 rounded-xl border border-line bg-canvas-soft/50 p-4 text-left transition-all hover:border-turquoise/40 hover:bg-white/[0.04]"
+                "group flex items-start gap-3 rounded-xl border border-line bg-canvas-soft/50 p-4 text-left transition-all hover:border-turquoise/40 hover:bg-overlay-strong"
               )}
             >
               <span className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-line bg-panel">

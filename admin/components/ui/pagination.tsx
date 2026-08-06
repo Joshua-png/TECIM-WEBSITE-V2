@@ -24,7 +24,7 @@ export function Pagination({
       <button
         onClick={() => onPage(page - 1)}
         disabled={page <= 1}
-        className="flex size-8 items-center justify-center rounded-lg border border-line text-muted transition-colors hover:bg-white/[0.06] hover:text-ink disabled:opacity-40 disabled:pointer-events-none"
+        className="flex size-8 items-center justify-center rounded-lg border border-line text-muted transition-colors hover:bg-overlay-strong hover:text-ink disabled:opacity-40 disabled:pointer-events-none"
         aria-label="Previous page"
       >
         <ChevronLeft className="size-4" />
@@ -37,7 +37,7 @@ export function Pagination({
             "size-8 rounded-lg border text-xs font-medium transition-colors",
             p === page
               ? "border-turquoise/40 bg-turquoise/15 text-turquoise"
-              : "border-line text-muted hover:bg-white/[0.06] hover:text-ink"
+              : "border-line text-muted hover:bg-overlay-strong hover:text-ink"
           )}
         >
           {p}
@@ -46,7 +46,7 @@ export function Pagination({
       <button
         onClick={() => onPage(page + 1)}
         disabled={page >= totalPages}
-        className="flex size-8 items-center justify-center rounded-lg border border-line text-muted transition-colors hover:bg-white/[0.06] hover:text-ink disabled:opacity-40 disabled:pointer-events-none"
+        className="flex size-8 items-center justify-center rounded-lg border border-line text-muted transition-colors hover:bg-overlay-strong hover:text-ink disabled:opacity-40 disabled:pointer-events-none"
         aria-label="Next page"
       >
         <ChevronRight className="size-4" />

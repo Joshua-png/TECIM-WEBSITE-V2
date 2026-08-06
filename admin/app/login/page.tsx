@@ -6,6 +6,7 @@ import { useState } from "react";
 import { ApiError, login } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/field";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -33,7 +34,10 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="flex min-h-screen bg-canvas">
+    <main className="relative flex min-h-screen bg-canvas">
+      <div className="absolute right-5 top-5 z-20">
+        <ThemeToggle />
+      </div>
       <div className="relative hidden flex-1 overflow-hidden lg:flex">
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -46,7 +50,7 @@ export default function LoginPage() {
         <div className="absolute inset-0 opacity-40 mix-blend-color bg-gradient-to-br from-turquoise-deep via-canvas to-gold-deep" />
         <div className="relative z-10 flex flex-col justify-between p-12">
           <div className="flex items-center gap-3">
-            <span className="flex size-10 items-center justify-center rounded-xl border border-line-strong bg-white/[0.06] backdrop-blur">
+            <span className="flex size-10 items-center justify-center rounded-xl border border-line-strong bg-overlay-strong backdrop-blur">
               <Feather className="size-5 text-gold" />
             </span>
             <span className="font-serif text-xl font-semibold tracking-wide text-ink">
