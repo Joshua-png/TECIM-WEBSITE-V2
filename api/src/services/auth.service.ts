@@ -155,3 +155,27 @@ export async function resetPassword(
     ip,
   });
 }
+
+export async function changePassword(
+  userId: string,
+  currentPassword: string,
+  newPassword: string,
+  ip: string | null
+): Promise<void> {
+  const user = await userRepo.findById(userId);
+  if (!user) {
+    throw new UnauthorizedError("User not found");
+  }
+  const valid = await bcrypt.compare(currentPassword, user.password_hash);
+  if (!valid) {
+    throw new UnauthorizedError("Current password is incorrect");
+  }
+  const passwordHash = await bcrypt.hash(newPassword, 12);
+  await userRepo.updatePassword(user.id, passwordHash);
+  await activityRepo.create({
+    userId: user.id,
+    action: "password_change",
+    entityType: "auth",
+    ip,
+  });
+}

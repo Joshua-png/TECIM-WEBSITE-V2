@@ -3,7 +3,7 @@
 import { forwardRef, type InputHTMLAttributes, type SelectHTMLAttributes, type TextareaHTMLAttributes } from "react";
 import { cn } from "@/lib/cn";
 
-const controlClass =
+export const controlClass =
   "w-full rounded-lg bg-overlay border border-line px-3.5 text-sm text-ink placeholder:text-faint outline-none transition-colors focus:border-turquoise/70 focus:ring-2 focus:ring-turquoise/15 disabled:opacity-50 disabled:pointer-events-none";
 
 export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(

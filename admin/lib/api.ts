@@ -199,6 +199,26 @@ export async function login(email: string, password: string): Promise<void> {
   window.localStorage.setItem("tecim.email", data.user.email);
 }
 
+export async function requestPasswordReset(email: string): Promise<void> {
+  await apiFetch("/auth/forgot-password", {
+    method: "POST",
+    body: { email },
+    auth: false,
+  });
+}
+
+export async function resetPassword(
+  email: string,
+  otp: string,
+  newPassword: string
+): Promise<void> {
+  await apiFetch("/auth/reset-password", {
+    method: "POST",
+    body: { email, otp, newPassword },
+    auth: false,
+  });
+}
+
 export async function logout(): Promise<void> {
   const tokens = getTokens();
   if (tokens) {

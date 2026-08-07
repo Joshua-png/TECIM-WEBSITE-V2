@@ -4,6 +4,7 @@ import * as authService from "../services/auth.service.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { sendCreated, sendNoContent, sendSuccess } from "../utils/ApiResponse.js";
 import {
+  changePasswordSchema,
   forgotPasswordSchema,
   loginSchema,
   logoutSchema,
@@ -17,6 +18,7 @@ type LoginBody = z.infer<typeof loginSchema>;
 type TokenBody = z.infer<typeof refreshSchema> & z.infer<typeof logoutSchema>;
 type OtpBody = z.infer<typeof verifyOtpSchema>;
 type ResetBody = z.infer<typeof resetPasswordSchema>;
+type ChangePasswordBody = z.infer<typeof changePasswordSchema>;
 
 export const loginHandler = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
@@ -70,5 +72,18 @@ export const resetPasswordHandler = asyncHandler(
     const { email, otp, newPassword } = req.body as ResetBody;
     await authService.resetPassword(email, otp, newPassword, req.ip ?? null);
     sendSuccess(res, { message: "Password has been reset. You can now log in." });
+  }
+);
+
+export const changePasswordHandler = asyncHandler(
+  async (req: Request, res: Response): Promise<void> => {
+    const { currentPassword, newPassword } = req.body as ChangePasswordBody;
+    await authService.changePassword(
+      requireUser(req).id,
+      currentPassword,
+      newPassword,
+      req.ip ?? null
+    );
+    sendSuccess(res, { message: "Password updated." });
   }
 );

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  changePasswordHandler,
   forgotPasswordHandler,
   loginHandler,
   logoutHandler,
@@ -12,6 +13,7 @@ import { requireAuth } from "../middlewares/auth.js";
 import { authEmailLimiter, authIpLimiter } from "../middlewares/rateLimit.js";
 import { validate } from "../middlewares/validate.js";
 import {
+  changePasswordSchema,
   forgotPasswordSchema,
   loginSchema,
   logoutSchema,
@@ -371,3 +373,60 @@ authRoutes.post(
  *               $ref: '#/components/schemas/ErrorEnvelope'
  */
 authRoutes.get("/me", requireAuth, meHandler);
+
+/**
+ * @openapi
+ * /api/v1/auth/change-password:
+ *   post:
+ *     tags:
+ *       - Auth
+ *     operationId: changePassword
+ *     summary: Change the admin password
+ *     description: Verifies the current password, hashes the new password (bcrypt cost 12), and updates the account. Requires a valid access token.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/auth_changePasswordSchema'
+ *     responses:
+ *       200:
+ *         description: Password updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               allOf:
+ *                 - $ref: '#/components/schemas/SuccessEnvelope'
+ *                 - type: object
+ *                   properties:
+ *                     data:
+ *                       type: object
+ *                       properties:
+ *                         message:
+ *                           type: string
+ *       401:
+ *         description: Invalid or missing access token, or current password is incorrect
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorEnvelope'
+ *       422:
+ *         description: Validation failed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorEnvelope'
+ *       429:
+ *         description: Too many requests
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorEnvelope'
+ */
+authRoutes.post(
+  "/change-password",
+  requireAuth,
+  authIpLimiter,
+  validate(changePasswordSchema),
+  changePasswordHandler
+);
