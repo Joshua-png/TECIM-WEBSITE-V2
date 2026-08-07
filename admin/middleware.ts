@@ -2,13 +2,15 @@ import { NextResponse, type NextRequest } from "next/server";
 
 const SESSION_COOKIE = "tecim_admin";
 
+const publicPaths = new Set(["/login", "/forgot-password"]);
+
 const protectedPrefixes = ["/"];
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const hasSession = req.cookies.has(SESSION_COOKIE);
 
-  if (pathname === "/login") {
+  if (publicPaths.has(pathname)) {
     if (hasSession) {
       const url = req.nextUrl.clone();
       url.pathname = "/";

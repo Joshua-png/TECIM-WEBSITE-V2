@@ -11,6 +11,7 @@ import { Card } from "@/components/ui/card";
 import { Field, Input, Textarea } from "@/components/ui/field";
 import { PageLoader } from "@/components/ui/spinner";
 import { useToast } from "@/components/ui/toast";
+import { ChangePasswordCard } from "@/components/settings/change-password-card";
 import { cn } from "@/lib/cn";
 
 type FieldSpec =
@@ -292,6 +293,7 @@ export default function SettingsPage() {
         {settings.map((setting) => (
           <SettingForm key={setting.key} setting={setting} />
         ))}
+        <ChangePasswordCard />
       </div>
     </div>
   );

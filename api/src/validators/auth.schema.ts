@@ -31,3 +31,8 @@ export const resetPasswordSchema = z.object({
     .regex(/^\d{6}$/, "OTP must be a 6-digit code"),
   newPassword: z.string().min(8, "Password must be at least 8 characters").max(200),
 });
+
+export const changePasswordSchema = z.object({
+  currentPassword: z.string().min(1, "Current password required"),
+  newPassword: z.string().min(8, "Password must be at least 8 characters").max(200),
+});
